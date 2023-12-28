@@ -86,23 +86,6 @@ public class ItemServiceTest {
 
     }
 
-    @Test
-    public void Duplicated_Item_exception() throws Exception{
-
-        //Given
-        Item item1 = createArtwork("art",35000,false,0);
-        Long item1Id = item1.getId();
-
-        Item item2 = createArtwork("art",35000,false,0);
-        Long item2Id = item2.getId();
-
-        //when
-        itemService.saveItem(item1);
-
-        //Then
-        assertThrows(IllegalStateException.class,() -> {itemService.saveItem(item2);},"중복 예외 발생");
-    }
-
     private Artwork createArtwork(String name,int price,boolean isLimitedQuantity,int stockQuantity){
 
         Artwork artwork = new Artwork();

@@ -13,13 +13,13 @@ import webshop.domain.Member;
 import webshop.domain.Order;
 import webshop.domain.item.Artwork;
 import webshop.domain.item.Item;
+import webshop.exception.NotEnoughStockException;
 import webshop.repository.OrderRepository;
 
 
-
+import static com.jayway.jsonpath.internal.path.PathCompiler.fail;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertEquals;
-
+import org.junit.jupiter.api.Assertions;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("/appConfig.xml")
@@ -53,6 +53,24 @@ public class OrderServiceTest {
         assertEquals("주문한 상품 종류 수가 정확해야 한다.",1,getOrder.getOrderItems().size());
         assertEquals("주문 가격은 가격 * 수량이다.",35000 * 2,getOrder.getTotalPrice());
         assertEquals("주문 수량만큼 재고가 줄어야 한다.",1,item.getStockQuantity());
+
+    }
+
+    @Test
+    public void ItemOrder_NotEnoughStock() throws Exception {
+
+        //Given
+        Member member = createMember();
+        Item item = createArtwork("art",35000,true,3);
+
+        int orderCount = 10;
+
+        //When
+
+        //Then
+        Assertions.assertThrows(NotEnoughStockException.class, () -> {
+            orderService.order(member.getId(), item.getId(), orderCount);
+        }, "재고 수량 부족 예외가 발생해야 합니다."); // "A NotEnoughStockException should be thrown."
 
     }
 
