@@ -13,6 +13,8 @@ import jakarta.transaction.Transactional;
 import webshop.domain.Member;
 import webshop.repository.MemberRepository;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -20,12 +22,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @ContextConfiguration("/appConfig.xml")
 @Transactional
 public class MemberServiceTest {
-	
-	
-	@Autowired
+
+    @Autowired
+    MemberRepository memberRepository;
+
+    @Autowired
 	MemberService memberService;
-	@Autowired
-	MemberRepository memberRepository;
 
 
 
@@ -42,11 +44,13 @@ public class MemberServiceTest {
         Long saveId = memberService.join(member);
 
         //Then
-        assertEquals(member, memberRepository.findOne(saveId));
+        Optional<Member> foundMember = memberRepository.findById(saveId);
+        assertTrue(foundMember.isPresent(), "Member not found");
+        assertEquals(member, foundMember.get());
     }
 
     @Test
-    public void duplicated_member_exception() throws Exception{
+    public void Duplicated_member_exception() throws Exception{
 
         //Given
         Member member1 = new Member();
@@ -55,7 +59,7 @@ public class MemberServiceTest {
         Member member2 = new Member();
         member2.setName("Kim");
 
-        //when
+        //When
         memberService.join(member1);
 
         //Then

@@ -29,6 +29,6 @@ public class Category {
 	private String name;
 	
 	@OneToMany(mappedBy = "category")
-	private List<CategoryItem> categoryItems = new ArrayList<CategoryItem>();
+	private List<CategoryItem> categoryItems = new ArrayList<>();
 	
 }

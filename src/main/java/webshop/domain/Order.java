@@ -45,4 +45,26 @@ public class Order {
 		orderItem.setOrder(this);
 	}
 
+	//Create Method//
+	public static Order createOrder(Member member, OrderItem... orderItems){
+		Order order = new Order();
+		order.setMember(member);
+		for (OrderItem orderItem : orderItems){
+			order.addOrderItem(orderItem);
+		}
+
+		order.setOrderDate(new Date());
+		return order;
+	}
+
+	//Business Logic//
+	public int getTotalPrice() {
+		int totalPrice = 0;
+		for(OrderItem orderItem : orderItems){
+			totalPrice +=orderItem.getTotalPrice();
+		}
+		return totalPrice;
+	}
+
+
 }

@@ -1,34 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.2"
-             xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
-    <persistence-unit name="jpashop">
-        <properties>
-            <!-- 필수 속성 -->
-            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-            <property name="javax.persistence.jdbc.user" value="sa"/>
-            <property name="javax.persistence.jdbc.password" value=""/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/jpashop"/>
-            <!--
-                <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-                <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle8iDialect"/>
-                <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-            -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-
-
-            <!-- 옵션 -->
-            <property name="hibernate.show_sql" value="true"/>  <!-- 실행 sql 로깅 -->
-            <property name="hibernate.format_sql" value="true"/>  <!-- 실행 sql 포메팅 -->
-
-            <!-- /* insert hellojpa.Member */ JPA가 Inser 를 해서 이 쿼리가 나왔다는 것을 주석으로 설명 -->
-            <property name="hibernate.use_sql_comments" value="true"/>
-
-            <!-- 한번에 같은 데이터 베이스에 데이터를 집어넣을때 모아서 한번에 인서트 하는 jdbc batch의 수를 지정-->
-            <property name="hibernate.jdbc.batch_size" value="10"/>
-
-            <!-- create, create-drop, update, validate, none -->
-            <property name="hibernate.hbm2ddl.auto" value="create" />
-        </properties>
-    </persistence-unit>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+    <persistence-unit name="test2"/>
 </persistence>

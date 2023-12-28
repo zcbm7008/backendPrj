@@ -23,5 +23,24 @@ public class OrderItem {
 	private Order order;
 	
 	private int orderPrice;
+	private int count;
+
+	//Create Method//
+	public static OrderItem createOrderItem(Item item, int orderPrice, int count){
+		OrderItem orderItem = new OrderItem();
+		orderItem.setItem(item);
+		orderItem.setOrderPrice(orderPrice);
+		orderItem.setCount(count);
+
+		if(item.isLimitedQuantity()){
+			item.removeStock(count);
+		}
+		return orderItem;
+	}
+
+	//Business Logic//
+	public int getTotalPrice() {
+		return getOrderPrice() * getCount();
+	}
 
 }
