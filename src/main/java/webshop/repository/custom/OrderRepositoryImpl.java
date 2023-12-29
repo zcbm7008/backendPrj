@@ -26,7 +26,7 @@ public class OrderRepositoryImpl extends QuerydslRepositorySupport implements Cu
 
        if(StringUtils.hasText(orderSearch.getMemberName())) {
            query.leftJoin(order.member, member)
-                   .where(member.name.contains(orderSearch.getMemberName()));
+                   .where(member.name.eq(orderSearch.getMemberName()));
        }
 
 

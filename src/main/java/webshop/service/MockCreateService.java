@@ -18,12 +18,12 @@ public class MockCreateService {
     @PostConstruct
     public void initCreateMock() {
         Member member = new Member();
-        member.setName("회원1");
+        member.setName("테스트회원1");
 
         memberService.join(member);
 
-        Artwork artwork1 = createArtwork("art",20000,true,10);
-        Artwork artwork2 = createArtwork("art",20000,false,10);
+        Artwork artwork1 = createArtwork("testart1",20000,true,10);
+        Artwork artwork2 = createArtwork("testart2",20000,false,10);
 
         itemService.saveItem(artwork1);
         itemService.saveItem(artwork2);

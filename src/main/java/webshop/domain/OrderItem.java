@@ -3,11 +3,13 @@ package webshop.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import webshop.domain.item.Item;
 
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "ORDER_ITEM")
 public class OrderItem {
 	
