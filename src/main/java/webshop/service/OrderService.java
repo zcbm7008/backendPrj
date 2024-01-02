@@ -12,6 +12,7 @@ import webshop.repository.MemberRepository;
 import webshop.repository.OrderRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -28,19 +29,18 @@ public class OrderService {
     //Order//
     public Long order(Long memberId, Long itemId, int count) {
 
-        Optional<Member> findMember = memberRepository.findById(memberId);
-        if (findMember.isEmpty()) {
-            return null;
-        }
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoSuchElementException("Member not found with id: " + memberId));
+        
+        
 
-        Optional<Item> findItem = itemService.findOne(itemId);
-        if (findItem.isEmpty()) {
-            return null;
-        }
+        Item findItem = itemService.findOne(itemId)
+                .orElseThrow(() -> new NoSuchElementException("Item not found with id: " + itemId));
 
-        OrderItem orderItem = OrderItem.createOrderItem(findItem.get(), findItem.get().getPrice(), count);
 
-        Order order = Order.createOrder(findMember.get(), orderItem);
+        OrderItem orderItem = OrderItem.createOrderItem(findItem, findItem.getPrice(), count);
+
+        Order order = Order.createOrder(findMember, orderItem);
         orderRepository.save(order);
         return order.getId();
 

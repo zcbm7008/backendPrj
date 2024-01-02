@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import webshop.domain.Member;
 import webshop.domain.Seller;
+import webshop.domain.item.Artwork;
 import webshop.repository.MemberRepository;
 
 import java.util.List;
@@ -34,26 +35,58 @@ public class SellerServiceTest {
 
         //Given
         Member member = createMember("회원1");
+
         Seller seller1 = new Seller();
         seller1.setName("seller1");
-
         Seller seller2 = new Seller();
         seller2.setName("seller2");
 
 
 
         //When
-        sellerService.seller(member.getId(), seller1);
-        sellerService.seller(member.getId(), seller2);
+        seller1.setMember(member);
+        seller2.setMember(member);
+
+        sellerService.join(seller1);
+        sellerService.join(seller2);
 
         //Then
         List<Seller> sellerList = member.getSellers();
-
 
         Assertions.assertEquals(seller1.getId(), sellerList.get(0).getId());
         Assertions.assertEquals(seller1.getName(), sellerList.get(0).getName());
         Assertions.assertEquals(seller2.getId(), sellerList.get(1).getId());
         Assertions.assertEquals(seller2.getName(), sellerList.get(1).getName());
+
+    }
+
+    @Test
+    public void Create_Seller_Items() throws Exception{
+        //Given
+        Member member = createMember("회원1");
+
+        Seller seller1 = new Seller();
+        seller1.setName("seller1");
+        Seller seller2 = new Seller();
+        seller2.setName("seller2");
+
+        Artwork item1 = createArtwork("art1",25000,false,1);
+        Artwork item2 = createArtwork("art2",20000,false,1);
+
+        seller1.setMember(member);
+        seller2.setMember(member);
+        sellerService.join(seller1);
+        sellerService.join(seller2);
+        //When
+        sellerService.addItemToSeller(seller1.getId(), item1.getId());
+        sellerService.addItemToSeller(seller2.getId(), item2.getId());
+
+        //Then
+        List<Seller> sellerList = member.getSellers();
+
+        Assertions.assertEquals(item1.getId(), sellerList.get(0).getSellerItems().get(0).getId());
+        Assertions.assertEquals(item2.getId(), sellerList.get(1).getSellerItems().get(0).getId());
+
 
     }
 
@@ -70,11 +103,12 @@ public class SellerServiceTest {
         seller2.setName("seller1");
 
         //When
-        sellerService.seller(member1.getId(), seller1);
+        sellerService.join(seller1);
+
 
         //Then
         assertThrows(IllegalStateException.class, () -> {
-            sellerService.seller(member2.getId(), seller2);
+            sellerService.join(seller2);
         }, "중복 예외 발생");
 
 
@@ -85,6 +119,16 @@ public class SellerServiceTest {
         member.setName(name);
         em.persist(member);
         return member;
+    }
+
+    private Artwork createArtwork(String name, int price, boolean isLimitedQuantity, int stockQuantity){
+        Artwork artwork = new Artwork();
+        artwork.setName(name);
+        artwork.setPrice(price);
+        artwork.setLimitedQuantity(isLimitedQuantity);
+        artwork.setStockQuantity(stockQuantity);
+        em.persist(artwork);
+        return artwork;
     }
 
 

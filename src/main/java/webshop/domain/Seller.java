@@ -34,27 +34,33 @@ public class Seller {
 	private Member member;
 	
 	@OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
-	private List<Item> items = new ArrayList<Item>();
+	private List<Item> sellerItems = new ArrayList<Item>();
 	
 	public void setMember(Member member) {
 		this.member = member;
 		member.getSellers().add(this);
 	}
 
-	//Create Method//
-	public static Seller createSeller(Member member, String name){
-		if (member == null) {
-			throw new IllegalArgumentException("Member cannot be null");
-		}
-		if (name == null || name.trim().isEmpty()) {
-			throw new IllegalArgumentException("Name cannot be null or empty");
-		}
-
-		Seller seller = new Seller();
-		seller.setName(name); // 이름 설정
-		seller.setMember(member); // 멤버 설정
-
-		return seller;
+	public void addSellerItem(Item sellerItem) {
+		sellerItems.add(sellerItem);
+		sellerItem.setSeller(this);
 	}
+
+	//Create Method//
+//	public static Seller createSeller(Member member, Item... sellerItems){
+//		if (member == null) {
+//			throw new IllegalArgumentException("Member cannot be null");
+//		}
+//
+//		Seller seller = new Seller();
+//		seller.setMember(member); // 멤버 설정
+//
+//		for (Item sellerItem : sellerItems){
+//			seller.addSellerItem(sellerItem);
+//		}
+//
+//
+//		return seller;
+//	}
 	
 }

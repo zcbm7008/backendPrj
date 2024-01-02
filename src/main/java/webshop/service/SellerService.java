@@ -24,15 +24,27 @@ public class SellerService {
     SellerRepository sellerRepository;
     @Autowired
     MemberRepository memberRepository;
+    @Autowired
+    ItemService itemService;
 
-    public Long seller(Long memberId, Seller seller) {
+    public Long join(Seller seller) {
+
         validateDuplicateSeller(seller);
-        Member findMember = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException("Member not found with id: " + memberId));;
+        sellerRepository.save(seller);
+        return seller.getId();
+    }
 
-            Seller.createSeller(findMember, seller.getName());
-            sellerRepository.save(seller);
-            return seller.getId();
+    public Seller addItemToSeller(Long sellerId, Long itemId) {
+
+        Seller findSeller = sellerRepository.findById(sellerId)
+                .orElseThrow(() -> new NoSuchElementException("Seller not found with id: " + sellerId));
+
+        Item findItem = itemService.findOne(itemId)
+                .orElseThrow(() -> new NoSuchElementException("Item not found with id: " + itemId));
+
+
+        findSeller.addSellerItem(findItem);
+        return findSeller;
 
     }
 
@@ -40,7 +52,7 @@ public class SellerService {
         List<Seller> findSeller =
                 sellerRepository.findByName(seller.getName());
         if(!findSeller.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
+            throw new IllegalStateException("이미 존재하는 판매자 회원입니다.");
         }
     }
 
