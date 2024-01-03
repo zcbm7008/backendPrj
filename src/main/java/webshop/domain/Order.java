@@ -17,6 +17,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import webshop.domain.item.Money;
 
 @Getter
 @Setter
@@ -61,11 +62,11 @@ public class Order {
 
 	//Business Logic//
 	public int getTotalPrice() {
-		int totalPrice = 0;
+		Money totalPrice = new Money(0);
 		for(OrderItem orderItem : orderItems){
-			totalPrice +=orderItem.getTotalPrice();
+			totalPrice = totalPrice.add(orderItem.getTotalPrice());
 		}
-		return totalPrice;
+		return totalPrice.getValue();
 	}
 
 

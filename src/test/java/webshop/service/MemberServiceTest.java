@@ -37,9 +37,7 @@ public class MemberServiceTest {
     public void SignUp() throws Exception {
 
         //Given
-        Member member = new Member();
-        member.setName("kim");
-
+        Member member = new Member("Kim");
         //When
         Long saveId = memberService.join(member);
 
@@ -53,11 +51,9 @@ public class MemberServiceTest {
     public void Duplicated_member_exception() throws Exception{
 
         //Given
-        Member member1 = new Member();
-        member1.setName("Kim");
+        Member member1 = new Member("Kim");
 
-        Member member2 = new Member();
-        member2.setName("Kim");
+        Member member2 = new Member("Kim");
 
         //When
         memberService.join(member1);

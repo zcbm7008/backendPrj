@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import webshop.domain.item.Item;
+import webshop.domain.item.Money;
+import webshop.domain.item.MoneyConverter;
 
 @Getter
 @Setter
@@ -23,12 +25,13 @@ public class OrderItem {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ORDER_ID")
 	private Order order;
-	
-	private int orderPrice;
+
+	@Convert(converter = MoneyConverter.class)
+	private Money orderPrice;
 	private int count;
 
 	//Create Method//
-	public static OrderItem createOrderItem(Item item, int orderPrice, int count){
+	public static OrderItem createOrderItem(Item item, Money orderPrice, int count){
 		OrderItem orderItem = new OrderItem();
 		orderItem.setItem(item);
 		orderItem.setOrderPrice(orderPrice);
@@ -41,8 +44,8 @@ public class OrderItem {
 	}
 
 	//Business Logic//
-	public int getTotalPrice() {
-		return getOrderPrice() * getCount();
+	public Money getTotalPrice() {
+		return orderPrice.multiply(count);
 	}
 
 }

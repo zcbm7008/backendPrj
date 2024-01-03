@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import webshop.domain.Member;
 import webshop.domain.item.Artwork;
+import webshop.domain.item.Money;
 
 @Service
 public class MockCreateService {
@@ -17,13 +18,12 @@ public class MockCreateService {
 
     @PostConstruct
     public void initCreateMock() {
-        Member member = new Member();
-        member.setName("테스트회원1");
+        Member member = new Member("테스트회원1");
 
         memberService.join(member);
 
-        Artwork artwork1 = createArtwork("testart1",20000,true,10);
-        Artwork artwork2 = createArtwork("testart2",20000,false,10);
+        Artwork artwork1 = createArtwork("testart1",new Money(20000),true,10);
+        Artwork artwork2 = createArtwork("testart2",new Money(20000),false,10);
 
         itemService.saveItem(artwork1);
         itemService.saveItem(artwork2);
@@ -31,7 +31,7 @@ public class MockCreateService {
         orderService.order(member.getId(), artwork1.getId(),3);
     }
 
-    private Artwork createArtwork(String name,int price,boolean isLimitedQuantity,int stockQuantity){
+    private Artwork createArtwork(String name, Money price, boolean isLimitedQuantity, int stockQuantity){
         Artwork artwork = new Artwork();
         artwork.setName(name);
         artwork.setPrice(price);

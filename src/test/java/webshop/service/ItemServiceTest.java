@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import webshop.domain.item.Artwork;
 import webshop.domain.item.Item;
+import webshop.domain.item.Money;
 import webshop.exception.NotEnoughStockException;
 import webshop.exception.NotLimitedItemException;
 import webshop.repository.ItemRepository;
@@ -36,7 +37,7 @@ public class ItemServiceTest {
     public void saveItem() throws Exception{
 
         //Given
-        Item item = createArtwork("art",35000,false,0);
+        Item item = createArtwork("art",new Money(35000),false,0);
         Long itemId = item.getId();
         //When
         itemService.saveItem(item);
@@ -53,7 +54,7 @@ public class ItemServiceTest {
     public void Limited_Item_Check() throws Exception {
 
         //Given
-        Item item = createArtwork("art", 1000,false,2);
+        Item item = createArtwork("art", new Money(1000),false,2);
 
         //When
 
@@ -66,7 +67,7 @@ public class ItemServiceTest {
     public void NotEnoughStock_Check() throws Exception {
 
         //Given
-        Item item = createArtwork("art", 1000,true,2);
+        Item item = createArtwork("art", new Money(1000),true,2);
 
         //When
 
@@ -78,7 +79,7 @@ public class ItemServiceTest {
     @Test
     public void Add_Stock_Check() throws Exception{
         //Given
-        Item item = createArtwork("art", 1000,true,2);
+        Item item = createArtwork("art", new Money(1000),true,2);
         //When
         item.addStock(3);
         //Then
@@ -86,7 +87,7 @@ public class ItemServiceTest {
 
     }
 
-    private Artwork createArtwork(String name,int price,boolean isLimitedQuantity,int stockQuantity){
+    private Artwork createArtwork(String name, Money price, boolean isLimitedQuantity, int stockQuantity){
 
         Artwork artwork = new Artwork();
         artwork.setName(name);

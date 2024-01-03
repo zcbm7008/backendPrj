@@ -22,7 +22,9 @@ public abstract class Item {
 	private Long id;
 	
 	private String name;
-	private int price;
+	@Convert(converter = MoneyConverter.class)
+	private Money price;
+
 	private boolean isLimitedQuantity;
 	private int stockQuantity;
 

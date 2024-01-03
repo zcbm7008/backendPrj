@@ -13,6 +13,7 @@ import webshop.domain.Member;
 import webshop.domain.Order;
 import webshop.domain.item.Artwork;
 import webshop.domain.item.Item;
+import webshop.domain.item.Money;
 import webshop.exception.NotEnoughStockException;
 import webshop.repository.OrderRepository;
 
@@ -39,7 +40,7 @@ public class OrderServiceTest {
 
         //Given
         Member member = createMember();
-        Item item = createArtwork("art",35000,true,3);
+        Item item = createArtwork("art",new Money(35000),true,3);
         int orderCount = 2;
 
         //When
@@ -61,7 +62,7 @@ public class OrderServiceTest {
 
         //Given
         Member member = createMember();
-        Item item = createArtwork("art",35000,true,3);
+        Item item = createArtwork("art",new Money(35000),true,3);
 
         int orderCount = 10;
 
@@ -75,13 +76,12 @@ public class OrderServiceTest {
     }
 
     private Member createMember() {
-        Member member = new Member();
-        member.setName("회원1");
+        Member member = new Member("회원1");
         em.persist(member);
         return member;
     }
 
-    private Artwork createArtwork(String name, int price, boolean isLimitedQuantity, int stockQuantity){
+    private Artwork createArtwork(String name, Money price, boolean isLimitedQuantity, int stockQuantity){
         Artwork artwork = new Artwork();
         artwork.setName(name);
         artwork.setPrice(price);

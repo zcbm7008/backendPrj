@@ -12,6 +12,7 @@ import webshop.domain.Member;
 import webshop.domain.Order;
 import webshop.domain.OrderSearch;
 import webshop.domain.item.Artwork;
+import webshop.domain.item.Money;
 import webshop.service.ItemService;
 import webshop.service.MemberService;
 import webshop.service.OrderService;
@@ -37,7 +38,7 @@ public class OrderRepositoryTest {
 
         //Given
         Member member = createMember();
-        Artwork artwork = createArtwork("art", 10000, false, 0);
+        Artwork artwork = createArtwork("art", new Money(10000), false, 0);
         orderService.order(member.getId(), artwork.getId(),1);
 
         //When
@@ -51,13 +52,12 @@ public class OrderRepositoryTest {
     }
 
     private Member createMember() {
-        Member member = new Member();
-        member.setName("회원1");
+        Member member = new Member("회원1");
         memberService.join(member);
         return member;
     }
 
-    private Artwork createArtwork(String name, int price, boolean isLimitedQuantity, int stockQuantity){
+    private Artwork createArtwork(String name, Money price, boolean isLimitedQuantity, int stockQuantity){
         Artwork artwork = new Artwork();
         artwork.setName(name);
         artwork.setPrice(price);
