@@ -3,11 +3,7 @@ package webshop.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -33,5 +29,8 @@ public class Member {
 	
 	@OneToMany(mappedBy = "member")
 	private List<Seller> sellers = new ArrayList<>();
+
+	@OneToMany(mappedBy = "member")
+	private List<Review> reviews = new ArrayList<>();
 
 }

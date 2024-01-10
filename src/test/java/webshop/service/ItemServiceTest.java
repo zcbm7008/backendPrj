@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import webshop.domain.Member;
 import webshop.domain.item.Artwork;
 import webshop.domain.item.Item;
 import webshop.domain.item.Money;
@@ -50,6 +51,18 @@ public class ItemServiceTest {
 
     }
 
+    @Test
+    public void Add_Review() throws Exception {
+        //Given
+        Member member = new Member("Kim");
+        Item item = createArtwork("art", new Money(1000),false,2);
+
+        //When
+        item.addReview(member,"this is good");
+        //Then
+        assertEquals(item.getReviews().size(), 1);
+        assertEquals(item.getReviews().get(0).getComment().getValue(), "this is good");
+    }
     @Test
     public void Limited_Item_Check() throws Exception {
 
@@ -96,5 +109,11 @@ public class ItemServiceTest {
         artwork.setStockQuantity(stockQuantity);
         em.persist(artwork);
         return artwork;
+    }
+
+    private Member createMember() {
+        Member member = new Member("회원1");
+        em.persist(member);
+        return member;
     }
 }

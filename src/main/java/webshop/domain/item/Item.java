@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import webshop.domain.CategoryItem;
-import webshop.domain.Seller;
+import webshop.domain.*;
 import webshop.exception.NotEnoughStockException;
 import webshop.exception.NotLimitedItemException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +24,7 @@ public abstract class Item {
 	private Long id;
 	
 	private String name;
+
 	@Convert(converter = MoneyConverter.class)
 	private Money price;
 
@@ -35,6 +38,10 @@ public abstract class Item {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SELLER_ID")
 	private Seller seller;
+
+
+	@OneToMany(mappedBy = "item")
+	private List<Review> reviews = new ArrayList<>();
 
 	//Business Logic
 	public void addStock(int quantity){
@@ -54,6 +61,13 @@ public abstract class Item {
 		else{
 			throw new NotLimitedItemException("isLimitedQuantity이 False입니다.");
 		}
+	}
+
+	public void addReview(Member member, String comment) {
+		Review review = new Review();
+		review.setMember(member);
+		review.setComment(new Comment(comment));
+		review.setItem(this);
 	}
 
 

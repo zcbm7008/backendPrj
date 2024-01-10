@@ -4,7 +4,7 @@ import jakarta.persistence.AttributeConverter;
 
 import javax.persistence.Converter;
 
-@Converter
+@Converter(autoApply = true)
 public class MoneyConverter implements AttributeConverter<Money,Integer> {
 
 
