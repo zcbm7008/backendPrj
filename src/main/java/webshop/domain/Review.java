@@ -3,7 +3,6 @@ package webshop.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import webshop.domain.item.Item;
-import webshop.domain.item.MoneyConverter;
 
 @Getter
 @Setter
@@ -25,6 +24,8 @@ public class Review {
 
     @Convert(converter = CommentConverter.class)
     private Comment comment;
+
+    private int rating;
 
     public void setMember(Member member) {
         this.member = member;

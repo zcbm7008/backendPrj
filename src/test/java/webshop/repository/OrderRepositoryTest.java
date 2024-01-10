@@ -13,6 +13,7 @@ import webshop.domain.Order;
 import webshop.domain.OrderSearch;
 import webshop.domain.item.Artwork;
 import webshop.domain.item.Money;
+import webshop.domain.item.QuantityState;
 import webshop.service.ItemService;
 import webshop.service.MemberService;
 import webshop.service.OrderService;
@@ -38,7 +39,7 @@ public class OrderRepositoryTest {
 
         //Given
         Member member = createMember();
-        Artwork artwork = createArtwork("art", new Money(10000), false, 0);
+        Artwork artwork = createArtwork("art", new Money(10000), 0);
         orderService.order(member.getId(), artwork.getId(),1);
 
         //When
@@ -57,11 +58,10 @@ public class OrderRepositoryTest {
         return member;
     }
 
-    private Artwork createArtwork(String name, Money price, boolean isLimitedQuantity, int stockQuantity){
+    private Artwork createArtwork(String name, Money price,int stockQuantity){
         Artwork artwork = new Artwork();
         artwork.setName(name);
         artwork.setPrice(price);
-        artwork.setLimitedQuantity(isLimitedQuantity);
         artwork.setStockQuantity(stockQuantity);
         itemService.saveItem(artwork);
         return artwork;

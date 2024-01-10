@@ -25,10 +25,11 @@ public abstract class Item {
 	
 	private String name;
 
+	@Setter
 	@Convert(converter = MoneyConverter.class)
 	private Money price;
 
-	private boolean isLimitedQuantity;
+	private QuantityState quantityState = QuantityState.Unlimited;
 	private int stockQuantity;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -45,13 +46,13 @@ public abstract class Item {
 
 	//Business Logic
 	public void addStock(int quantity){
-		if(isLimitedQuantity) {this.stockQuantity += quantity;}
+		if(quantityState == QuantityState.Limited) {this.stockQuantity += quantity;}
 		else {
 			throw new NotLimitedItemException("isLimitedQuantity이 False입니다.");
 		}
 	}
 	public void removeStock(int quantity){
-		if(isLimitedQuantity){
+		if(quantityState == QuantityState.Limited){
 			int restStock = this.stockQuantity - quantity;
 			if(restStock < 0){
 				throw new NotEnoughStockException("need more stock");
@@ -68,6 +69,10 @@ public abstract class Item {
 		review.setMember(member);
 		review.setComment(new Comment(comment));
 		review.setItem(this);
+	}
+
+	public void setLimited() {
+		this.setQuantityState(QuantityState.Limited);
 	}
 
 

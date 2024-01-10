@@ -7,6 +7,7 @@ import lombok.ToString;
 import webshop.domain.item.Item;
 import webshop.domain.item.Money;
 import webshop.domain.item.MoneyConverter;
+import webshop.domain.item.QuantityState;
 
 @Getter
 @Setter
@@ -37,7 +38,7 @@ public class OrderItem {
 		orderItem.setOrderPrice(orderPrice);
 		orderItem.setCount(count);
 
-		if(item.isLimitedQuantity()){
+		if(item.getQuantityState() == QuantityState.Limited){
 			item.removeStock(count);
 		}
 		return orderItem;

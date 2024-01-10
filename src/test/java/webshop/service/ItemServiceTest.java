@@ -13,12 +13,11 @@ import webshop.domain.Member;
 import webshop.domain.item.Artwork;
 import webshop.domain.item.Item;
 import webshop.domain.item.Money;
+import webshop.domain.item.QuantityState;
 import webshop.exception.NotEnoughStockException;
 import webshop.exception.NotLimitedItemException;
 import webshop.repository.ItemRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -38,7 +37,7 @@ public class ItemServiceTest {
     public void saveItem() throws Exception{
 
         //Given
-        Item item = createArtwork("art",new Money(35000),false,0);
+        Item item = createArtwork("art",new Money(35000),0);
         Long itemId = item.getId();
         //When
         itemService.saveItem(item);
@@ -55,7 +54,7 @@ public class ItemServiceTest {
     public void Add_Review() throws Exception {
         //Given
         Member member = new Member("Kim");
-        Item item = createArtwork("art", new Money(1000),false,2);
+        Item item = createArtwork("art", new Money(1000),2);
 
         //When
         item.addReview(member,"this is good");
@@ -67,7 +66,7 @@ public class ItemServiceTest {
     public void Limited_Item_Check() throws Exception {
 
         //Given
-        Item item = createArtwork("art", new Money(1000),false,2);
+        Item item = createArtwork("art", new Money(1000),2);
 
         //When
 
@@ -80,7 +79,8 @@ public class ItemServiceTest {
     public void NotEnoughStock_Check() throws Exception {
 
         //Given
-        Item item = createArtwork("art", new Money(1000),true,2);
+        Item item = createArtwork("art", new Money(1000),2);
+        item.setLimited();
 
         //When
 
@@ -92,7 +92,8 @@ public class ItemServiceTest {
     @Test
     public void Add_Stock_Check() throws Exception{
         //Given
-        Item item = createArtwork("art", new Money(1000),true,2);
+        Item item = createArtwork("art", new Money(1000),2);
+        item.setLimited();
         //When
         item.addStock(3);
         //Then
@@ -100,12 +101,11 @@ public class ItemServiceTest {
 
     }
 
-    private Artwork createArtwork(String name, Money price, boolean isLimitedQuantity, int stockQuantity){
+    private Artwork createArtwork(String name, Money price, int stockQuantity){
 
         Artwork artwork = new Artwork();
         artwork.setName(name);
         artwork.setPrice(price);
-        artwork.setLimitedQuantity(isLimitedQuantity);
         artwork.setStockQuantity(stockQuantity);
         em.persist(artwork);
         return artwork;

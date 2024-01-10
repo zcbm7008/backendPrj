@@ -13,6 +13,7 @@ import webshop.domain.Member;
 import webshop.domain.Seller;
 import webshop.domain.item.Artwork;
 import webshop.domain.item.Money;
+import webshop.domain.item.QuantityState;
 import webshop.repository.MemberRepository;
 
 import java.util.List;
@@ -71,8 +72,8 @@ public class SellerServiceTest {
         Seller seller2 = new Seller();
         seller2.setName("seller2");
 
-        Artwork item1 = createArtwork("art1",new Money(25000),false,1);
-        Artwork item2 = createArtwork("art2",new Money(20000),false,1);
+        Artwork item1 = createArtwork("art1",new Money(25000),1);
+        Artwork item2 = createArtwork("art2",new Money(20000),1);
 
         seller1.setMember(member);
         seller2.setMember(member);
@@ -121,15 +122,13 @@ public class SellerServiceTest {
         return member;
     }
 
-    private Artwork createArtwork(String name, Money price, boolean isLimitedQuantity, int stockQuantity){
+    private Artwork createArtwork(String name, Money price, int stockQuantity){
         Artwork artwork = new Artwork();
         artwork.setName(name);
         artwork.setPrice(price);
-        artwork.setLimitedQuantity(isLimitedQuantity);
         artwork.setStockQuantity(stockQuantity);
         em.persist(artwork);
         return artwork;
     }
-
 
 }

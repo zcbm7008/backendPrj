@@ -1,7 +1,6 @@
 package webshop.domain;
 
 import jakarta.persistence.AttributeConverter;
-import webshop.domain.item.Money;
 
 import javax.persistence.Converter;
 

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import webshop.domain.Member;
 import webshop.domain.item.Artwork;
 import webshop.domain.item.Money;
+import webshop.domain.item.QuantityState;
 
 @Service
 public class MockCreateService {
@@ -35,7 +36,7 @@ public class MockCreateService {
         Artwork artwork = new Artwork();
         artwork.setName(name);
         artwork.setPrice(price);
-        artwork.setLimitedQuantity(isLimitedQuantity);
+        artwork.setQuantityState(QuantityState.Limited);
         artwork.setStockQuantity(stockQuantity);
         return artwork;
     }

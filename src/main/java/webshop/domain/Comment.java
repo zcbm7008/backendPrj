@@ -1,10 +1,12 @@
 package webshop.domain;
 
+import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @ToString
+@Getter
 public class Comment {
     private final String value;
     private final LocalDateTime creationDate;
@@ -15,13 +17,5 @@ public class Comment {
         }
         this.value = value;
         this.creationDate = LocalDateTime.now();
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public LocalDateTime getCreationDate() {
-        return creationDate;
     }
 }

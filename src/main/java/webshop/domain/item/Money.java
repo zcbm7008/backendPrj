@@ -10,6 +10,7 @@ public class Money {
     private int value;
 
     public Money(int value) {
+        if (this.value < 0) { throw new IllegalArgumentException("Money value cannot be negative");}
         setValue(value);
     }
 

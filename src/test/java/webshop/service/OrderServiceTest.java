@@ -14,11 +14,11 @@ import webshop.domain.Order;
 import webshop.domain.item.Artwork;
 import webshop.domain.item.Item;
 import webshop.domain.item.Money;
+import webshop.domain.item.QuantityState;
 import webshop.exception.NotEnoughStockException;
 import webshop.repository.OrderRepository;
 
 
-import static com.jayway.jsonpath.internal.path.PathCompiler.fail;
 import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.Assertions;
 
@@ -40,7 +40,8 @@ public class OrderServiceTest {
 
         //Given
         Member member = createMember();
-        Item item = createArtwork("art",new Money(35000),true,3);
+        Item item = createArtwork("art",new Money(35000),3);
+        item.setLimited();
         int orderCount = 2;
 
         //When
@@ -62,7 +63,8 @@ public class OrderServiceTest {
 
         //Given
         Member member = createMember();
-        Item item = createArtwork("art",new Money(35000),true,3);
+        Item item = createArtwork("art",new Money(35000),3);
+        item.setLimited();
 
         int orderCount = 10;
 
@@ -81,11 +83,10 @@ public class OrderServiceTest {
         return member;
     }
 
-    private Artwork createArtwork(String name, Money price, boolean isLimitedQuantity, int stockQuantity){
+    private Artwork createArtwork(String name, Money price, int stockQuantity){
         Artwork artwork = new Artwork();
         artwork.setName(name);
         artwork.setPrice(price);
-        artwork.setLimitedQuantity(isLimitedQuantity);
         artwork.setStockQuantity(stockQuantity);
         em.persist(artwork);
         return artwork;
