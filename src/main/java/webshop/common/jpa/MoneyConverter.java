@@ -1,6 +1,7 @@
-package webshop.domain.item;
+package webshop.common.jpa;
 
 import jakarta.persistence.AttributeConverter;
+import webshop.common.model.Money;
 
 import javax.persistence.Converter;
 

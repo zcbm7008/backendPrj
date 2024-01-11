@@ -1,6 +1,4 @@
-package webshop.domain;
-
-import org.hibernate.annotations.ManyToAny;
+package webshop.catalog.command.domain.category;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import webshop.domain.item.Item;
+import webshop.catalog.command.domain.product.Item;
 
 @Getter	
 @Setter

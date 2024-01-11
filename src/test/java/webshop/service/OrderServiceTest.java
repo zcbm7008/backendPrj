@@ -10,16 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import webshop.domain.Member;
-import webshop.domain.Order;
-import webshop.domain.item.Artwork;
-import webshop.domain.item.Item;
-import webshop.domain.item.Money;
-import webshop.domain.item.QuantityState;
+import webshop.order.command.domain.Order;
+import webshop.catalog.command.domain.product.Artwork;
+import webshop.catalog.command.domain.product.Item;
+import webshop.common.model.Money;
 import webshop.exception.NotEnoughStockException;
 import webshop.repository.OrderRepository;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+
 import org.junit.jupiter.api.Assertions;
 
 @ExtendWith(SpringExtension.class)
@@ -76,6 +77,7 @@ public class OrderServiceTest {
         }, "재고 수량 부족 예외가 발생해야 합니다."); // "A NotEnoughStockException should be thrown."
 
     }
+
 
     private Member createMember() {
         Member member = new Member("회원1");

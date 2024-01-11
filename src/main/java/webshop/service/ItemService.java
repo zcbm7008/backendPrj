@@ -3,7 +3,7 @@ package webshop.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import webshop.domain.item.Item;
+import webshop.catalog.command.domain.product.Item;
 import webshop.repository.ItemRepository;
 
 import java.util.List;

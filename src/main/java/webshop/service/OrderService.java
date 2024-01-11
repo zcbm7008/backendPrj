@@ -4,13 +4,15 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import webshop.domain.*;
-import webshop.domain.item.Item;
+import webshop.catalog.command.domain.product.Item;
+import webshop.order.command.domain.Order;
+import webshop.order.command.domain.OrderItem;
+import webshop.order.command.domain.OrderSearch;
 import webshop.repository.MemberRepository;
 import webshop.repository.OrderRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @Transactional

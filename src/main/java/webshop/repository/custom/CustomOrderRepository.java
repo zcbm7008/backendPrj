@@ -1,7 +1,7 @@
 package webshop.repository.custom;
 
-import webshop.domain.Order;
-import webshop.domain.OrderSearch;
+import webshop.order.command.domain.Order;
+import webshop.order.command.domain.OrderSearch;
 
 import java.util.List;
 

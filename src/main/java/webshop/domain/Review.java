@@ -2,7 +2,9 @@ package webshop.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import webshop.domain.item.Item;
+import webshop.common.model.Comment;
+import webshop.common.jpa.CommentConverter;
+import webshop.catalog.command.domain.product.Item;
 
 @Getter
 @Setter

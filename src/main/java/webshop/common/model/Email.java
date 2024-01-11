@@ -1,21 +1,19 @@
-package webshop.domain;
+package webshop.common.model;
 
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@ToString
 @Getter
-public class Comment {
+@EqualsAndHashCode
+public class Email {
     private final String value;
-    private final LocalDateTime creationDate;
 
-    public Comment(String value) {
+    public Email(String value) {
         if(value == null || value.trim().isEmpty()){
             throw new IllegalArgumentException("Comment cannot be null or empty");
         }
         this.value = value;
-        this.creationDate = LocalDateTime.now();
     }
+
 }

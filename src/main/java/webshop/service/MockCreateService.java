@@ -4,9 +4,9 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import webshop.domain.Member;
-import webshop.domain.item.Artwork;
-import webshop.domain.item.Money;
-import webshop.domain.item.QuantityState;
+import webshop.catalog.command.domain.product.Artwork;
+import webshop.common.model.Money;
+import webshop.catalog.command.domain.product.QuantityState;
 
 @Service
 public class MockCreateService {

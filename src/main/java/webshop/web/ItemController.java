@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import webshop.domain.item.Artwork;
-import webshop.domain.item.Item;
+import webshop.catalog.command.domain.product.Artwork;
+import webshop.catalog.command.domain.product.Item;
 import webshop.service.ItemService;
 
 import java.util.List;

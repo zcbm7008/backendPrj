@@ -1,9 +1,6 @@
-package webshop.domain.item;
+package webshop.common.model;
 
-import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.Embeddable;
 
 @Setter
 public class Money {

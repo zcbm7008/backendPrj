@@ -11,10 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import webshop.domain.Member;
 import webshop.domain.Seller;
-import webshop.domain.item.Artwork;
-import webshop.domain.item.Money;
-import webshop.domain.item.QuantityState;
-import webshop.repository.MemberRepository;
+import webshop.catalog.command.domain.product.Artwork;
+import webshop.common.model.Money;
 
 import java.util.List;
 

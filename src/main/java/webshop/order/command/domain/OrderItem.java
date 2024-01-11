@@ -1,13 +1,13 @@
-package webshop.domain;
+package webshop.order.command.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import webshop.domain.item.Item;
-import webshop.domain.item.Money;
-import webshop.domain.item.MoneyConverter;
-import webshop.domain.item.QuantityState;
+import webshop.catalog.command.domain.product.Item;
+import webshop.common.model.Money;
+import webshop.common.jpa.MoneyConverter;
+import webshop.catalog.command.domain.product.QuantityState;
 
 @Getter
 @Setter

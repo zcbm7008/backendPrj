@@ -3,10 +3,10 @@ package webshop.repository.custom;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.util.StringUtils;
-import webshop.domain.Order;
-import webshop.domain.OrderSearch;
+import webshop.order.command.domain.Order;
+import webshop.order.command.domain.OrderSearch;
 import webshop.domain.QMember;
-import webshop.domain.QOrder;
+import webshop.order.command.domain.QOrder;
 
 import java.util.List;
 

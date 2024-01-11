@@ -1,9 +1,13 @@
-package webshop.domain.item;
+package webshop.catalog.command.domain.product;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import webshop.catalog.command.domain.category.CategoryItem;
+import webshop.common.model.Comment;
+import webshop.common.model.Money;
+import webshop.common.jpa.MoneyConverter;
 import webshop.domain.*;
 import webshop.exception.NotEnoughStockException;
 import webshop.exception.NotLimitedItemException;
@@ -40,6 +44,10 @@ public abstract class Item {
 	@JoinColumn(name = "SELLER_ID")
 	private Seller seller;
 
+	private ContentType contentType;
+
+	private String Content;
+
 
 	@OneToMany(mappedBy = "item")
 	private List<Review> reviews = new ArrayList<>();
@@ -74,6 +82,8 @@ public abstract class Item {
 	public void setLimited() {
 		this.setQuantityState(QuantityState.Limited);
 	}
+
+
 
 
 }

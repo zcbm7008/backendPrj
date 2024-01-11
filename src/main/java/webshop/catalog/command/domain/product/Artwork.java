@@ -1,4 +1,4 @@
-package webshop.domain.item;
+package webshop.catalog.command.domain.product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,5 +14,6 @@ import lombok.Setter;
 @DiscriminatorValue("Ar")
 public class Artwork extends Item{
 	private List<String> artist = new ArrayList<String>();
+
 	private String resolution;
 }

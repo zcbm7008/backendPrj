@@ -1,6 +1,7 @@
-package webshop.domain;
+package webshop.common.jpa;
 
 import jakarta.persistence.AttributeConverter;
+import webshop.common.model.Comment;
 
 import javax.persistence.Converter;
 

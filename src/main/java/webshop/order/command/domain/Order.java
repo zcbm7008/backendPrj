@@ -1,23 +1,16 @@
-package webshop.domain;
+package webshop.order.command.domain;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import webshop.domain.item.Money;
+import webshop.util.MailService;
+import webshop.common.model.Money;
+import webshop.domain.Member;
 
 @Getter
 @Setter
@@ -36,7 +29,12 @@ public class Order {
 	@OneToMany(mappedBy="order", cascade = CascadeType.ALL)
 	private List<OrderItem> orderItems = new ArrayList<OrderItem>();
 	
-	private Date orderDate;
+	private LocalDateTime orderDate;
+
+	private OrderState state;
+
+	@Transient
+	MailService mailService;
 	
 	public void setMember(Member member) {
 		this.member = member;
@@ -56,7 +54,7 @@ public class Order {
 			order.addOrderItem(orderItem);
 		}
 
-		order.setOrderDate(new Date());
+		order.setOrderDate(LocalDateTime.now());
 		return order;
 	}
 
@@ -67,6 +65,24 @@ public class Order {
 			totalPrice = totalPrice.add(orderItem.getTotalPrice());
 		}
 		return totalPrice.getValue();
+	}
+
+	//TODO
+	public void startDeliverying() {
+		this.state = OrderState.DELIVERING;
+		StringBuilder contextBuilder = new StringBuilder();
+		String subject = "상품배송";
+		for(OrderItem orderItem : this.orderItems){
+
+			contextBuilder.append(orderItem.getId()).append(" ");
+
+
+		}
+		String context = contextBuilder.toString();
+		mailService.sendSimpleEmail(subject,member.getEmail(),context);
+
+
+
 	}
 
 

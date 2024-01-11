@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import webshop.domain.OrderSearch;
+import webshop.order.command.domain.OrderSearch;
 import webshop.service.ItemService;
 import webshop.service.MemberService;
 import webshop.service.OrderService;
 import webshop.domain.Member;
-import webshop.domain.item.Item;
-import webshop.domain.Order;
+import webshop.catalog.command.domain.product.Item;
+import webshop.order.command.domain.Order;
 
 import java.util.List;
 

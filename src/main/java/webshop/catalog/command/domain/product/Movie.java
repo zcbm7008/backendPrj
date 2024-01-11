@@ -1,4 +1,4 @@
-package webshop.domain.item;
+package webshop.catalog.command.domain.product;
 
 import java.util.ArrayList;
 import java.util.List;

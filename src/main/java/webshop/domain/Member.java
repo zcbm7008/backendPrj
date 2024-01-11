@@ -5,6 +5,9 @@ import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.*;
+import webshop.common.jpa.EmailConverter;
+import webshop.common.model.Email;
+import webshop.order.command.domain.Order;
 
 @Getter
 @Setter
@@ -19,6 +22,9 @@ public class Member {
 	private Long id;
 	
 	private String name;
+
+	@Convert(converter = EmailConverter.class)
+	private Email email;
 
 	public Member(String name) {
 		setName(name);

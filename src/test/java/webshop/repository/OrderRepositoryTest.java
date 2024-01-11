@@ -1,7 +1,6 @@
 package webshop.repository;
 
 import jakarta.transaction.Transactional;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,11 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import webshop.domain.Member;
-import webshop.domain.Order;
-import webshop.domain.OrderSearch;
-import webshop.domain.item.Artwork;
-import webshop.domain.item.Money;
-import webshop.domain.item.QuantityState;
+import webshop.order.command.domain.Order;
+import webshop.order.command.domain.OrderSearch;
+import webshop.catalog.command.domain.product.Artwork;
+import webshop.common.model.Money;
 import webshop.service.ItemService;
 import webshop.service.MemberService;
 import webshop.service.OrderService;

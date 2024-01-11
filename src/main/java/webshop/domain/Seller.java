@@ -1,7 +1,6 @@
 package webshop.domain;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -14,7 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.*;
-import webshop.domain.item.Item;
+import webshop.catalog.command.domain.product.Item;
 
 @Getter
 @Setter

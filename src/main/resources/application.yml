@@ -4,3 +4,15 @@ spring:
   h2:
     console:
       enabled: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${LOCAL_MAIL_USERNAME}
+    password: ${LOCAL_MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
