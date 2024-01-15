@@ -9,8 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import webshop.User.domain.Member.Member;
-import webshop.User.domain.Seller.Seller;
+import webshop.User.domain.member.Member;
+import webshop.User.domain.seller.Seller;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.common.model.Money;
 

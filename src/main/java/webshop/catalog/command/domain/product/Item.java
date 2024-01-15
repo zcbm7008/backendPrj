@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import webshop.User.domain.Seller.Seller;
+import webshop.User.domain.seller.Seller;
 import webshop.common.model.Comment;
 import webshop.common.model.Money;
 import webshop.common.jpa.MoneyConverter;
 import webshop.domain.*;
 import webshop.exception.NotEnoughStockException;
 import webshop.exception.NotLimitedItemException;
-import webshop.User.domain.Member.Member;
+import webshop.User.domain.member.Member;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public abstract class Item {
 	private QuantityState quantityState = QuantityState.Unlimited;
 	private int stockQuantity;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "ITEM_CATEGORY", joinColumns = @JoinColumn(name = "ITEM_ID"))
 	private Set<Long> categoryIds;
 	

@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import webshop.catalog.query.product.ItemService;
-import webshop.User.domain.Seller.Seller;
+import webshop.User.domain.seller.Seller;
 import webshop.catalog.command.domain.product.Item;
 import webshop.repository.MemberRepository;
 import webshop.repository.SellerRepository;

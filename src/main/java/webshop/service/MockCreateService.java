@@ -4,7 +4,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import webshop.catalog.query.product.ItemService;
-import webshop.User.domain.Member.Member;
+import webshop.User.domain.member.Member;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.common.model.Money;
 import webshop.catalog.command.domain.product.QuantityState;

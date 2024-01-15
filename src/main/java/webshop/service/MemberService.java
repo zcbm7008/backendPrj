@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import webshop.User.domain.Member.Member;
+import webshop.User.domain.member.Member;
 import webshop.repository.MemberRepository;
 
 import java.util.List;

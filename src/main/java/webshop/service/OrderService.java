@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import webshop.catalog.query.product.ItemService;
 import webshop.catalog.command.domain.product.Item;
-import webshop.User.domain.Member.Member;
+import webshop.User.domain.member.Member;
 import webshop.order.command.domain.Order;
 import webshop.order.command.domain.OrderItem;
 import webshop.order.command.domain.OrderSearch;

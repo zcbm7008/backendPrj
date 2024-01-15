@@ -1,15 +1,15 @@
-package webshop.User.domain.Member;
-
-import java.util.ArrayList;
-import java.util.List;
+package webshop.User.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
+import webshop.User.domain.seller.Seller;
 import webshop.common.jpa.EmailConverter;
 import webshop.common.model.Email;
 import webshop.domain.Review;
-import webshop.User.domain.Seller.Seller;
 import webshop.order.command.domain.Order;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import webshop.catalog.query.product.ItemService;
-import webshop.User.domain.Member.Member;
+import webshop.User.domain.member.Member;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.catalog.command.domain.product.Item;
 import webshop.common.model.Money;
