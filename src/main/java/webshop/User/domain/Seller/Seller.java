@@ -1,4 +1,4 @@
-package webshop.domain;
+package webshop.User.domain.Seller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.*;
 import webshop.catalog.command.domain.product.Item;
+import webshop.User.domain.Member.Member;
 
 @Getter
 @Setter
@@ -31,6 +32,8 @@ public class Seller {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MEMBER_ID")
 	private Member member;
+
+	private boolean blocked;
 	
 	@OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
 	private List<Item> sellerItems = new ArrayList<Item>();

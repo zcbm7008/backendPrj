@@ -9,11 +9,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
+@AllArgsConstructor
 @Entity
 @Table(name = "CATEGORY")
 public class Category {
@@ -23,7 +24,7 @@ public class Category {
 	
 	private String name;
 	
-	@OneToMany(mappedBy = "category")
-	private List<CategoryItem> categoryItems = new ArrayList<>();
-	
+	protected Category() {
+
+	}
 }

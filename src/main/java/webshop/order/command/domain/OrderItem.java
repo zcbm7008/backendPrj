@@ -29,6 +29,7 @@ public class OrderItem {
 
 	@Convert(converter = MoneyConverter.class)
 	private Money orderPrice;
+
 	private int count;
 
 	//Create Method//

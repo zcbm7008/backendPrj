@@ -9,13 +9,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import webshop.domain.Member;
+import webshop.catalog.query.product.ItemService;
+import webshop.User.domain.Member.Member;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.catalog.command.domain.product.Item;
 import webshop.common.model.Money;
 import webshop.exception.NotEnoughStockException;
 import webshop.exception.NotLimitedItemException;
-import webshop.repository.ItemRepository;
+import webshop.catalog.command.domain.product.ItemRepository;
 
 import java.util.Optional;
 

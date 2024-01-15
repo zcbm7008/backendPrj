@@ -1,10 +1,10 @@
-package webshop.service;
+package webshop.catalog.query.product;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import webshop.catalog.command.domain.product.Item;
-import webshop.repository.ItemRepository;
+import webshop.catalog.command.domain.product.ItemRepository;
 
 import java.util.List;
 import java.util.Optional;

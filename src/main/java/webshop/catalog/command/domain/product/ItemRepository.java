@@ -1,4 +1,4 @@
-package webshop.repository;
+package webshop.catalog.command.domain.product;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import webshop.catalog.command.domain.product.Item;

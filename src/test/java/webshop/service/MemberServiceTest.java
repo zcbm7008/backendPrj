@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import jakarta.transaction.Transactional;
-import webshop.domain.Member;
+import webshop.User.domain.Member.Member;
 import webshop.repository.MemberRepository;
 
 import java.util.Optional;

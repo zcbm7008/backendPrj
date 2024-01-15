@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import webshop.domain.Member;
-import webshop.service.ItemService;
+import webshop.User.domain.Member.Member;
+import webshop.catalog.query.product.ItemService;
 import webshop.service.MemberService;
 
 import java.util.List;

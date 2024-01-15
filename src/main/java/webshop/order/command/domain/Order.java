@@ -10,7 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 import webshop.util.MailService;
 import webshop.common.model.Money;
-import webshop.domain.Member;
+import webshop.User.domain.Member.Member;
 
 @Getter
 @Setter

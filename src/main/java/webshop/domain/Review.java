@@ -5,6 +5,7 @@ import lombok.*;
 import webshop.common.model.Comment;
 import webshop.common.jpa.CommentConverter;
 import webshop.catalog.command.domain.product.Item;
+import webshop.User.domain.Member.Member;
 
 @Getter
 @Setter

@@ -2,8 +2,7 @@ package webshop.repository;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import webshop.domain.Member;
+import webshop.User.domain.Member.Member;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package webshop.order.command.domain;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
-import webshop.domain.Member;
+import webshop.User.domain.Member.Member;
 
 public class OrderSpec {
 

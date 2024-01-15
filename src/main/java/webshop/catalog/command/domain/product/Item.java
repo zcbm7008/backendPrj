@@ -4,16 +4,18 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import webshop.catalog.command.domain.category.CategoryItem;
+import webshop.User.domain.Seller.Seller;
 import webshop.common.model.Comment;
 import webshop.common.model.Money;
 import webshop.common.jpa.MoneyConverter;
 import webshop.domain.*;
 import webshop.exception.NotEnoughStockException;
 import webshop.exception.NotLimitedItemException;
+import webshop.User.domain.Member.Member;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -37,8 +39,8 @@ public abstract class Item {
 	private int stockQuantity;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CATEGORY_ID")
-	private CategoryItem categoryItem;
+	@CollectionTable(name = "ITEM_CATEGORY", joinColumns = @JoinColumn(name = "ITEM_ID"))
+	private Set<Long> categoryIds;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SELLER_ID")
@@ -83,7 +85,23 @@ public abstract class Item {
 		this.setQuantityState(QuantityState.Limited);
 	}
 
+	public void verifyOrderable() {
+		if(!canOrderable()){
+			throw new IllegalStateException();
+		}
 
+	}
 
+	public boolean canOrderable() {
+		if (quantityState == QuantityState.Limited){
+			if(stockQuantity > 0){
+				return true;
+			}
+		}
+		if (quantityState == QuantityState.Unlimited){
+			return true;
+		}
+		return false;
+	}
 
 }

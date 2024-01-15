@@ -1,4 +1,4 @@
-package webshop.domain;
+package webshop.User.domain.Member;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import webshop.common.jpa.EmailConverter;
 import webshop.common.model.Email;
+import webshop.domain.Review;
+import webshop.User.domain.Seller.Seller;
 import webshop.order.command.domain.Order;
 
 @Getter
