@@ -31,13 +31,16 @@ public class MailServiceTest {
         greenMail = new GreenMail(ServerSetupTest.SMTP);
         greenMail.start();
 
+
+
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("localhost");
         mailSender.setPort(3025);
 
+        mailService = new MailService(mailSender);
+
     }
 
-    //TODO
     @Test
     void sendSimpleEmail() throws MessagingException {
         String subject = "subject";
