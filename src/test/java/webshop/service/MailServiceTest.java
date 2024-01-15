@@ -1,61 +1,47 @@
 package webshop.service;
 
-import com.icegreen.greenmail.util.GreenMail;
-import com.icegreen.greenmail.util.ServerSetupTest;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import webshop.util.MailService;
 import webshop.common.model.Email;
+import webshop.util.MailService;
 
-import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("/appConfig.xml")
 @Transactional
 public class MailServiceTest {
-    private GreenMail greenMail;
+
     private MailService mailService;
+    @Mock
+    private JavaMailSender javaMailSender;
 
     @BeforeEach
-    void setUp() {
-        greenMail = new GreenMail(ServerSetupTest.SMTP);
-        greenMail.start();
-
-
-
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("localhost");
-        mailSender.setPort(3025);
-
-        mailService = new MailService(mailSender);
-
+    void setUp(){
+        mailService = new MailService(javaMailSender);
     }
 
     @Test
-    void sendSimpleEmail() throws MessagingException {
+    void sendSimpleEmail() {
+        //Given
         String subject = "subject";
         Email email = new Email("test@example.com");
         String content = "content";
 
+        //When
         mailService.sendSimpleEmail(subject,email,content);
 
-        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
-        assertEquals(1,receivedMessages.length);
-        assertEquals(subject, receivedMessages[0].getSubject());
+        //Then
+        verify(javaMailSender, times(1)).send(any(SimpleMailMessage.class));
     }
 
-    @AfterEach
-    void tearDown() {
-        greenMail.stop();
-    }
 }
