@@ -33,7 +33,7 @@ public class Seller {
 	@JoinColumn(name = "MEMBER_ID")
 	private Member member;
 
-	private boolean blocked;
+
 	
 	@OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
 	private List<Item> sellerItems = new ArrayList<Item>();

@@ -66,6 +66,28 @@ public class MemberServiceTest {
 
     }
 
+    @Test
+    public void Block_Member() throws Exception{
+
+        //Given
+        Member member1 = new Member("kim");
+
+        memberService.join(member1);
+
+        //When
+        member1.block();
+
+        //Then
+        assertEquals(member1.isBlocked(),true);
+
+        //When
+        member1.unblock();
+
+        //Then
+        assertEquals(member1.isBlocked(),false);
+    }
+
+
 
 
 

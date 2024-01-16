@@ -3,6 +3,8 @@ package webshop.User.domain.member;
 import jakarta.persistence.*;
 import lombok.*;
 import webshop.User.domain.seller.Seller;
+import webshop.common.event.Event;
+import webshop.common.event.Events;
 import webshop.common.jpa.EmailConverter;
 import webshop.common.model.Email;
 import webshop.domain.Review;
@@ -28,6 +30,8 @@ public class Member {
 	@Convert(converter = EmailConverter.class)
 	private Email email;
 
+	private boolean blocked;
+
 	public Member(String name) {
 		setName(name);
 	}
@@ -40,5 +44,19 @@ public class Member {
 
 	@OneToMany(mappedBy = "member")
 	private List<Review> reviews = new ArrayList<>();
+
+	public void block() {
+		this.blocked = true;
+		Events.raise(new MemberBlockedEvent(id));
+	}
+
+	public void unblock() {
+		this.blocked = false;
+		Events.raise(new MemberUnblockedEvent(id));
+	}
+
+	public boolean isBlocked() { return blocked; }
+
+
 
 }
