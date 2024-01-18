@@ -16,7 +16,6 @@ import webshop.catalog.command.domain.product.Artwork;
 import webshop.catalog.command.domain.product.Item;
 import webshop.common.model.Money;
 import webshop.exception.NotEnoughStockException;
-import webshop.exception.NotLimitedItemException;
 import webshop.catalog.command.domain.product.ItemRepository;
 
 import java.util.Optional;

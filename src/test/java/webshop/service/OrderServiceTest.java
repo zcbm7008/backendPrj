@@ -7,21 +7,27 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import webshop.User.domain.member.Member;
+import webshop.common.model.Email;
 import webshop.order.command.domain.Order;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.catalog.command.domain.product.Item;
 import webshop.common.model.Money;
 import webshop.exception.NotEnoughStockException;
+import webshop.order.command.domain.OrderItem;
+import webshop.order.command.domain.OrderState;
 import webshop.repository.OrderRepository;
 
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Assertions;
+import webshop.util.MailService;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("/appConfig.xml")
@@ -75,6 +81,30 @@ public class OrderServiceTest {
         Assertions.assertThrows(NotEnoughStockException.class, () -> {
             orderService.order(member.getId(), item.getId(), orderCount);
         }, "재고 수량 부족 예외가 발생해야 합니다."); // "A NotEnoughStockException should be thrown."
+
+    }
+
+    @Test
+    public void Start_Delivering() throws Exception {
+        MailService mailServiceMock = mock(MailService.class);
+        Member member = createMember();
+        member.setEmail(new Email("test@example.com"));
+        Item item = createArtwork("art",new Money(35000),3);
+
+        OrderItem orderItem = new OrderItem();
+        OrderItem.createOrderItem(item,2);
+        Order order = new Order();
+        order.addOrderItem(orderItem);
+        order.setMember(member);
+
+        //When
+        Long orderId = orderService.order(member.getId(), item.getId(), 2);
+        order.setMailService(mailServiceMock);
+        order.startDelivering();
+
+        //Then
+        assertEquals(OrderState.DELIVERING, order.getState());
+        verify(mailServiceMock, times(1)).sendSimpleEmail(anyString(), eq(member.getEmail()), anyString());
 
     }
 

@@ -68,7 +68,7 @@ public class Order {
 	}
 
 	//TODO
-	public void startDeliverying() {
+	public void startDelivering() {
 		this.state = OrderState.DELIVERING;
 		StringBuilder contextBuilder = new StringBuilder();
 		String subject = "상품배송";
@@ -80,9 +80,6 @@ public class Order {
 		}
 		String context = contextBuilder.toString();
 		mailService.sendSimpleEmail(subject,member.getEmail(),context);
-
-
-
 	}
 
 

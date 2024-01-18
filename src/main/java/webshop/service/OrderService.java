@@ -38,7 +38,7 @@ public class OrderService {
                 .orElseThrow(() -> new NoSuchElementException("Item not found with id: " + itemId));
 
 
-        OrderItem orderItem = OrderItem.createOrderItem(findItem, findItem.getPrice(), count);
+        OrderItem orderItem = OrderItem.createOrderItem(findItem, count);
 
         Order order = Order.createOrder(findMember, orderItem);
         orderRepository.save(order);

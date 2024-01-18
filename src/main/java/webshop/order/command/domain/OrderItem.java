@@ -33,15 +33,17 @@ public class OrderItem {
 	private int count;
 
 	//Create Method//
-	public static OrderItem createOrderItem(Item item, Money orderPrice, int count){
+	public static OrderItem createOrderItem(Item item, int count){
 		OrderItem orderItem = new OrderItem();
 		orderItem.setItem(item);
-		orderItem.setOrderPrice(orderPrice);
 		orderItem.setCount(count);
 
 		if(item.getQuantityState() == QuantityState.Limited){
 			item.removeStock(count);
 		}
+
+		orderItem.setOrderPrice(item.getPrice().multiply(count));
+
 		return orderItem;
 	}
 
