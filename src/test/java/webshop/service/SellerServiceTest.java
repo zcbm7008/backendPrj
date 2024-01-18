@@ -123,7 +123,7 @@ public class SellerServiceTest {
         seller1.blockMember();
 
         //Then
-        assertEquals(member1.isBlocked(), true);
+        assertEquals("Member should be blocked",member1.isBlocked(), true);
 
     }
 

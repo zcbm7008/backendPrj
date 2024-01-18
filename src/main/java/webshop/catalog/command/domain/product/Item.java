@@ -74,6 +74,8 @@ public abstract class Item {
 		}
 	}
 
+
+
 	public void addReview(Member member, String comment) {
 		Review review = new Review();
 		review.setMember(member);

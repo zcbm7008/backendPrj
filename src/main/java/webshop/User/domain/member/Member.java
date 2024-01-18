@@ -6,6 +6,7 @@ import webshop.User.domain.seller.Seller;
 import webshop.common.event.Events;
 import webshop.common.jpa.EmailConverter;
 import webshop.common.model.Email;
+import webshop.common.model.Money;
 import webshop.domain.Review;
 import webshop.order.command.domain.Order;
 
@@ -25,6 +26,8 @@ public class Member {
 	private Long id;
 	
 	private String name;
+
+	private Money balance = new Money(0);
 
 	@Convert(converter = EmailConverter.class)
 	private Email email;
@@ -52,8 +55,18 @@ public class Member {
 		this.blocked = false;
 	}
 
+	public void addBalance(Money money){
+		setBalance(balance.add(money));
+	}
+
+	public void subtractBalance(Money money){
+		if (getBalance().getValue() - money.getValue() <0){
+			throw new IllegalStateException("Cannot subtract a larger amount than the current value.");
+		}
+		setBalance(balance.subtract(money));
+
+	}
+
 	public boolean isBlocked() { return blocked; }
-
-
 
 }

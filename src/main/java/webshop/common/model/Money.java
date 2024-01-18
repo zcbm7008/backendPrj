@@ -19,6 +19,13 @@ public class Money {
         return new Money(this.value + money.value);
     }
 
+    public Money subtract(Money money) {
+        if (this.value - money.value < 0){
+            throw new IllegalStateException("Cannot subtract a larger amount than the current value.");
+        }
+        return new Money(this.value - money.value);
+    }
+
     public Money multiply(int multiplier){
         return new Money(this.value * multiplier);
     }
