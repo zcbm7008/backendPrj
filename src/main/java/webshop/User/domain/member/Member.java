@@ -5,6 +5,7 @@ import lombok.*;
 import webshop.User.domain.seller.Seller;
 import webshop.common.event.Events;
 import webshop.common.jpa.EmailConverter;
+import webshop.common.jpa.MoneyConverter;
 import webshop.common.model.Email;
 import webshop.common.model.Money;
 import webshop.domain.Review;
@@ -27,6 +28,7 @@ public class Member {
 	
 	private String name;
 
+	@Convert(converter = MoneyConverter.class)
 	private Money balance = new Money(0);
 
 	@Convert(converter = EmailConverter.class)

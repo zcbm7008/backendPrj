@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import webshop.User.domain.seller.Seller;
 import webshop.catalog.query.product.ItemService;
 import webshop.User.domain.member.Member;
 import webshop.catalog.command.domain.product.Artwork;
@@ -99,6 +100,24 @@ public class ItemServiceTest {
         //Then
         assertEquals(5,item.getStockQuantity());
 
+    }
+
+    @Test
+    public void Sale_Stock() throws Exception{
+
+
+        //Given
+        Member member1 = createMember();
+        Seller seller = new Seller(member1);
+
+        Item item = createArtwork("art", new Money(1000),2);
+        item.setSeller(seller);
+
+        //When
+        item.saleStock(3);
+
+        //Then
+        assertEquals(3000,member1.getBalance().getValue());
     }
 
     private Artwork createArtwork(String name, Money price, int stockQuantity){

@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import webshop.User.domain.member.BalanceAddedEvent;
 import webshop.User.domain.seller.Seller;
+import webshop.common.event.Events;
 import webshop.common.model.Comment;
 import webshop.common.model.Money;
 import webshop.common.jpa.MoneyConverter;
@@ -69,9 +71,11 @@ public abstract class Item {
 			}
 			this.stockQuantity = restStock;
 		}
-		else{
-			throw new NotLimitedItemException("isLimitedQuantity이 False입니다.");
-		}
+	}
+
+	public void saleStock(int quantity){
+		removeStock(quantity);
+		Events.raise(new BalanceAddedEvent(seller.getMember().getId(), price.multiply(quantity)));
 	}
 
 
