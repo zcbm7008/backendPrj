@@ -36,16 +36,11 @@ public class SellerServiceTest {
         //Given
         Member member = createMember("회원1");
 
-        Seller seller1 = new Seller();
+        Seller seller1 = new Seller(member);
         seller1.setName("seller1");
-        Seller seller2 = new Seller();
-        seller2.setName("seller2");
-
-
 
         //When
-        seller1.setMember(member);
-        seller2.setMember(member);
+        Seller seller2 = new Seller(member);
 
         sellerService.join(seller1);
         sellerService.join(seller2);
@@ -65,9 +60,9 @@ public class SellerServiceTest {
         //Given
         Member member = createMember("회원1");
 
-        Seller seller1 = new Seller();
+        Seller seller1 = new Seller(member);
         seller1.setName("seller1");
-        Seller seller2 = new Seller();
+        Seller seller2 = new Seller(member);
         seller2.setName("seller2");
 
         Artwork item1 = createArtwork("art1",new Money(25000),1);
@@ -95,11 +90,11 @@ public class SellerServiceTest {
 
         //Given
         Member member1 = createMember("회원1");
-        Seller seller1 = new Seller();
+        Seller seller1 = new Seller(member1);
         seller1.setName("seller1");
 
         Member member2 = createMember("회원2");
-        Seller seller2 = new Seller();
+        Seller seller2 = new Seller(member2);
         seller2.setName("seller1");
 
         //When
@@ -113,6 +108,25 @@ public class SellerServiceTest {
 
 
     }
+
+    @Test
+    public void Block_Seller_Member() throws Exception {
+
+        //Given
+        Member member1 = createMember("회원1");
+        Seller seller1 = new Seller(member1);
+        seller1.setName("seller1");
+
+        sellerService.join(seller1);
+
+        //When
+        seller1.blockMember();
+
+        //Then
+        assertEquals(member1.isBlocked(), true);
+
+    }
+
 
     private Member createMember(String name) {
         Member member = new Member(name);

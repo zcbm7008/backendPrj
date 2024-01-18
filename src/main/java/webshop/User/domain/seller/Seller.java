@@ -13,14 +13,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.*;
+import webshop.User.domain.member.MemberBlockedEvent;
 import webshop.catalog.command.domain.product.Item;
 import webshop.User.domain.member.Member;
+import webshop.common.event.Events;
 
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Seller {
 	@Id @GeneratedValue
@@ -32,6 +33,10 @@ public class Seller {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MEMBER_ID")
 	private Member member;
+
+	public Seller(Member member){
+		setMember(member);
+	}
 
 
 	
@@ -48,21 +53,8 @@ public class Seller {
 		sellerItem.setSeller(this);
 	}
 
-	//Create Method//
-//	public static Seller createSeller(Member member, Item... sellerItems){
-//		if (member == null) {
-//			throw new IllegalArgumentException("Member cannot be null");
-//		}
-//
-//		Seller seller = new Seller();
-//		seller.setMember(member); // 멤버 설정
-//
-//		for (Item sellerItem : sellerItems){
-//			seller.addSellerItem(sellerItem);
-//		}
-//
-//
-//		return seller;
-//	}
+	public void blockMember(){
+		Events.raise(new MemberBlockedEvent(this.member.getId()));
+	}
 	
 }

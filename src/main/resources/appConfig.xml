@@ -9,7 +9,7 @@
 
     <tx:annotation-driven/>
 
-    <context:component-scan base-package="webshop.service,webshop.repository, webshop.catalog"/>
+    <context:component-scan base-package="webshop.service,webshop.repository, webshop.catalog, webshop.common, webshop.user"/>
 
     <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
@@ -27,7 +27,7 @@
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="webshop.domain, webshop.catalog, webshop.order, webshop.common, webshop.User"/> <!-- @Entity 탐색 시작 위치 -->
+        <property name="packagesToScan" value="webshop.domain, webshop.catalog, webshop.order, webshop.common, webshop.user"/> <!-- @Entity 탐색 시작 위치 -->
         <property name="jpaVendorAdapter">
             <!-- 하이버네이트 구현체 사용 -->
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
