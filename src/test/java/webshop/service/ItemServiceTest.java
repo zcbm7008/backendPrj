@@ -64,16 +64,16 @@ public class ItemServiceTest {
         assertEquals(item.getReviews().get(0).getComment().getValue(), "this is good");
     }
     @Test
-    public void Limited_Item_Check() throws Exception {
+    public void Orderable_Item_Check() throws Exception {
 
         //Given
         Item item = createArtwork("art", new Money(1000),2);
 
         //When
+        item.setDiscontinued();
 
         //Then
-        assertThrows (NotLimitedItemException.class, () -> {item.removeStock(1); }, "LimitedItem은 removeStock 사용 불가");
-        assertThrows (NotLimitedItemException.class, () -> {item.addStock(5);}, "LimitedItem은 AddStock 사용 불가");
+        assertThrows (IllegalStateException.class, () -> {item.saleStock(1); }, "Discontinued Item can not be orderable");
     }
 
     @Test

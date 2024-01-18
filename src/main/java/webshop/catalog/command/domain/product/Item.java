@@ -74,8 +74,13 @@ public abstract class Item {
 	}
 
 	public void saleStock(int quantity){
+		if (!canOrderable())
+		{
+			throw new IllegalStateException("This item is not Orderable");
+		}
 		removeStock(quantity);
 		Events.raise(new BalanceAddedEvent(seller.getMember().getId(), price.multiply(quantity)));
+
 	}
 
 
@@ -90,6 +95,8 @@ public abstract class Item {
 	public void setLimited() {
 		this.setQuantityState(QuantityState.Limited);
 	}
+	public void setUnLimited(){ this.setQuantityState(QuantityState.Unlimited);}
+	public void setDiscontinued() {this.setQuantityState(QuantityState.Discontinued);}
 
 	public void verifyOrderable() {
 		if(!canOrderable()){
