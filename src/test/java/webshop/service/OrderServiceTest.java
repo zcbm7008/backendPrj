@@ -4,6 +4,8 @@ package webshop.service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import webshop.User.domain.member.Member;
 import webshop.common.model.Email;
+import webshop.order.command.domain.EmailSendingException;
 import webshop.order.command.domain.Order;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.catalog.command.domain.product.Item;
@@ -23,8 +26,9 @@ import webshop.repository.OrderRepository;
 
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.*;
+import static webshop.order.command.domain.QOrder.order;
 
 import org.junit.jupiter.api.Assertions;
 import webshop.util.MailService;
@@ -41,6 +45,27 @@ public class OrderServiceTest {
     OrderService orderService;
     @Autowired
     OrderRepository orderRepository;
+
+    private MailService mailServiceMock;
+    private Member member;
+    private Order order;
+
+    @BeforeEach
+    public void setup() {
+        mailServiceMock = mock(MailService.class);
+        member = createMember();
+        member.setEmail(new Email("test@example.com"));
+        Item item = createArtwork("art",new Money(35000),3);
+
+        OrderItem orderItem = new OrderItem();
+        OrderItem.createOrderItem(item,2);
+
+        order = new Order();
+        order.addOrderItem(orderItem);
+        order.setMember(member);
+        order.setMailService(mailServiceMock);
+    }
+
 
     @Test
     public void Item_Order() throws Exception{
@@ -86,26 +111,26 @@ public class OrderServiceTest {
 
     @Test
     public void Start_Delivering() throws Exception {
-        MailService mailServiceMock = mock(MailService.class);
-        Member member = createMember();
-        member.setEmail(new Email("test@example.com"));
-        Item item = createArtwork("art",new Money(35000),3);
-
-        OrderItem orderItem = new OrderItem();
-        OrderItem.createOrderItem(item,2);
-        Order order = new Order();
-        order.addOrderItem(orderItem);
-        order.setMember(member);
-
-        //When
-        Long orderId = orderService.order(member.getId(), item.getId(), 2);
-        order.setMailService(mailServiceMock);
         order.startDelivering();
 
         //Then
-        assertEquals(OrderState.DELIVERING, order.getState());
         verify(mailServiceMock, times(1)).sendSimpleEmail(anyString(), eq(member.getEmail()), anyString());
+        assertEquals(OrderState.DELIVERY_COMPLETED, order.getState());
+    }
 
+    @Test
+    public void startDelivering_Failure() throws Exception{
+        // Mocking
+
+
+        //When
+
+        doThrow(new EmailSendingException()).when(mailServiceMock).sendSimpleEmail(anyString(), eq(member.getEmail()), anyString());
+
+        order.startDelivering();
+
+        //Then
+        assertNotEquals(OrderState.DELIVERY_COMPLETED, order.getState());
     }
 
 

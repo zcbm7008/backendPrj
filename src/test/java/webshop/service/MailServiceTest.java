@@ -12,9 +12,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import webshop.common.model.Email;
+import webshop.order.command.domain.OrderState;
 import webshop.util.MailService;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
+import static webshop.order.command.domain.QOrder.order;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("/appConfig.xml")
@@ -42,6 +45,7 @@ public class MailServiceTest {
 
         //Then
         verify(javaMailSender, times(1)).send(any(SimpleMailMessage.class));
+
     }
 
 }

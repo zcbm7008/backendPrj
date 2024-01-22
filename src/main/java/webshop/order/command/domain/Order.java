@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -68,6 +69,7 @@ public class Order {
 	}
 
 	//TODO
+	@Transactional
 	public void startDelivering() {
 		this.state = OrderState.DELIVERING;
 		StringBuilder contextBuilder = new StringBuilder();
@@ -79,7 +81,13 @@ public class Order {
 
 		}
 		String context = contextBuilder.toString();
-		mailService.sendSimpleEmail(subject,member.getEmail(),context);
+		try{
+			mailService.sendSimpleEmail(subject,member.getEmail(),context);
+			this.state = OrderState.DELIVERY_COMPLETED;
+		} catch(EmailSendingException e){
+
+		}
+
 	}
 
 

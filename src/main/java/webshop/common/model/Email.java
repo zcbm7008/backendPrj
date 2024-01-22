@@ -11,7 +11,7 @@ public class Email {
 
     public Email(String value) {
         if(value == null || value.trim().isEmpty()){
-            throw new IllegalArgumentException("Comment cannot be null or empty");
+            throw new IllegalArgumentException("Email cannot be null or empty");
         }
         this.value = value;
     }
