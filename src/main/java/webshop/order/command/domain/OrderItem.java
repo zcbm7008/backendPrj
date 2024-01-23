@@ -42,7 +42,7 @@ public class OrderItem {
 			item.removeStock(count);
 		}
 
-		orderItem.setOrderPrice(item.getPrice().multiply(count));
+		orderItem.setOrderPrice(item.getPrice());
 
 		return orderItem;
 	}
@@ -50,6 +50,7 @@ public class OrderItem {
 	//Business Logic//
 	public Money getTotalPrice() {
 		return orderPrice.multiply(count);
+
 	}
 
 }

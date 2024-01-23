@@ -49,13 +49,14 @@ public class OrderServiceTest {
     private MailService mailServiceMock;
     private Member member;
     private Order order;
+    private Item item;
 
     @BeforeEach
     public void setup() {
         mailServiceMock = mock(MailService.class);
         member = createMember();
         member.setEmail(new Email("test@example.com"));
-        Item item = createArtwork("art",new Money(35000),3);
+        item = createArtwork("art",new Money(35000),3);
 
         OrderItem orderItem = new OrderItem();
         OrderItem.createOrderItem(item,2);
@@ -71,8 +72,6 @@ public class OrderServiceTest {
     public void Item_Order() throws Exception{
 
         //Given
-        Member member = createMember();
-        Item item = createArtwork("art",new Money(35000),3);
         item.setLimited();
         int orderCount = 2;
 
@@ -83,9 +82,10 @@ public class OrderServiceTest {
         Order getOrder = orderRepository.findById(orderId)
                 .orElseThrow(() -> new AssertionError("Order not found"));
 
+        System.out.println(getOrder.getOrderItems().get(0).getCount());
 
         assertEquals("주문한 상품 종류 수가 정확해야 한다.",1,getOrder.getOrderItems().size());
-        assertEquals("주문 가격은 가격 * 수량이다.",35000 * 2,getOrder.getTotalPrice());
+        assertEquals("주문 가격은 가격 * 수량이다.",35000 * orderCount,getOrder.getTotalPrice().getValue());
         assertEquals("주문 수량만큼 재고가 줄어야 한다.",1,item.getStockQuantity());
 
     }
@@ -94,8 +94,6 @@ public class OrderServiceTest {
     public void ItemOrder_NotEnoughStock() throws Exception {
 
         //Given
-        Member member = createMember();
-        Item item = createArtwork("art",new Money(35000),3);
         item.setLimited();
 
         int orderCount = 10;

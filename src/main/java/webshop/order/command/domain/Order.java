@@ -60,12 +60,12 @@ public class Order {
 	}
 
 	//Business Logic//
-	public int getTotalPrice() {
+	public Money getTotalPrice() {
 		Money totalPrice = new Money(0);
 		for(OrderItem orderItem : orderItems){
 			totalPrice = totalPrice.add(orderItem.getTotalPrice());
 		}
-		return totalPrice.getValue();
+		return totalPrice;
 	}
 
 	//TODO
