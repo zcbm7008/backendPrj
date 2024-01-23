@@ -7,8 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.transaction.TestTransaction;
 import webshop.User.domain.seller.Seller;
 import webshop.catalog.query.product.ItemService;
 import webshop.User.domain.member.Member;
@@ -32,6 +35,8 @@ public class ItemServiceTest {
     ItemRepository itemRepository;
     @Autowired
     ItemService itemService;
+
+
 
     @Test
     public void saveItem() throws Exception{
@@ -101,22 +106,53 @@ public class ItemServiceTest {
 
     }
 
-    @Test
-    public void Sale_Stock() throws Exception{
 
+    @Test
+    @Commit
+    public void Sale_Stock() throws Exception{
 
         //Given
         Member member1 = createMember();
         Seller seller = new Seller(member1);
 
+        em.persist(seller);
+
         Item item = createArtwork("art", new Money(1000),2);
-        item.setSeller(seller);
+        seller.addSellerItem(item);
 
         //When
         item.saleStock(3);
 
+        TestTransaction.end();
+        TestTransaction.start();
+
         //Then
         assertEquals(3000,member1.getBalance().getValue());
+    }
+
+    @Test
+    @Commit
+    public void Sale_Stock_Rollback() throws Exception{
+
+        //Given
+        Member member1 = createMember();
+        Seller seller = new Seller(member1);
+
+        em.persist(seller);
+
+
+        Item item = createArtwork("art", new Money(1000),2);
+        seller.addSellerItem(item);
+
+        item.saleStock(3);
+        //When
+        TestTransaction.flagForRollback();
+
+        //Then
+        TestTransaction.end();
+        TestTransaction.start();
+
+        assertEquals(0,member1.getBalance().getValue());
     }
 
     private Artwork createArtwork(String name, Money price, int stockQuantity){

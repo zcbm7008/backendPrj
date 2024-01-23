@@ -1,9 +1,11 @@
 package webshop.catalog.command.domain.product;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.transaction.annotation.Propagation;
 import webshop.User.domain.member.BalanceAddedEvent;
 import webshop.User.domain.seller.Seller;
 import webshop.common.event.Events;
@@ -63,25 +65,39 @@ public abstract class Item {
 			throw new NotLimitedItemException("isLimitedQuantity이 False입니다.");
 		}
 	}
+
+	@Transactional
 	public void removeStock(int quantity){
 		if(quantityState == QuantityState.Limited){
-			int restStock = this.stockQuantity - quantity;
-			if(restStock < 0){
+			if(this.stockQuantity - quantity < 0){
 				throw new NotEnoughStockException("need more stock");
 			}
-			this.stockQuantity = restStock;
+			this.stockQuantity = this.stockQuantity - quantity;
 		}
 	}
 
+	@Transactional
 	public void saleStock(int quantity){
+
 		if (!canOrderable())
 		{
 			throw new IllegalStateException("This item is not Orderable");
 		}
+
+		if(quantityState == QuantityState.Limited) {
+			if (this.stockQuantity - quantity < 0) {
+				throw new NotEnoughStockException("need more stock");
+			}
+
+		}
+
 		removeStock(quantity);
+
 		Events.raise(new BalanceAddedEvent(seller.getMember().getId(), price.multiply(quantity)));
 
 	}
+
+
 
 
 
@@ -92,9 +108,7 @@ public abstract class Item {
 		review.setItem(this);
 	}
 
-	public void setLimited() {
-		this.setQuantityState(QuantityState.Limited);
-	}
+	public void setLimited() { this.setQuantityState(QuantityState.Limited);}
 	public void setUnLimited(){ this.setQuantityState(QuantityState.Unlimited);}
 	public void setDiscontinued() {this.setQuantityState(QuantityState.Discontinued);}
 
@@ -111,10 +125,7 @@ public abstract class Item {
 				return true;
 			}
 		}
-		if (quantityState == QuantityState.Unlimited){
-			return true;
-		}
-		return false;
-	}
+        return quantityState == QuantityState.Unlimited;
+    }
 
 }

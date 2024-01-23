@@ -6,8 +6,8 @@ import webshop.common.model.Money;
 
 @Getter
 public class BalanceAddedEvent extends Event {
-    private final Long memberId;
-    private final Money money;
+    private Long memberId;
+    private Money money;
 
     public BalanceAddedEvent(Long memberId, Money money){
         super();

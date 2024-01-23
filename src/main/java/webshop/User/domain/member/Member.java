@@ -58,14 +58,15 @@ public class Member {
 	}
 
 	public void addBalance(Money money){
-		setBalance(balance.add(money));
+		setBalance(getBalance().add(money));
+		System.out.println(getBalance().getValue());
 	}
 
 	public void subtractBalance(Money money){
 		if (getBalance().getValue() - money.getValue() <0){
 			throw new IllegalStateException("Cannot subtract a larger amount than the current value.");
 		}
-		setBalance(balance.subtract(money));
+		setBalance(this.getBalance().subtract(money));
 
 	}
 
