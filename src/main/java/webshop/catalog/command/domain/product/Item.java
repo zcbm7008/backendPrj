@@ -78,6 +78,7 @@ public abstract class Item {
 
 	@Transactional
 	public void saleStock(int quantity){
+		System.out.println("Start saleStock");
 
 		if (!canOrderable())
 		{
@@ -92,8 +93,11 @@ public abstract class Item {
 		}
 
 		removeStock(quantity);
-
+		System.out.println("Start Event");
 		Events.raise(new BalanceAddedEvent(seller.getMember().getId(), price.multiply(quantity)));
+		System.out.println("End Event");
+
+		System.out.println("End saleStock");
 
 	}
 

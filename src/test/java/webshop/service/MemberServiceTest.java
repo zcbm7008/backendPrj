@@ -1,16 +1,25 @@
 package webshop.service;
 
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import jakarta.transaction.Transactional;
+import org.springframework.test.context.transaction.TestTransaction;
+import webshop.User.domain.member.BalanceAddedEvent;
+import webshop.User.domain.member.BalanceSubtractedEvent;
 import webshop.User.domain.member.Member;
+import webshop.common.event.Events;
+import webshop.common.model.Money;
+import webshop.exception.NegativeBalanceException;
 import webshop.repository.MemberRepository;
 
 import java.util.Optional;
@@ -27,14 +36,10 @@ public class MemberServiceTest {
     MemberRepository memberRepository;
 
     @Autowired
-	MemberService memberService;
+    MemberService memberService;
 
-
-
-
-	
     @Test
-    public void SignUp() throws Exception {
+    public void Member_SignUp() throws Exception {
 
         //Given
         Member member = new Member("Kim");
@@ -48,7 +53,7 @@ public class MemberServiceTest {
     }
 
     @Test
-    public void Duplicated_member_exception() throws Exception{
+    public void Duplicated_member_exception() throws Exception {
 
         //Given
         Member member1 = new Member("Kim");
@@ -61,9 +66,80 @@ public class MemberServiceTest {
         //Then
         assertThrows(IllegalStateException.class, () -> {
             memberService.join(member2);
-        }, "중복 예외 발생");
-        
+        }, "Duplicate exception thrown");
 
+
+    }
+
+    @Test
+    public void Member_Balance_Added() throws Exception {
+
+        //Given
+        Member member1 = new Member("Kim");
+
+        member1.setBalance(new Money(5000));
+
+        memberService.join(member1);
+
+        //When
+        member1.addBalance(new Money(5000));
+        //Then
+        assertEquals(10000, member1.getBalance().getValue());
+
+    }
+
+    @Test
+    public void Member_Balance_Subtracted() throws Exception {
+
+        //Given
+        Member member1 = new Member("Kim");
+
+        member1.setBalance(new Money(5000));
+
+        memberService.join(member1);
+
+        //When
+        member1.subtractBalance(new Money(2000));
+
+        //Then
+        assertEquals(3000, member1.getBalance().getValue());
+    }
+
+    @Test
+    public void Negative_Balance_Exception() throws Exception {
+        //Given
+        Member member1 = new Member("Kim");
+
+        member1.setBalance(new Money(5000));
+
+        memberService.join(member1);
+
+        //When
+        assertThrows(NegativeBalanceException.class, () -> {
+            member1.subtractBalance(new Money(9000));
+        }, "NegativeBalanceException thrown");
+    }
+
+    @Test
+    public void Member_Balance_Added_or_Subtracted_Zero() throws Exception {
+        //Given
+        Member member1 = new Member("Kim");
+
+        member1.setBalance(new Money(5000));
+
+        memberService.join(member1);
+
+        //When
+        member1.subtractBalance(new Money(0));
+
+        //Then
+        assertEquals(5000, member1.getBalance().getValue());
+
+        //When
+        member1.addBalance(new Money(0));
+
+        //Then
+        assertEquals(5000, member1.getBalance().getValue());
     }
 
     @Test
@@ -86,10 +162,4 @@ public class MemberServiceTest {
         //Then
         assertEquals(member1.isBlocked(),false);
     }
-
-
-
-
-
-
 }

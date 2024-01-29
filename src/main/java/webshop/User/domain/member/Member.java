@@ -9,6 +9,7 @@ import webshop.common.jpa.MoneyConverter;
 import webshop.common.model.Email;
 import webshop.common.model.Money;
 import webshop.domain.Review;
+import webshop.exception.NegativeBalanceException;
 import webshop.order.command.domain.Order;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Member {
 	@Id @GeneratedValue
 	@Column(name = "MEMBER_ID")
 	private Long id;
-	
+
 	private String name;
 
 	@Convert(converter = MoneyConverter.class)
@@ -57,14 +58,14 @@ public class Member {
 		this.blocked = false;
 	}
 
+
 	public void addBalance(Money money){
 		setBalance(getBalance().add(money));
-		System.out.println(getBalance().getValue());
 	}
 
 	public void subtractBalance(Money money){
 		if (getBalance().getValue() - money.getValue() <0){
-			throw new IllegalStateException("Cannot subtract a larger amount than the current value.");
+			throw new NegativeBalanceException("Cannot subtract a larger amount than the current value.");
 		}
 		setBalance(this.getBalance().subtract(money));
 

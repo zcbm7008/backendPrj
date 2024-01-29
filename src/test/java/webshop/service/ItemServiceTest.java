@@ -123,9 +123,11 @@ public class ItemServiceTest {
         //When
         item.saleStock(3);
 
+        System.out.println(member1.getBalance().getValue());
+
+
         TestTransaction.end();
         TestTransaction.start();
-
         //Then
         assertEquals(3000,member1.getBalance().getValue());
     }
