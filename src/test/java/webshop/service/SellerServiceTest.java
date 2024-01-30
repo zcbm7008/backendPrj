@@ -127,6 +127,28 @@ public class SellerServiceTest {
 
     }
 
+    @Test
+    public void blockedSellerCannotAddItems() throws Exception {
+        //Given
+        Member member1 = createMember("회원1");
+        Seller seller1 = new Seller(member1);
+        seller1.setName("seller1");
+
+        sellerService.join(seller1);
+
+        Artwork item1 = createArtwork("art1",new Money(25000),1);
+
+        //When
+        seller1.blockMember();
+
+        //Then
+
+        assertThrows(IllegalStateException.class, () -> {
+            sellerService.addItemToSeller(seller1.getId(), item1.getId());
+        }, "Blocked seller cannot add items");
+    }
+
+
 
     private Member createMember(String name) {
         Member member = new Member(name);

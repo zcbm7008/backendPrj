@@ -9,7 +9,7 @@
 
     <tx:annotation-driven/>
 
-    <context:component-scan base-package="webshop.service,webshop.repository, webshop.catalog, webshop.common, webshop.user"/>
+    <context:component-scan base-package="webshop.service,webshop.repository, webshop.catalog, webshop.common, webshop.user,webshop.storage"/>
 
     <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource">
         <property name="driverClassName" value="org.h2.Driver"/>

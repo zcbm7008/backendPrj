@@ -95,6 +95,13 @@
 			<version>5.0.0</version>
 			<classifier>jakarta</classifier>
 		</dependency>
+		<!-- Spring Cloud GCP Starter Storage -->
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-storage</artifactId>
+			<version>2.32.1</version>
+		</dependency>
+
 	</dependencies>
 
 	

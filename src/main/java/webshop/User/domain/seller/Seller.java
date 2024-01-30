@@ -48,12 +48,27 @@ public class Seller {
 	}
 
 	public void addSellerItem(Item sellerItem) {
+		verifySellableState();
 		sellerItems.add(sellerItem);
 		sellerItem.setSeller(this);
+	}
+
+
+	private void verifySellableState() {
+		verifyNotBlocked();
+	}
+
+
+	private void verifyNotBlocked() {
+		if (this.getMember().isBlocked()){
+			throw new IllegalStateException(this.getMember().getId()+ " is blocked");
+		}
 	}
 
 	public void blockMember(){
 		Events.raise(new MemberBlockedEvent(this.member.getId()));
 	}
+
+
 	
 }

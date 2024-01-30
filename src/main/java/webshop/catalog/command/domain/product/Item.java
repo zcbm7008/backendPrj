@@ -17,6 +17,7 @@ import webshop.exception.NotEnoughStockException;
 import webshop.exception.NotLimitedItemException;
 import webshop.User.domain.member.Member;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -53,6 +54,12 @@ public abstract class Item {
 	private ContentType contentType;
 
 	private String Content;
+
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+	orphanRemoval = true, fetch = FetchType.LAZY)
+	@JoinColumn(name = "ITEM_ID")
+	@OrderColumn(name = "LIST_IDX")
+	private List<Image> images = new ArrayList<>();
 
 
 	@OneToMany(mappedBy = "item")
