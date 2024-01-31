@@ -1,9 +1,9 @@
 package webshop.storage;
 
 import com.google.cloud.storage.*;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,13 +11,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @NoArgsConstructor
-@Service
-public class GoogleCloudStorage {
-    String bucketName = "backendprj-bucket-1";
-    String projectId = "analog-arbor-376803";
+@Component
+public class GoogleCloudStorage implements CloudStorage {
+    String bucketName = System.getenv("LOCAL_BUCKET_NAME");
+    String projectId = System.getenv("LOCAL_PROJECT_ID");
     Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
 
-    public void uploadImage(String objectName, String extension,String filePath) throws IOException {
+    public void uploadObject(String objectName, String extension,String filePath) throws IOException {
 
         objectName = objectName + "." +extension;
 
@@ -39,6 +39,7 @@ public class GoogleCloudStorage {
 
         System.out.println(
                 "File " + filePath + " uploaded to bucket " + bucketName + " as " + objectName);
+
     }
 
     public void downloadObject(String objectName, String destFilePath){
