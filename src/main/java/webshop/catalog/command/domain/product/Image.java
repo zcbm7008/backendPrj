@@ -35,7 +35,6 @@ public class Image {
     public String getUrl() {
 
         String storageUrl = "https://storage.googleapis.com/";
-
         String bucketName = System.getenv("LOCAL_BUCKET_NAME");
 
         System.out.println(bucketName);
