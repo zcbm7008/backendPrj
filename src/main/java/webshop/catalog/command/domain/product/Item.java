@@ -119,6 +119,10 @@ public abstract class Item {
 		review.setItem(this);
 	}
 
+	public void addImage(Image image) {
+		this.getImages().add(image);
+	}
+
 
 
 

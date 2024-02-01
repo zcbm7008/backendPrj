@@ -78,9 +78,9 @@ public class StorageService {
             return newFileName;
             
         } finally {
-//            if(tempFile != null && tempFile.exists()){
-//                tempFile.delete();
-//            }
+            if(tempFile != null && tempFile.exists()){
+                tempFile.delete();
+            }
         }
 
     }

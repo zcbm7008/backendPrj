@@ -2,13 +2,16 @@ package webshop.catalog.command.domain.product;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import webshop.storage.StorageType;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "IMAGE")
-@Getter
+
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +25,11 @@ public class Image {
     private LocalDateTime uploadTime;
 
     StorageType storageType;
+
+    @ManyToOne
+    @JoinColumn(name = "item_id")
+    private Item item;
+
 
     protected Image() {
 

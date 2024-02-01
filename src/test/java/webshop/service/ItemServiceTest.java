@@ -4,6 +4,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.transaction.TestTransaction;
 import webshop.User.domain.seller.Seller;
+import webshop.catalog.command.domain.product.Image;
 import webshop.catalog.query.product.ItemService;
 import webshop.User.domain.member.Member;
 import webshop.catalog.command.domain.product.Artwork;
@@ -39,7 +42,7 @@ public class ItemServiceTest {
 
 
     @Test
-    public void saveItem() throws Exception{
+    public void shouldSaveItem() throws Exception{
 
         //Given
         Item item = createArtwork("art",new Money(35000),0);
@@ -56,7 +59,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void Add_Review() throws Exception {
+    public void shouldAddReviewToItem() throws Exception {
         //Given
         Member member = new Member("Kim");
         Item item = createArtwork("art", new Money(1000),2);
@@ -67,6 +70,20 @@ public class ItemServiceTest {
         assertEquals(item.getReviews().size(), 1);
         assertEquals(item.getReviews().get(0).getComment().getValue(), "this is good");
     }
+
+    @Test
+    public void shouldAddImageToItem() throws Exception {
+        //Given
+        Image mockImage = mock(Image.class);
+        Item item = createArtwork("art", new Money(1000),2);
+
+        //When
+        item.addImage(mockImage);
+        //Then
+        assertEquals(item.getImages().size(), 1);
+        assertEquals(item.getImages().get(0).getId(), mockImage.getId());
+    }
+
     @Test
     public void Orderable_Item_Check() throws Exception {
 
