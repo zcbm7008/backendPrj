@@ -20,7 +20,6 @@ public class StorageController {
     GoogleCloudStorage googleCloudStorage = new GoogleCloudStorage();
     StorageService storageService = new StorageService(googleCloudStorage);
 
-
     @PostMapping("/upload")
     public String uploadFileToCloud(@RequestParam("files") MultipartFile file) throws IOException{
 

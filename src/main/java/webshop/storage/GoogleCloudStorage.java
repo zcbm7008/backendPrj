@@ -19,7 +19,9 @@ public class GoogleCloudStorage implements CloudStorage {
 
     public void uploadObject(String objectName, String extension,String filePath) throws IOException {
 
+        System.out.println(bucketName);
         BlobId blobId = BlobId.of(bucketName, objectName);
+
 
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/" + extension).build();
 
@@ -54,6 +56,14 @@ public class GoogleCloudStorage implements CloudStorage {
         } catch (IOException e) {
             e.printStackTrace(); // Or handle more gracefully
         }
+    }
+
+    public String getObjectName(String objectName) throws StorageException {
+        Blob blob =
+                storage.get(bucketName, objectName, Storage.BlobGetOption.fields(Storage.BlobField.values()));
+
+        return blob.getName();
+
     }
 }
 
