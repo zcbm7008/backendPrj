@@ -30,7 +30,7 @@ public class ItemController {
 
     @RequestMapping(value = "items/new", method = RequestMethod.GET)
     public String createForm() {
-        return "items/createItemForm";
+        return "category/createItemForm.html";
     }
 
     @RequestMapping(value = "/items/new", method = RequestMethod.POST)
@@ -40,19 +40,20 @@ public class ItemController {
     }
 
     @RequestMapping("/items/{itemId}")
-    public String detail(@PathVariable("itemId") Long itemId, ModelMap model, HttpServletResponse response) throws IOException{
-        Optional<Item> itemOptional = itemService.findOne(itemId);
-
-        if (itemOptional.isPresent()) {
-            Item item = itemOptional.get();
-            model.addAttribute("item", item);
-            return "itemDetail";
+    public String detail(@PathVariable("itemId") Long itemId,
+                         ModelMap model,
+                         HttpServletResponse response) throws IOException {
+        Optional<Item> item = itemService.findOne(itemId);
+        if (item.isPresent()) {
+            model.addAttribute("item", item.get());
+            return "category/itemDetail";
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
-
     }
+
+
 
     @RequestMapping(value = "/items/{itemId}/edit", method=RequestMethod.GET)
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model){

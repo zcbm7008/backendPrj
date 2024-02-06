@@ -17,7 +17,6 @@ import webshop.User.domain.member.MemberBlockedEvent;
 import webshop.catalog.command.domain.product.Item;
 import webshop.User.domain.member.Member;
 import webshop.common.event.Events;
-import webshop.common.model.Money;
 
 @Getter
 @Setter

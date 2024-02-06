@@ -1,4 +1,4 @@
-package webshop.web;
+package webshop.User.domain.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ public class MemberController {
 
     @RequestMapping(value = "/members/new", method = RequestMethod.GET)
     public String createForm() {
-        return "members/createMemberForm";
+        return "member/createMemberForm";
     }
 
     @RequestMapping(value = "/members/new", method = RequestMethod.POST)

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Item</title>
+</head>
+
+<body>
+<form action="#" th:action="@{/item/save}" th:object="${item}" method="post">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"/>
+    </div>
+    <div>
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price" />
+    </div>
+    <div>
+        <label for="stockQuantity">Stock Quantity:</label>
+        <input type="number" id="stockQuantity" name="stockQuantity"/>
+    </div>
+    <div>
+        <label for="contentType">Content Type:</label>
+        <select id="contentType" name="contentType">
+            <option value="DIGITAL">Digital</option>
+            <option value="PHYSICAL">Physical</option>
+        </select>
+    </div>
+    <div>
+        <label for="content">Content:</label>
+        <textarea id="content" name="content"></textarea>
+    </div>
+    <!-- Category IDs input might need a specific approach based on how you want to handle multiple category selection -->
+    <div>
+        <label for="categoryIds">Category IDs:</label>
+        <input type="text" id="categoryIds" name="categoryIds" placeholder="Comma-separated IDs" />
+    </div>
+    <div>
+        <label for="seller">Seller ID:</label>
+        <input type="text" id="seller" name="seller" placeholder="Seller ID" />
+    </div>
+    <!-- For images, you might want to handle file uploads or list existing images for editing -->
+    <div>
+        <input type="submit" value="Save"/>
+    </div>
+</form>
+</body>
+</html>
