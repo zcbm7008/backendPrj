@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
 import javax.sql.DataSource;
 
 
@@ -25,9 +26,9 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http
+        http.headers(headers -> headers.disable())
             .authorizeRequests()
-            .requestMatchers("/", "/home", "/categories/**", "/products/**").permitAll()
+            .requestMatchers("/", "/home", "/categories/**", "/products/**","/h2-console/**").permitAll()
             .requestMatchers("/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated()
             .and()
@@ -56,9 +57,7 @@ public class WebSecurityConfig {
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select member_id, password, 'true' from member where member_id = ?")
                 .authoritiesByUsernameQuery("select member_id, authority from member_authorities where member_id = ?")
-                .passwordEncoder(passwordEncoder())
-        ;
-
+                .passwordEncoder(passwordEncoder());
         return auth.build();
     }
 
@@ -67,6 +66,7 @@ public class WebSecurityConfig {
         return (web) -> web.ignoring().requestMatchers("/vendor/**",
                 "/api/**",
                 "/images/**",
-                "/favicon.ico");
+                "/favicon.ico",
+                "/h2-console/**");
     }
 }

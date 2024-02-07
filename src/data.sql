@@ -1,0 +1,1 @@
+INSERT INTO MEMBER VALUES (200,FALSE,2,'a@a.com','test2','1234')
