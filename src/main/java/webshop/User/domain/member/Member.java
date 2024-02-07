@@ -35,6 +35,8 @@ public class Member {
 	@Convert(converter = EmailConverter.class)
 	private Email email;
 
+	private String password;
+
 	private boolean blocked;
 
 	public Member(String name) {
@@ -69,6 +71,13 @@ public class Member {
 		}
 		setBalance(this.getBalance().subtract(money));
 
+	}
+
+	public void changePassword(String oldPw, String newPw){
+		if(!password.matches(oldPw)){
+			throw new IdPasswordNotMatchingException();
+		}
+		this.password = newPw;
 	}
 
 	public boolean isBlocked() { return blocked; }

@@ -8,6 +8,7 @@ import webshop.User.domain.member.Member;
 import webshop.repository.MemberRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -29,6 +30,16 @@ public class MemberService {
 			if(!findMembers.isEmpty()) {
 				throw new IllegalStateException("이미 존재하는 회원입니다.");
 			}
+		}
+
+		public Member authenticate(String name, String password){
+			Member member = memberRepository.findOneByName(name).orElseThrow(IllegalStateException::new);
+			if (member != null && member.getPassword().equals(password)){
+				return member;
+			}
+			return null;
+
+
 		}
 
 		public List<Member> findMembers() {

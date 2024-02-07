@@ -18,6 +18,7 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member,Long> {
 	List<Member> findByName(String name);
+	Optional<Member> findOneByName(String name);
 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@QueryHints({
