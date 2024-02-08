@@ -9,11 +9,17 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.savedrequest.NullRequestCache;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Configuration
@@ -24,11 +30,21 @@ public class WebSecurityConfig {
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private UserDetailServiceImpl userDetailService;
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.headers(headers -> headers.disable())
+        http.securityContext(securityContext -> securityContext.securityContextRepository(new CookieSecurityContextRepository(userDetailService)))
+            .headers(AbstractHttpConfigurer::disable)
             .authorizeRequests()
-            .requestMatchers("/", "/home", "/categories/**", "/products/**","/h2-console/**").permitAll()
+            .requestMatchers("/", "/home", "/categories/**", "/products/**","/h2-console/**","/members/new").permitAll()
             .requestMatchers("/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated()
             .and()
@@ -46,18 +62,12 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     public AuthenticationManager authenticationManager(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select member_id, password, 'true' from member where member_id = ?")
-                .authoritiesByUsernameQuery("select member_id, authority from member_authorities where member_id = ?")
-                .passwordEncoder(passwordEncoder());
+                .authoritiesByUsernameQuery("select member_id, authority from member_authorities where member_id = ?");
         return auth.build();
     }
 

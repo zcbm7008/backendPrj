@@ -1,6 +1,7 @@
 package webshop.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -13,15 +14,21 @@ import java.util.Optional;
 @Service
 @Transactional
 public class MemberService {
-		
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
 		@Autowired
 		MemberRepository memberRepository;
 		
 		public Long join(Member member) {
 
 			validateDuplicateMember(member);
+			String encPassword = passwordEncoder.encode(member.getPassword());
+			member.setPassword(encPassword);
 			memberRepository.save(member);
+
 			return member.getId();
+
 		}
 
 		private void validateDuplicateMember(Member member) {

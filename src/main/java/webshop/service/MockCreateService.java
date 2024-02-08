@@ -20,17 +20,8 @@ public class MockCreateService {
 
     @PostConstruct
     public void initCreateMock() {
-        Member member = new Member("테스트회원1");
 
-        memberService.join(member);
 
-        Artwork artwork1 = createArtwork("testart1",new Money(20000),true,10);
-        Artwork artwork2 = createArtwork("testart2",new Money(20000),false,10);
-
-        itemService.saveItem(artwork1);
-        itemService.saveItem(artwork2);
-
-        orderService.order(member.getId(), artwork1.getId(),3);
     }
 
     private Artwork createArtwork(String name, Money price, boolean isLimitedQuantity, int stockQuantity){
