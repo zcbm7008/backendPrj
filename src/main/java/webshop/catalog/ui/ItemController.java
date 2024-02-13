@@ -9,6 +9,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.catalog.command.domain.product.Item;
+import webshop.catalog.command.domain.product.ItemRepository;
 import webshop.catalog.query.product.ItemService;
 
 import java.io.IOException;
@@ -39,6 +40,13 @@ public class ItemController {
         return "redirect:/items";
     }
 
+//    @RequestMapping(value = "items", method = RequestMethod.GET)
+//    public String items(ModelMap model){
+//        List<Item> items = itemRepository.findAll();
+//        model.addAttribute("items", items);
+//        return "item/itemList";
+//    }
+
     @RequestMapping("/items/{itemId}")
     public String detail(@PathVariable("itemId") Long itemId,
                          ModelMap model,
@@ -68,7 +76,7 @@ public class ItemController {
     public String list(Model model) {
         List<Item> items = itemService.findItems();
         model.addAttribute("items",items);
-        return "items/itemList";
+        return "category/itemList";
     }
 
 

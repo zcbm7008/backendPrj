@@ -1,4 +1,4 @@
-package webshop.User.domain.member;
+package webshop.user.domain.member;
 
 import lombok.Getter;
 import lombok.Setter;

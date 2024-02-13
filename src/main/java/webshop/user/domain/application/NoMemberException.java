@@ -1,4 +1,4 @@
-package webshop.User.domain.application;
+package webshop.user.domain.application;
 
 public class NoMemberException extends RuntimeException{
 }

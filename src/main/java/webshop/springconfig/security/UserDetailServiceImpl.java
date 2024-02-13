@@ -1,16 +1,13 @@
 package webshop.springconfig.security;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import webshop.User.domain.member.CustomMemberDetails;
-import webshop.User.domain.member.Member;
+import webshop.user.domain.member.CustomMemberDetails;
+import webshop.user.domain.member.Member;
 import webshop.repository.MemberRepository;
 
 import java.util.ArrayList;

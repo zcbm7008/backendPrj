@@ -3,8 +3,9 @@ package webshop.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import webshop.user.query.seller.SellerDTO;
 import webshop.catalog.query.product.ItemService;
-import webshop.User.domain.seller.Seller;
+import webshop.user.domain.seller.Seller;
 import webshop.catalog.command.domain.product.Item;
 import webshop.repository.MemberRepository;
 import webshop.repository.SellerRepository;
@@ -50,6 +51,10 @@ public class SellerService {
         if(!findSeller.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 판매자 회원입니다.");
         }
+    }
+
+    public List<SellerDTO> getSellersWithMemberName(String MemberName) {
+        return sellerRepository.findSellersWithMemberName(MemberName);
     }
 
 

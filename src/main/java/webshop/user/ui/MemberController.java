@@ -1,11 +1,11 @@
-package webshop.User.domain.ui;
+package webshop.user.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import webshop.User.domain.member.Member;
+import webshop.user.domain.member.Member;
 import webshop.catalog.query.product.ItemService;
 import webshop.service.MemberService;
 

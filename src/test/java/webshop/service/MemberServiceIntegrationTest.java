@@ -10,9 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import jakarta.transaction.Transactional;
-import webshop.User.domain.member.Member;
-import webshop.common.model.Money;
-import webshop.exception.NegativeBalanceException;
+import webshop.user.domain.member.Member;
 import webshop.repository.MemberRepository;
 
 import java.util.Optional;

@@ -1,9 +1,8 @@
-package webshop.User.domain.member;
+package webshop.user.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
-import webshop.User.domain.seller.Seller;
-import webshop.common.event.Events;
+import webshop.user.domain.seller.Seller;
 import webshop.common.jpa.EmailConverter;
 import webshop.common.jpa.MoneyConverter;
 import webshop.common.model.Email;

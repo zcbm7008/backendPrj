@@ -5,11 +5,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import webshop.User.domain.member.Member;
+import webshop.user.domain.member.Member;
 import webshop.repository.MemberRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional

@@ -1,10 +1,9 @@
-package webshop.User.domain.application;
+package webshop.user.domain.application;
 
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import webshop.User.domain.member.Member;
+import webshop.user.domain.member.Member;
 import webshop.common.model.Money;
 import webshop.repository.MemberRepository;
 

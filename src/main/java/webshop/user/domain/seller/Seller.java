@@ -1,4 +1,4 @@
-package webshop.User.domain.seller;
+package webshop.user.domain.seller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.*;
-import webshop.User.domain.member.MemberBlockedEvent;
+import webshop.user.domain.member.MemberBlockedEvent;
 import webshop.catalog.command.domain.product.Item;
-import webshop.User.domain.member.Member;
+import webshop.user.domain.member.Member;
 import webshop.common.event.Events;
 
 @Getter

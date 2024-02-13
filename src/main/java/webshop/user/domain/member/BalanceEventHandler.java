@@ -1,18 +1,13 @@
-package webshop.User.domain.member;
+package webshop.user.domain.member;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
-import webshop.User.domain.application.MemberBalanceService;
-import webshop.User.domain.application.NoMemberException;
-import webshop.repository.MemberRepository;
-import webshop.service.MemberService;
+import webshop.user.domain.application.MemberBalanceService;
 
 @Service
 public class BalanceEventHandler {

@@ -1,6 +1,5 @@
-package webshop.User.domain.member;
+package webshop.user.domain.member;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import webshop.common.event.Event;
 

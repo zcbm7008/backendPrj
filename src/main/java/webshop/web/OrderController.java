@@ -11,7 +11,7 @@ import webshop.order.command.domain.OrderSearch;
 import webshop.catalog.query.product.ItemService;
 import webshop.service.MemberService;
 import webshop.service.OrderService;
-import webshop.User.domain.member.Member;
+import webshop.user.domain.member.Member;
 import webshop.catalog.command.domain.product.Item;
 import webshop.order.command.domain.Order;
 

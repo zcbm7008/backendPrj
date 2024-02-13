@@ -3,7 +3,7 @@ package webshop.repository.custom;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.util.StringUtils;
-import webshop.User.domain.member.QMember;
+import webshop.user.domain.member.QMember;
 import webshop.order.command.domain.Order;
 import webshop.order.command.domain.OrderSearch;
 
