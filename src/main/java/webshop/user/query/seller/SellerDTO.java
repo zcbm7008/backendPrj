@@ -16,11 +16,6 @@ import javax.persistence.Id;
 @Entity
 @Immutable
 public class SellerDTO {
-    @Id
-    private String number;
-
     private Long sellerId;
-
     private String sellerName;
-
 }

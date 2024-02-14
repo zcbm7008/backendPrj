@@ -12,6 +12,6 @@ public interface SellerRepository extends JpaRepository<Seller, Long> {
 
     List<Seller> findByName(String name);
 
-    @Query("SELECT new webshop.user.query.seller.SellerDTO(s.id, m.name) FROM Seller s JOIN s.member m WHERE m.name = :memberName")
+    @Query("SELECT new webshop.user.query.seller.SellerDTO(s.id, s.name) FROM Seller s JOIN s.member m WHERE m.name = :memberName")
     List<SellerDTO> findSellersWithMemberName(@Param("memberName") String MemberName);
 }

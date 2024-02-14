@@ -154,15 +154,21 @@ public class SellerServiceTest {
         //Given
         Member member1 = createMember("회원1");
         Seller seller1 = new Seller(member1);
+        Seller seller2 = new Seller(member1);
+
         seller1.setName("seller1");
+        seller2.setName("seller2");
 
         sellerService.join(seller1);
+        sellerService.join(seller2);
 
         //When
         List<SellerDTO> sellerDTOS = sellerService.getSellersWithMemberName(member1.getName());
 
         //Then
-        assertEquals(1,sellerDTOS.size());
+        assertEquals(2,sellerDTOS.size());
+        assertEquals("seller1", sellerDTOS.get(0).getSellerName());
+        assertEquals("seller2", sellerDTOS.get(1).getSellerName());
     }
 
 
