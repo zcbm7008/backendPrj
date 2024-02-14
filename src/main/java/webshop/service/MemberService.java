@@ -15,13 +15,15 @@ import java.util.List;
 @Transactional
 public class MemberService {
 
+	PasswordEncoder passwordEncoder = WebSecurityConfig.passwordEncoder();
+
 	@Autowired
 	MemberRepository memberRepository;
 		
 		public Long join(Member member) {
 
 			validateDuplicateMember(member);
-			String encPassword = WebSecurityConfig.passwordEncoder().encode(member.getPassword());
+			String encPassword = passwordEncoder.encode(member.getPassword());
 			member.setPassword(encPassword);
 			memberRepository.save(member);
 
