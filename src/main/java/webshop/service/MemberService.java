@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import webshop.springconfig.security.WebSecurityConfig;
 import webshop.user.domain.member.Member;
 import webshop.repository.MemberRepository;
 
@@ -13,16 +14,14 @@ import java.util.List;
 @Service
 @Transactional
 public class MemberService {
-	@Autowired
-	PasswordEncoder passwordEncoder;
 
-		@Autowired
-		MemberRepository memberRepository;
+	@Autowired
+	MemberRepository memberRepository;
 		
 		public Long join(Member member) {
 
 			validateDuplicateMember(member);
-			String encPassword = passwordEncoder.encode(member.getPassword());
+			String encPassword = WebSecurityConfig.passwordEncoder().encode(member.getPassword());
 			member.setPassword(encPassword);
 			memberRepository.save(member);
 

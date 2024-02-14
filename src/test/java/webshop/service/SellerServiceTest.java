@@ -13,6 +13,7 @@ import webshop.user.domain.member.Member;
 import webshop.user.domain.seller.Seller;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.common.model.Money;
+import webshop.user.query.seller.SellerDTO;
 
 import java.util.List;
 
@@ -146,6 +147,22 @@ public class SellerServiceTest {
         assertThrows(IllegalStateException.class, () -> {
             sellerService.addItemToSeller(seller1.getId(), item1.getId());
         }, "Blocked seller cannot add items");
+    }
+
+    @Test
+    public void findSellerByMemberName() throws Exception{
+        //Given
+        Member member1 = createMember("회원1");
+        Seller seller1 = new Seller(member1);
+        seller1.setName("seller1");
+
+        sellerService.join(seller1);
+
+        //When
+        List<SellerDTO> sellerDTOS = sellerService.getSellersWithMemberName(member1.getName());
+
+        //Then
+        assertEquals(1,sellerDTOS.size());
     }
 
 
