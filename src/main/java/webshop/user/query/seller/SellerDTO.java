@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.hibernate.annotations.Immutable;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @NoArgsConstructor
 @AllArgsConstructor

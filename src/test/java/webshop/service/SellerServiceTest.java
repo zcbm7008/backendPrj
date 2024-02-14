@@ -18,6 +18,7 @@ import webshop.user.query.seller.SellerDTO;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
@@ -103,9 +104,7 @@ public class SellerServiceTest {
 
 
         //Then
-        assertThrows(IllegalStateException.class, () -> {
-            sellerService.join(seller2);
-        }, "중복 예외 발생");
+        assertThrows(IllegalStateException.class, () -> sellerService.join(seller2), "중복 예외 발생");
 
 
     }
@@ -124,7 +123,7 @@ public class SellerServiceTest {
         seller1.blockMember();
 
         //Then
-        assertEquals("Member should be blocked",member1.isBlocked(), true);
+        assertTrue("Member should be blocked", member1.isBlocked());
 
     }
 
