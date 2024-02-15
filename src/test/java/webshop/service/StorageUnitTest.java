@@ -1,7 +1,6 @@
 package webshop.service;
 
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -9,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
-import webshop.catalog.command.domain.product.Image;
+import webshop.common.model.Image;
 import webshop.catalog.command.domain.product.ImageRepository;
 import webshop.storage.CloudStorage;
 import webshop.storage.StorageService;
@@ -32,6 +31,8 @@ public class StorageUnitTest {
     @Mock
     private ImageRepository imageRepository;
     Image image;
+
+
 
     @Test
     public void uploadImageTest() throws Exception{

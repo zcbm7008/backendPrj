@@ -9,7 +9,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
-import webshop.catalog.command.domain.product.Image;
+import webshop.common.model.Image;
 import webshop.catalog.command.domain.product.ImageRepository;
 import webshop.storage.GoogleCloudStorage;
 import webshop.storage.StorageService;

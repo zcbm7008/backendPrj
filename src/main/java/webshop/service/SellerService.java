@@ -45,6 +45,13 @@ public class SellerService {
 
     }
 
+    public Seller findById(Long sellerId){
+        Seller seller = sellerRepository.findById(sellerId)
+                .orElseThrow(() -> new NoSuchElementException("Seller not found with id: " + sellerId));
+
+        return seller;
+    }
+
     private void validateDuplicateSeller(Seller seller) {
         List<Seller> findSeller =
                 sellerRepository.findByName(seller.getName());

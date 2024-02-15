@@ -14,7 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.transaction.TestTransaction;
 import webshop.user.domain.seller.Seller;
-import webshop.catalog.command.domain.product.Image;
+import webshop.common.model.Image;
 import webshop.catalog.query.product.ItemService;
 import webshop.user.domain.member.Member;
 import webshop.catalog.command.domain.product.Artwork;

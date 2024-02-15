@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import webshop.common.model.Image;
 import webshop.user.domain.member.BalanceAddedEvent;
 import webshop.user.domain.seller.Seller;
 import webshop.common.event.Events;

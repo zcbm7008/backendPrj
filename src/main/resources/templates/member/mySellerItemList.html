@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>판매자 목록</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="container">
+    <h3>판매자 목록</h3>
+
+    <div class="alert alert-info" role="alert" th:if="${sellers.isEmpty()}">
+        판매자 아이디가 없습니다.
+    </div>
+
+    <ul>
+        <li th:each="cat: ${sellers}" th:if="${!sellers.isEmpty()}">
+            <a th:href="@{/sellers/{sellerId}(sellerId=${seller.id})}" th:text="${seller.name}"></a>
+        </li>
+    </ul>
+
+    <a th:href="@{/my/sellers/new}">판매자 만들기</a>
+</div>
+
+</body>
+</html>

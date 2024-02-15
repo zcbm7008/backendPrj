@@ -30,4 +30,12 @@ public class SellerControllerTest {
                 .andExpect(view().name("member/sellerList"))
                 .andExpect(model().attributeExists("sellers"));
     }
+
+    @Test
+    @WithMockUser
+    public void testNewSellers() throws Exception {
+        mockMvc.perform(get("/my/sellers/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("member/createSellerForm"));
+    }
 }

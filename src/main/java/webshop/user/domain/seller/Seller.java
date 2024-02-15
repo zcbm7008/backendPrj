@@ -3,16 +3,11 @@ package webshop.user.domain.seller;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
+import webshop.common.jpa.ImageConverter;
+import webshop.common.jpa.MoneyConverter;
+import webshop.common.model.Image;
 import webshop.user.domain.member.MemberBlockedEvent;
 import webshop.catalog.command.domain.product.Item;
 import webshop.user.domain.member.Member;
@@ -21,6 +16,7 @@ import webshop.common.event.Events;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class Seller {
@@ -29,7 +25,11 @@ public class Seller {
 	private Long id;
 	
 	private String name;
-	
+
+	@JoinColumn(name = "SELLER_ID")
+	@Convert(converter = ImageConverter.class)
+	private Image image;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MEMBER_ID")
 	private Member member;

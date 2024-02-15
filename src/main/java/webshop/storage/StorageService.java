@@ -4,13 +4,11 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import webshop.catalog.command.domain.product.Image;
-import webshop.catalog.command.domain.product.ImageRepository;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.UUID;
 
 @Setter
@@ -28,7 +26,7 @@ public class StorageService {
         cloudStorage.uploadObject(objectName,extension,filePath);
    }
 
-    public void uploadFileToCloud(MultipartFile file) throws IOException{
+    public String uploadFileToCloud(MultipartFile file) throws IOException{
         if (file.isEmpty()) {
             throw new IOException("File not Found");
         }
@@ -47,6 +45,8 @@ public class StorageService {
 
         // 업로드 서비스 호출
         cloudStorage.uploadObject(newFileName, extension, tempFile.getAbsolutePath());
+
+        return newFileName;
     }
 
     public String uploadImageToCloud(MultipartFile file) throws IOException{
@@ -57,6 +57,11 @@ public class StorageService {
         String originalFileName = file.getOriginalFilename();
         String extension = StringUtils.getFilenameExtension(originalFileName);
         String newFileName = UUID.randomUUID().toString(); // 고유한 파일 이름 생성
+        URL signedURL = generatePutObjectSignedUrl(newFileName);
+
+        if (signedURL == null){
+            throw new IOException("signedURL cannot be created");
+        }
 
         if (extension != null) {
             newFileName += "." + extension;
@@ -76,13 +81,17 @@ public class StorageService {
             cloudStorage.uploadObject(newFileName, extension, tempFile.getAbsolutePath());
 
             return newFileName;
-            
+
         } finally {
             if(tempFile != null && tempFile.exists()){
                 tempFile.delete();
             }
         }
 
+    }
+
+    public URL generatePutObjectSignedUrl(String objectName) {
+        return cloudStorage.generatePutObjectSignedUrl(objectName);
     }
 
     public void downloadObject(String objectName, String destFilePath) throws IOException {

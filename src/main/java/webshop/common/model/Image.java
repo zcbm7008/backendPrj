@@ -1,4 +1,4 @@
-package webshop.catalog.command.domain.product;
+package webshop.common.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,13 +24,6 @@ public class Image {
     @Column(name = "upload_time")
     private LocalDateTime uploadTime;
 
-    StorageType storageType;
-
-    @ManyToOne
-    @JoinColumn(name = "item_id")
-    private Item item;
-
-
     protected Image() {
 
     }
@@ -42,6 +35,7 @@ public class Image {
 
     public String getUrl() {
 
+        //Temp
         String storageUrl = "https://storage.googleapis.com/";
         String bucketName = System.getenv("LOCAL_BUCKET_NAME");
 
