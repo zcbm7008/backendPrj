@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
@@ -14,17 +15,21 @@ import webshop.catalog.command.domain.product.ImageRepository;
 import webshop.storage.GoogleCloudStorage;
 import webshop.storage.StorageService;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 import static com.jayway.jsonpath.internal.path.PathCompiler.fail;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("/appConfig.xml")
@@ -32,7 +37,9 @@ import static org.mockito.Mockito.verify;
 public class StorageIntegrationTest {
     @Autowired
     GoogleCloudStorage googleCloudStorage = new GoogleCloudStorage();
+
     StorageService storageService = new StorageService(googleCloudStorage);
+
     @Autowired
     ImageRepository imageRepository;
     Image image;
@@ -85,6 +92,8 @@ public class StorageIntegrationTest {
         assertEquals("Uploaded image path should match",foundImage.getPath(),storageService.getObjectName(foundImage.getPath()));
 
     }
+
+
 
     @Test
     public void DownloadTest() throws Exception{

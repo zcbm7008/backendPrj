@@ -54,7 +54,7 @@ public class StorageService {
         return newFileName;
     }
 
-    public String createUploadFileName(MultipartFile file) {
+    public String createNewNameForUpload(MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
         String extension = StringUtils.getFilenameExtension(originalFileName);
         String newFileName = UUID.randomUUID().toString(); // 고유한 파일 이름 생성
@@ -76,10 +76,11 @@ public class StorageService {
             throw new IOException("Empty file cannot be uploaded");
         }
 
-        String newFileName = createUploadFileName(file);
+        String newFileName = createNewNameForUpload(file);
 
-        Optional<URL> signedURL = generatePutObjectSignedUrl(newFileName);
-        URL url = signedURL.orElseThrow(() -> new IOException("Signed URL cannot be created for " + newFileName));
+        URL url = generatePutSignedUrl(newFileName);
+
+        System.out.println(url);
 
         try(TempFile tempFile = new TempFile(constructTempFilePath(newFileName))){
             // 임시 파일로 저장
@@ -87,22 +88,12 @@ public class StorageService {
             // 업로드 서비스 호출
             cloudStorage.uploadObject(newFileName, tempFile.getFile().getAbsolutePath());
 
-            System.out.println(tempFile.getFile().getAbsolutePath());
-
             return newFileName;
         }
     }
 
-    public Optional<URL> generatePutObjectSignedUrl(String objectName) {
-
-        URL signedUrl = cloudStorage.generatePutObjectSignedUrl(objectName);
-
-        if (signedUrl != null) {
-            return Optional.of(signedUrl);
-        }
-        else {
-            return Optional.empty();
-        }
+    public URL generatePutSignedUrl(String objectName) {
+            return cloudStorage.generatePutObjectSignedUrl(objectName);
     }
 
     public void downloadObject(String objectName, String destFilePath) throws IOException {
