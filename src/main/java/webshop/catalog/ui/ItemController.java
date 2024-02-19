@@ -11,6 +11,9 @@ import webshop.catalog.command.domain.product.Artwork;
 import webshop.catalog.command.domain.product.Item;
 import webshop.catalog.command.domain.product.ItemRepository;
 import webshop.catalog.query.product.ItemService;
+import webshop.common.model.Money;
+import webshop.user.domain.seller.Seller;
+import webshop.user.domain.seller.SellerService;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,20 +27,37 @@ public class ItemController {
     @Autowired
     ItemService itemService;
 
+    @Autowired
+    SellerService sellerService;
+
     @InitBinder
     public void setAllowedFields(WebDataBinder dataBinder){
         dataBinder.setDisallowedFields("id");
     }
 
-    @RequestMapping(value = "items/new", method = RequestMethod.GET)
-    public String createForm() {
+    @RequestMapping(value = "/my/sellers/{sellerId}/items/new", method = RequestMethod.GET)
+    public String createForm(@PathVariable("sellerId") Long sellerId,Model model) {
+        model.addAttribute("sellerId", sellerId);
         return "category/createItemForm.html";
     }
 
-    @RequestMapping(value = "/items/new", method = RequestMethod.POST)
-    public String create(Artwork item) {
-        itemService.saveItem(item);
-        return "redirect:/items";
+    @RequestMapping(value = "/my/sellers/{sellerId}/items/new", method = RequestMethod.POST)
+    public String create(@PathVariable("sellerId") Long sellerId,ItemDTO item,Model model) {
+        model.addAttribute("sellerId", sellerId);
+
+        Seller seller = sellerService.findById(sellerId);
+
+        Artwork newItem = new Artwork();
+
+        newItem.setName(item.getName());
+        newItem.setPrice(new Money(item.getPrice()));
+        newItem.setContent(item.getContent());
+
+        newItem.setSeller(seller);
+
+        itemService.saveItem(newItem);
+
+        return "redirect:/my/sellers/" + sellerId;
     }
 
 //    @RequestMapping(value = "items", method = RequestMethod.GET)

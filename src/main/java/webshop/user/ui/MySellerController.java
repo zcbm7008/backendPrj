@@ -31,6 +31,7 @@ public class MySellerController {
     public String sellerDetail(@PathVariable("sellerId") Long sellerId, ModelMap modelMap){
         Seller seller = sellerService.findById(sellerId);
 
+
         modelMap.addAttribute("seller", seller);
 
         return "member/sellerDetail";
