@@ -167,8 +167,8 @@ public class SellerServiceTest {
 
         //Then
         assertEquals(2,sellerDTOS.size());
-        assertEquals("seller1", sellerDTOS.get(0).getSellerName());
-        assertEquals("seller2", sellerDTOS.get(1).getSellerName());
+        assertEquals("seller1", sellerDTOS.get(0).getName());
+        assertEquals("seller2", sellerDTOS.get(1).getName());
     }
 
 
