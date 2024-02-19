@@ -16,7 +16,6 @@ import webshop.common.event.Events;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class Seller {
@@ -33,6 +32,10 @@ public class Seller {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MEMBER_ID")
 	private Member member;
+
+	protected Seller(){
+
+	}
 
 	public Seller(Member member){
 		setMember(member);
@@ -52,7 +55,16 @@ public class Seller {
 		sellerItem.setSeller(this);
 	}
 
+	public void validateSeller(){
+			verifyHasMember();
+			verifyNotBlocked();
+	}
 
+	public void verifyHasMember(){
+		if(this.getMember() == null){
+			throw new IllegalStateException("seller has no member");
+		}
+	}
 	private void verifySellableState() {
 		verifyNotBlocked();
 	}
@@ -66,6 +78,10 @@ public class Seller {
 
 	public void blockMember(){
 		Events.raise(new MemberBlockedEvent(this.member.getId()));
+	}
+
+	public String getSellerImageUrl() {
+		return this.image.getUrl();
 	}
 
 

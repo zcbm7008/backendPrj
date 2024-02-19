@@ -1,4 +1,4 @@
-package webshop.service;
+package webshop.user.domain.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import webshop.springconfig.security.WebSecurityConfig;
+import webshop.user.domain.application.NoMemberException;
 import webshop.user.domain.member.Member;
 import webshop.repository.MemberRepository;
 
@@ -45,13 +46,16 @@ public class MemberService {
 				return member;
 			}
 			return null;
+		}
 
-
+		public Member findOneByName(String name){
+            return memberRepository.findOneByName(name).orElseThrow();
 		}
 
 		public List<Member> findMembers() {
 			return memberRepository.findAll();
 	}
+
 
 		
 		

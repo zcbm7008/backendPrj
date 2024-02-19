@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import webshop.order.command.domain.OrderSearch;
 import webshop.catalog.query.product.ItemService;
-import webshop.service.MemberService;
+import webshop.user.domain.member.MemberService;
 import webshop.service.OrderService;
 import webshop.user.domain.member.Member;
 import webshop.catalog.command.domain.product.Item;

@@ -1,13 +1,17 @@
 package webshop.user.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import webshop.common.model.Image;
-import webshop.service.SellerService;
+import webshop.user.domain.member.MemberService;
+import webshop.user.domain.seller.SellerService;
 import webshop.storage.StorageService;
+import webshop.user.domain.member.Member;
 import webshop.user.domain.seller.Seller;
 
 import java.io.IOException;
@@ -15,6 +19,8 @@ import java.io.IOException;
 @Controller
 @SessionAttributes("seller")
 public class SellerController {
+    @Autowired
+    MemberService memberService;
 
     @Autowired
     SellerService sellerService;
@@ -31,13 +37,17 @@ public class SellerController {
     public String createForm() { return "member/createSellerForm";}
 
     @RequestMapping(value = "my/sellers/new", method = RequestMethod.POST)
-    public String create(@RequestParam(value = "FileImage") MultipartFile FileImage, Seller seller) throws IOException {
+    public String create(@RequestParam(value = "FileImage") MultipartFile fileImage, Seller seller) throws IOException {
 
-        String fileName = storageService.uploadImageToCloud(FileImage);
-//        Image FileImage = new Image(fileName);
-        System.out.println(fileName);
-//        seller.setImage(FileImage);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Member member = memberService.findOneByName(userDetails.getUsername());
+        String fileName = storageService.uploadImageToCloud(fileImage);
 
+        seller.setMember(member);
+        seller.setImage(new Image(fileName));
+
+        // The join process includes validation of the fields in the seller object,
+        // if it contains invalid data, the method may throw an exception.
         sellerService.join(seller);
 
         return "redirect:/";

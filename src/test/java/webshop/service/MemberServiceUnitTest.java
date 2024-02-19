@@ -9,6 +9,7 @@ import webshop.user.domain.member.Member;
 import webshop.common.model.Money;
 import webshop.exception.NegativeBalanceException;
 import webshop.repository.MemberRepository;
+import webshop.user.domain.member.MemberService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -1,6 +1,5 @@
 package webshop.user.ui;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,10 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import webshop.user.domain.seller.Seller;
 import webshop.user.query.seller.SellerDTO;
-import webshop.service.SellerService;
+import webshop.user.domain.seller.SellerService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class MySellerController {
@@ -33,7 +31,9 @@ public class MySellerController {
     public String sellerDetail(@PathVariable("sellerId") Long sellerId, ModelMap modelMap){
         Seller seller = sellerService.findById(sellerId);
 
-        return "member/seller";
+        modelMap.addAttribute("seller", seller);
+
+        return "member/sellerDetail";
 
     }
 

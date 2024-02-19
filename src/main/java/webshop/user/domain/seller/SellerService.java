@@ -1,4 +1,4 @@
-package webshop.service;
+package webshop.user.domain.seller;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,7 @@ public class SellerService {
 
     public Long join(Seller seller) {
 
+        seller.validateSeller();
         validateDuplicateSeller(seller);
         sellerRepository.save(seller);
         return seller.getId();

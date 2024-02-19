@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import webshop.user.domain.member.Member;
 import webshop.catalog.query.product.ItemService;
-import webshop.service.MemberService;
+import webshop.user.domain.member.MemberService;
 
 import java.util.List;
 

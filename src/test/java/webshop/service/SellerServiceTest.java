@@ -13,6 +13,7 @@ import webshop.user.domain.member.Member;
 import webshop.user.domain.seller.Seller;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.common.model.Money;
+import webshop.user.domain.seller.SellerService;
 import webshop.user.query.seller.SellerDTO;
 
 import java.util.List;

@@ -7,6 +7,7 @@ import webshop.catalog.query.product.ItemService;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.common.model.Money;
 import webshop.catalog.command.domain.product.QuantityState;
+import webshop.user.domain.member.MemberService;
 
 @Service
 public class MockCreateService {

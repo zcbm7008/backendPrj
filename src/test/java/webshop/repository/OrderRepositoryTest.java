@@ -13,7 +13,7 @@ import webshop.order.command.domain.OrderSearch;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.common.model.Money;
 import webshop.catalog.query.product.ItemService;
-import webshop.service.MemberService;
+import webshop.user.domain.member.MemberService;
 import webshop.service.OrderService;
 
 import java.util.List;
