@@ -48,7 +48,7 @@ public class StorageUnitTest {
         String imagePath = storageService.uploadImageToCloud(file);
 
         // 목 객체의 메소드 호출 검증
-        verify(cloudStorage, times(1)).uploadObject(anyString(), anyString(), anyString());
+        verify(cloudStorage, times(1)).uploadObject(anyString(), anyString());
     }
 
 

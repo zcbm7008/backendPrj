@@ -9,6 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.UUID;
 
 @Setter
@@ -18,12 +21,14 @@ public class StorageService {
     @Autowired
     CloudStorage cloudStorage;
 
+    private static String tmpdir = System.getProperty("java.io.tmpdir");
+
     public StorageService(CloudStorage cloudStorage){
         this.cloudStorage = cloudStorage;
     }
 
-   public void uploadObject(String objectName, String extension,String filePath) throws IOException {
-        cloudStorage.uploadObject(objectName,extension,filePath);
+   public void uploadObject(String objectName, String filePath) throws IOException {
+        cloudStorage.uploadObject(objectName,filePath);
    }
 
     public String uploadFileToCloud(MultipartFile file) throws IOException{
@@ -44,54 +49,60 @@ public class StorageService {
         file.transferTo(tempFile);
 
         // 업로드 서비스 호출
-        cloudStorage.uploadObject(newFileName, extension, tempFile.getAbsolutePath());
+        cloudStorage.uploadObject(newFileName, tempFile.getAbsolutePath());
 
         return newFileName;
     }
 
-    public String uploadImageToCloud(MultipartFile file) throws IOException{
-        if (file.isEmpty()) {
-            throw new IOException("Empty file cannot be uploaded");
-        }
-
+    public String createUploadFileName(MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
         String extension = StringUtils.getFilenameExtension(originalFileName);
         String newFileName = UUID.randomUUID().toString(); // 고유한 파일 이름 생성
-        URL signedURL = generatePutObjectSignedUrl(newFileName);
-
-        if (signedURL == null){
-            throw new IOException("signedURL cannot be created");
-        }
 
         if (extension != null) {
             newFileName += "." + extension;
         }
 
-        File tempFile = null;
-
-        try{
-            // 임시 파일로 저장
-            tempFile = new File(System.getProperty("java.io.tmpdir"), newFileName);
-            file.transferTo(tempFile);
-
-            System.out.println(tempFile.getAbsolutePath());
-
-
-            // 업로드 서비스 호출
-            cloudStorage.uploadObject(newFileName, extension, tempFile.getAbsolutePath());
-
-            return newFileName;
-
-        } finally {
-            if(tempFile != null && tempFile.exists()){
-                tempFile.delete();
-            }
-        }
+        return newFileName;
 
     }
+    private Path constructTempFilePath(String fileName) {
+        return Paths.get(tmpdir, fileName);
+    }
 
-    public URL generatePutObjectSignedUrl(String objectName) {
-        return cloudStorage.generatePutObjectSignedUrl(objectName);
+    public String uploadImageToCloud(MultipartFile file) throws IOException{
+
+        if (file.isEmpty()) {
+            throw new IOException("Empty file cannot be uploaded");
+        }
+
+        String newFileName = createUploadFileName(file);
+
+        Optional<URL> signedURL = generatePutObjectSignedUrl(newFileName);
+        URL url = signedURL.orElseThrow(() -> new IOException("Signed URL cannot be created for " + newFileName));
+
+        try(TempFile tempFile = new TempFile(constructTempFilePath(newFileName))){
+            // 임시 파일로 저장
+            file.transferTo(tempFile.getFile());
+            // 업로드 서비스 호출
+            cloudStorage.uploadObject(newFileName, tempFile.getFile().getAbsolutePath());
+
+            System.out.println(tempFile.getFile().getAbsolutePath());
+
+            return newFileName;
+        }
+    }
+
+    public Optional<URL> generatePutObjectSignedUrl(String objectName) {
+
+        URL signedUrl = cloudStorage.generatePutObjectSignedUrl(objectName);
+
+        if (signedUrl != null) {
+            return Optional.of(signedUrl);
+        }
+        else {
+            return Optional.empty();
+        }
     }
 
     public void downloadObject(String objectName, String destFilePath) throws IOException {

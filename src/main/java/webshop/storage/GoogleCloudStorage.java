@@ -3,6 +3,7 @@ package webshop.storage;
 import com.google.cloud.storage.*;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 
 import java.io.IOException;
@@ -21,11 +22,12 @@ public class GoogleCloudStorage implements CloudStorage {
     static String projectId = System.getenv("LOCAL_PROJECT_ID");
     static Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
 
-    public void uploadObject(String objectName, String extension,String filePath) throws IOException {
+    public void uploadObject(String objectName, String filePath) throws IOException {
 
         System.out.println(bucketName);
         BlobId blobId = BlobId.of(bucketName, objectName);
 
+        String extension = StringUtils.getFilenameExtension(objectName);
 
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/" + extension).build();
 

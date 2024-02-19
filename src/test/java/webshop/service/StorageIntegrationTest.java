@@ -53,7 +53,7 @@ public class StorageIntegrationTest {
             extension = image.getPath().substring(i+1);
         }
 
-        googleCloudStorage.uploadObject(image.getUploadTime().toString(),extension,image.getPath());
+        googleCloudStorage.uploadObject(image.getUploadTime().toString(), image.getPath());
 
         try{
             URL url = new URL(image.getUrl());
@@ -106,5 +106,6 @@ public class StorageIntegrationTest {
         }
 
     }
+
 
 }
