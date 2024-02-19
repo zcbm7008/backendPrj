@@ -41,10 +41,14 @@ public class SellerController {
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Member member = memberService.findOneByName(userDetails.getUsername());
-        String fileName = storageService.uploadImageToCloud(fileImage);
 
         seller.setMember(member);
-        seller.setImage(new Image(fileName));
+
+        if(!fileImage.isEmpty()){
+            String fileName = storageService.uploadImageToCloud(fileImage);
+            seller.setImage(new Image(fileName));
+        }
+
 
         // The join process includes validation of the fields in the seller object,
         // if it contains invalid data, the method may throw an exception.

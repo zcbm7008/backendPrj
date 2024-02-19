@@ -17,9 +17,8 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${seller.name}"/>
                 <p class="card-text">
-
                 </p>
-                <button type="button" class="btn btn-primary" id="orderBtn">구매하기</button>
+                <button type="button" class="btn btn-primary" id="newItemBtn">새 상품 만들기</button>
             </div>
         </div>
     </div>
@@ -32,6 +31,13 @@
     function handleOrder() {
         alert("로그인을 먼저 하세요!");
     }
+</script>
+
+<script sec:authorize="isAuthenticated()" th:inline="javascript">
+    document.getElementById('newItemBtn').addEventListener('click', function() {
+        var sellerId = window.location.pathname.split('/')[3]; // 현재 URL에서 sellerId 추출
+        window.location.href = `/my/sellers/${sellerId}/items/new`; // 새 상품 만들기 페이지로 리다이렉트
+    });
 </script>
 
 </body>

@@ -81,7 +81,12 @@ public class Seller {
 	}
 
 	public String getSellerImageUrl() {
-		return this.image.getUrl();
+		if(this.image.getUrl() != null){
+			return this.image.getUrl();
+		}
+		else{
+			return "TEMPIMAGE";
+		}
 	}
 
 
