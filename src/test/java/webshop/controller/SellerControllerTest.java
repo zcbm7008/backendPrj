@@ -2,6 +2,8 @@ package webshop.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -81,9 +83,9 @@ public class SellerControllerTest {
         Artwork capturedArtwork = (Artwork) artworkCaptor.getValue();
 
         // 캡처된 Artwork 객체의 속성 검증
-        assertEquals("Artwork Name", capturedArtwork.getName());
-        assertEquals(100, capturedArtwork.getPrice().getValue());
-        assertEquals("Artwork Description", capturedArtwork.getContent());
+        Assertions.assertEquals("Artwork Name", capturedArtwork.getName());
+        Assertions.assertEquals(100, capturedArtwork.getPrice().getValue());
+        Assertions.assertEquals("Artwork Description", capturedArtwork.getContent());
 
     }
 
