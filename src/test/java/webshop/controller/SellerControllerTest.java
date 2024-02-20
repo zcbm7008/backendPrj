@@ -22,7 +22,6 @@ import webshop.catalog.query.product.ItemService;
 import webshop.user.domain.seller.Seller;
 import webshop.user.domain.seller.SellerService;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -86,5 +85,21 @@ public class SellerControllerTest {
         assertEquals(100, capturedArtwork.getPrice().getValue());
         assertEquals("Artwork Description", capturedArtwork.getContent());
 
+    }
+
+    @Test
+    @WithMockUser
+    public void testSellerItems() throws Exception {
+        Artwork artwork1 = new Artwork();
+        Artwork artwork2 = new Artwork();
+        seller.addSellerItem(artwork1);
+        seller.addSellerItem(artwork2);
+
+        given(sellerService.findById(anyLong())).willReturn(seller);
+
+        mockMvc.perform(get("/my/sellers/{sellerId}/items", seller.getId()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("sellerItems"))
+                .andExpect(view().name("member/SellerItemList"));
     }
 }

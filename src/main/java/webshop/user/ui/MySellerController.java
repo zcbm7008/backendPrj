@@ -33,6 +33,7 @@ public class MySellerController {
 
 
         modelMap.addAttribute("seller", seller);
+        modelMap.addAttribute("sellerItems", seller.getSellerItems());
 
         return "member/sellerDetail";
 

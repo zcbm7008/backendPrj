@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>판매 상품 목록</title>
+    <th:block th:replace="fragments/layout :: cssjs"/>
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="container" th:fragment="sellerItems">
+    <h3>판매 상품 목록</h3>
+
+    <ul>
+        <li th:each="cat: ${sellerItems}" th:if="${!sellerItems.isEmpty()}">
+            <a th:href="@{/items/{itemId}(itemId=${cat.id})}" th:text="${cat.name}"></a>
+        </li>
+
+
+    </ul>
+
+</div>
+
+
+
+</body>
+
+</html>
+

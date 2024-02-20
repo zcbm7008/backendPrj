@@ -9,7 +9,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.catalog.command.domain.product.Item;
-import webshop.catalog.command.domain.product.ItemRepository;
 import webshop.catalog.query.product.ItemService;
 import webshop.common.model.Money;
 import webshop.user.domain.seller.Seller;

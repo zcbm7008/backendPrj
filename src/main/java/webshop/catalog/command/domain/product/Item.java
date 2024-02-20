@@ -52,7 +52,7 @@ public abstract class Item {
 
 	private ContentType contentType;
 
-	private String Content;
+	private String content;
 
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
 	orphanRemoval = true, fetch = FetchType.LAZY)
