@@ -7,10 +7,17 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import webshop.catalog.command.domain.category.Category;
+import webshop.catalog.command.domain.category.CategoryRepository;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.catalog.command.domain.product.Item;
+import webshop.catalog.query.product.CategoryItem;
 import webshop.catalog.query.product.ItemService;
+import webshop.common.model.Image;
 import webshop.common.model.Money;
+import webshop.storage.GoogleCloudStorage;
+import webshop.storage.StorageService;
 import webshop.user.domain.seller.Seller;
 import webshop.user.domain.seller.SellerService;
 
@@ -29,10 +36,37 @@ public class ItemController {
     @Autowired
     SellerService sellerService;
 
+    @Autowired
+    StorageService storageService;
+
+    @Autowired
+    CategoryRepository categoryRepository;
+
     @InitBinder
     public void setAllowedFields(WebDataBinder dataBinder){
         dataBinder.setDisallowedFields("id");
     }
+
+    @RequestMapping("/categories")
+    public String categories(ModelMap model){
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
+        return "category/categoryList";
+    }
+
+    @RequestMapping("/categories/{categoryId}")
+    public String list(@PathVariable("categoryId") Long categoryId,
+                       @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                       ModelMap model) {
+
+        CategoryItem itemInCategory = itemService.getItemInCategory(categoryId, page, 10);
+        model.addAttribute("itemInCategory",itemInCategory);
+        return "category/itemList";
+
+
+    }
+
+
 
     @RequestMapping(value = "/my/sellers/{sellerId}/items/new", method = RequestMethod.GET)
     public String createForm(@PathVariable("sellerId") Long sellerId,Model model) {
@@ -41,8 +75,7 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/my/sellers/{sellerId}/items/new", method = RequestMethod.POST)
-    public String create(@PathVariable("sellerId") Long sellerId,ItemDTO item,Model model) {
-        model.addAttribute("sellerId", sellerId);
+    public String create(@PathVariable("sellerId") Long sellerId, @RequestParam(value = "FileImages") MultipartFile[] fileImages, ItemDTO item, Model model) throws IOException {
 
         Seller seller = sellerService.findById(sellerId);
 
@@ -53,6 +86,11 @@ public class ItemController {
         newItem.setContent(item.getContent());
 
         newItem.setSeller(seller);
+
+        for (MultipartFile fileImage : fileImages) {
+            String fileName = storageService.uploadImageToCloud(fileImage);
+            newItem.addImage((new Image(fileName)));
+        }
 
         itemService.saveItem(newItem);
 

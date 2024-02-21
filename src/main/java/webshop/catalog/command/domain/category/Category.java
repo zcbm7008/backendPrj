@@ -19,7 +19,6 @@ import lombok.Setter;
 @Table(name = "CATEGORY")
 public class Category {
 	@Id @GeneratedValue
-	@Column(name ="CATEGORY_ID")
 	private Long id;
 	
 	private String name;

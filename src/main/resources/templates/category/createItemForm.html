@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<form action="#" th:action="@{/my/sellers/{sellerId}/items/new(sellerId=${sellerId})}" th:object="${item}" method="post">
+<form action="#" th:action="@{/my/sellers/{sellerId}/items/new(sellerId=${sellerId})}" th:object="${item}" method="post" enctype="multipart/form-data">
     <div>
         <label for="name">Name:</label>
         <input type="text" id="name" name="name"/>
@@ -22,6 +22,10 @@
     <div>
         <label for="content">Content:</label>
         <textarea id="content" name="content"></textarea>
+    </div>
+    <div>
+        <label for="FileImages">Select File:</label>
+        <input type="file" id="FileImages" name="FileImages" multiple/>
     </div>
     <div>
         <input type="submit" value="Save"/>

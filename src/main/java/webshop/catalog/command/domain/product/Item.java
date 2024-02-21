@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import webshop.common.model.Image;
+import webshop.common.model.InitImage;
 import webshop.user.domain.member.BalanceAddedEvent;
 import webshop.user.domain.seller.Seller;
 import webshop.common.event.Events;
@@ -72,7 +73,7 @@ public abstract class Item {
 		}
 	}
 
-	@Transactional
+
 	public void removeStock(int quantity){
 		if(quantityState == QuantityState.Limited){
 			if(this.stockQuantity - quantity < 0){
@@ -82,28 +83,23 @@ public abstract class Item {
 		}
 	}
 
-	@Transactional
-	public void saleStock(int quantity){
-		System.out.println("Start saleStock");
 
-		if (!canOrderable())
-		{
-			throw new IllegalStateException("This item is not Orderable");
-		}
+	public void saleStock(int quantity){
+
+		verifyStockAvailability(quantity);
+		removeStock(quantity);
+		Events.raise(new BalanceAddedEvent(seller.getMember().getId(), price.multiply(quantity)));
+
+	}
+
+	public void verifyStockAvailability(int quantity){
+		verifyOrderable();
 
 		if(quantityState == QuantityState.Limited) {
 			if (this.stockQuantity - quantity < 0) {
 				throw new NotEnoughStockException("need more stock");
 			}
-
 		}
-
-		removeStock(quantity);
-		System.out.println("Start Event");
-		Events.raise(new BalanceAddedEvent(seller.getMember().getId(), price.multiply(quantity)));
-		System.out.println("End Event");
-
-		System.out.println("End saleStock");
 
 	}
 
@@ -144,5 +140,12 @@ public abstract class Item {
 		}
         return quantityState == QuantityState.Unlimited;
     }
+
+	public Image getFirstImage(){
+		if(images.isEmpty() || images.get(0) == null){
+			return new InitImage();
+		}
+		return this.getImages().get(0);
+	}
 
 }

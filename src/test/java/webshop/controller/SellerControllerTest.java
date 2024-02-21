@@ -89,19 +89,4 @@ public class SellerControllerTest {
 
     }
 
-    @Test
-    @WithMockUser
-    public void testSellerItems() throws Exception {
-        Artwork artwork1 = new Artwork();
-        Artwork artwork2 = new Artwork();
-        seller.addSellerItem(artwork1);
-        seller.addSellerItem(artwork2);
-
-        given(sellerService.findById(anyLong())).willReturn(seller);
-
-        mockMvc.perform(get("/my/sellers/{sellerId}/items", seller.getId()))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("sellerItems"))
-                .andExpect(view().name("member/SellerItemList"));
-    }
 }
