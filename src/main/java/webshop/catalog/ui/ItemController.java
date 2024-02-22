@@ -66,16 +66,22 @@ public class ItemController {
 
     }
 
-
-
     @RequestMapping(value = "/my/sellers/{sellerId}/items/new", method = RequestMethod.GET)
-    public String createForm(@PathVariable("sellerId") Long sellerId,Model model) {
-        model.addAttribute("sellerId", sellerId);
-        return "category/createItemForm.html";
+    public String createCategoryForm(@PathVariable("sellerId") Long sellerId,Model model){
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
+        model.addAttribute("sellerId",sellerId);
+
+        return "category/createItemCategorySelectForm";
     }
 
-    @RequestMapping(value = "/my/sellers/{sellerId}/items/new", method = RequestMethod.POST)
-    public String create(@PathVariable("sellerId") Long sellerId, @RequestParam(value = "FileImages") MultipartFile[] fileImages, ItemDTO item, Model model) throws IOException {
+    @RequestMapping(value = "/my/sellers/{sellerId}/{categoryId}/items/new", method = RequestMethod.GET)
+    public String createCategoryItem(@PathVariable("sellerId") Long sellerId, @PathVariable("categoryId") Long categoryId,Model model){
+        return "category/createItemForm";
+    }
+
+    @RequestMapping(value = "/my/sellers/{sellerId}/{categoryId}/items/new", method = RequestMethod.POST)
+    public String create(@PathVariable("sellerId") Long sellerId, @PathVariable("categoryId") Long categoryId,@RequestParam(value = "FileImages") MultipartFile[] fileImages, ItemDTO item, Model model) throws IOException {
 
         Seller seller = sellerService.findById(sellerId);
 
@@ -85,11 +91,14 @@ public class ItemController {
         newItem.setPrice(new Money(item.getPrice()));
         newItem.setContent(item.getContent());
 
+        newItem.addCategoryId(categoryId);
         newItem.setSeller(seller);
 
         for (MultipartFile fileImage : fileImages) {
-            String fileName = storageService.uploadImageToCloud(fileImage);
-            newItem.addImage((new Image(fileName)));
+            if (!fileImage.isEmpty()) {
+                String fileName = storageService.uploadImageToCloud(fileImage);
+                newItem.addImage((new Image(fileName)));
+            }
         }
 
         itemService.saveItem(newItem);

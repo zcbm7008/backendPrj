@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>상품 목록</title>
+    <title>제품 목록</title>
     <th:block th:replace="fragments/layout :: cssjs"/>
 </head>
 <body>
@@ -10,12 +10,26 @@
 <div th:replace="fragments/layout :: header"></div>
 
 <div class="container">
-    <h3>상품 목록</h3>
-    <ul>
-        <li th:each="cat: ${categories}">
-            <a th:href="@{/items/{itemId}(itemId=${item.id})}" th:text="${item.name}"></a>
-        </li>
-    </ul>
+    <h2 th:text="${itemInCategory.category.name}">카테고리</h2>
+
+    <span th:if="${itemInCategory.items.isEmpty()}">상품이 없습니다.</span>
+
+    <div class="card mb-3" style="max-width: 540px;" th:each="item: ${itemInCategory.items}">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <a th:href="@{/items/{itemId}(itemId=${item.id})}">
+                    <img class="img-fluid rounded-start" th:src="${item.image}" src=""
+                         th:alt="${item.name}">
+                </a>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${item.name}">이름</h5>
+                    <p class="card-text">가격 : [[${item.price}]]</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div th:replace="fragments/layout :: footer"></div>

@@ -18,9 +18,7 @@ import webshop.exception.NotEnoughStockException;
 import webshop.exception.NotLimitedItemException;
 import webshop.user.domain.member.Member;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -45,7 +43,7 @@ public abstract class Item {
 
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "ITEM_CATEGORY", joinColumns = @JoinColumn(name = "ITEM_ID"))
-	private Set<Long> categoryIds;
+	private Set<Long> categoryIds = new HashSet<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SELLER_ID")
@@ -112,6 +110,10 @@ public abstract class Item {
 		review.setMember(member);
 		review.setComment(new Comment(comment));
 		review.setItem(this);
+	}
+
+	public void addCategoryId(Long categoryId) {
+		categoryIds.add(categoryId);
 	}
 
 	public void addImage(Image image) {

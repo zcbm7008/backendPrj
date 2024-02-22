@@ -12,17 +12,18 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import webshop.catalog.command.domain.product.Item;
 
 @Getter
 @AllArgsConstructor
 @Entity
 @Table(name = "CATEGORY")
 public class Category {
-	@Id @GeneratedValue
+	@Id
 	private Long id;
 	
 	private String name;
-	
+
 	protected Category() {
 
 	}

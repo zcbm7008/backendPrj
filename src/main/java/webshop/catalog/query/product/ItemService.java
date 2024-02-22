@@ -41,6 +41,8 @@ public class ItemService {
     public CategoryItem getItemInCategory(Long categoryId, int page, int size){
         Category category = categoryRepository.findById(categoryId).orElseThrow(NoCategoryException::new);
 
+        System.out.println(category.getId());
+
         Page<Item> itemPage = itemRepository.findByCategoryIdsContains(category.getId(), Pageable.ofSize(size).withPage(page-1));
 
         return new CategoryItem(category,toSummary(itemPage.getContent()),page,itemPage.getSize(),itemPage.getTotalElements(),itemPage.getTotalPages());
