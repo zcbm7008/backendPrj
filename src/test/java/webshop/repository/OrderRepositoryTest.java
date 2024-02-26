@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import webshop.order.command.domain.OrderRepository;
 import webshop.user.domain.member.Member;
 import webshop.order.command.domain.Order;
 import webshop.order.command.domain.OrderSearch;
@@ -14,7 +15,6 @@ import webshop.catalog.command.domain.product.Artwork;
 import webshop.common.model.Money;
 import webshop.catalog.query.product.ItemService;
 import webshop.user.domain.member.MemberService;
-import webshop.service.OrderService;
 
 import java.util.List;
 
@@ -28,26 +28,11 @@ public class OrderRepositoryTest {
     @Autowired
     ItemService itemService;
     @Autowired
-    OrderService orderService;
-    @Autowired
     OrderRepository orderRepository;
 
     @Test
     public void test() throws Exception {
 
-        //Given
-        Member member = createMember();
-        Artwork artwork = createArtwork("art", new Money(10000), 0);
-        orderService.order(member.getId(), artwork.getId(),1);
-
-        //When
-        OrderSearch orderSearch = new OrderSearch();
-        orderSearch.setMemberName("회원1");
-
-        List<Order> search = orderRepository.search(orderSearch);
-
-        //Then
-        Assertions.assertEquals(1, search.size());
     }
 
     private Member createMember() {

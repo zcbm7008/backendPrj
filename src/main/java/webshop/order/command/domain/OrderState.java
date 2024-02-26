@@ -1,5 +1,5 @@
 package webshop.order.command.domain;
 
 public enum OrderState {
-    DELIVERING, DELIVERY_COMPLETED, CANCELED
+    PAYMENT_WAITING, PREPARING, COMPLETE, CANCELED
 }

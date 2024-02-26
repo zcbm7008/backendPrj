@@ -55,5 +55,11 @@
         });
     });
 </script>
+
+<form id="goConfirmForm" action="/orders/orderConfirm" method="post" sec:authorize="isAuthenticated()">
+    <input type="hidden" name="orderProducts[0].productId" th:value="${item.id}">
+    <input type="hidden" name="orderProducts[0].quantity" value="1">
+</form>
+
 </body>
 </html>

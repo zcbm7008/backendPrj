@@ -41,10 +41,7 @@ public class Member {
 	public Member(String name) {
 		setName(name);
 	}
-	
-	@OneToMany(mappedBy = "member")
-	private List<Order> orders = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "member")
 	private List<Seller> sellers = new ArrayList<>();
 

@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import webshop.common.jpa.MoneyConverter;
 import webshop.util.MailService;
 import webshop.common.model.Money;
 import webshop.user.domain.member.Member;
@@ -19,76 +20,56 @@ import webshop.user.domain.member.Member;
 @ToString
 @Table(name = "ORDERS")
 public class Order {
-	@Id @GeneratedValue
-	@Column(name ="ORDER_ID")
-	private Long id;
+
+	@EmbeddedId
+	private OrderNo number;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MEMBER_ID")
-	private Member member;
-	
-	@OneToMany(mappedBy="order", cascade = CascadeType.ALL)
+	@Embedded
+	private Orderer orderer;
+
+	@Convert(converter = MoneyConverter.class)
+	@Column(name = "TOTAL_AMOUNTS")
+	private Money totalAmounts;
+
+	@ElementCollection(fetch = FetchType.LAZY)
+	@CollectionTable(name = "ORDER_ITEMS", joinColumns = @JoinColumn(name = "ORDER_NUMBER"))
+	@OrderColumn(name = "line_idx")
 	private List<OrderItem> orderItems = new ArrayList<OrderItem>();
-	
-	private LocalDateTime orderDate;
 
 	private OrderState state;
 
-	@Transient
-	MailService mailService;
-	
-	public void setMember(Member member) {
-		this.member = member;
-		member.getOrders().add(this);
-	}
-	
+	@Column(name = "ORDER_DATE")
+	private LocalDateTime orderDate;
+
 	public void addOrderItem(OrderItem orderItem) {
 		orderItems.add(orderItem);
-		orderItem.setOrder(this);
 	}
 
-	//Create Method//
-	public static Order createOrder(Member member, OrderItem... orderItems){
-		Order order = new Order();
-		order.setMember(member);
-		for (OrderItem orderItem : orderItems){
-			order.addOrderItem(orderItem);
-		}
+	public Order(Orderer orderer, List<OrderItem> orderItems, OrderState state){
+		setOrderer(orderer);
+		setOrderItems(orderItems);
+		this.state = state;
+		this.orderDate = LocalDateTime.now();
+	}
 
-		order.setOrderDate(LocalDateTime.now());
-		return order;
+	private void setOrderItems(List<OrderItem> orderItems){
+		verifyAtLeastOneMoreOrderItems(orderItems);
+		this.orderItems = orderItems;
+		calculateTotalAmounts();
+	}
+
+	private void verifyAtLeastOneMoreOrderItems(List<OrderItem> orderItems){
+		if(orderItems == null || orderItems.isEmpty()){
+			throw new IllegalArgumentException("no OrderItems");
+		}
 	}
 
 	//Business Logic//
-	public Money getTotalPrice() {
-		Money totalPrice = new Money(0);
-		for(OrderItem orderItem : orderItems){
-			totalPrice = totalPrice.add(orderItem.getTotalPrice());
-		}
-		return totalPrice;
+	private void calculateTotalAmounts() {
+		this.totalAmounts = new Money(orderItems.stream()
+				.mapToInt(x -> x.getAmounts().getValue()).sum());
 	}
 
-	//TODO
-	@Transactional
-	public void startDelivering() {
-		this.state = OrderState.DELIVERING;
-		StringBuilder contextBuilder = new StringBuilder();
-		String subject = "상품배송";
-		for(OrderItem orderItem : this.orderItems){
-
-			contextBuilder.append(orderItem.getId()).append(" ");
-
-
-		}
-		String context = contextBuilder.toString();
-		try{
-			mailService.sendSimpleEmail(subject,member.getEmail(),context);
-			this.state = OrderState.DELIVERY_COMPLETED;
-		} catch(EmailSendingException e){
-
-		}
-
-	}
 
 
 }

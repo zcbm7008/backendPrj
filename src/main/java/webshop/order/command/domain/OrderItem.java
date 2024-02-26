@@ -1,6 +1,7 @@
 package webshop.order.command.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,47 +11,40 @@ import webshop.common.jpa.MoneyConverter;
 import webshop.catalog.command.domain.product.QuantityState;
 
 @Getter
-@Setter
-@Entity
 @ToString
+@Entity
 @Table(name = "ORDER_ITEM")
 public class OrderItem {
 	
 	@Id @GeneratedValue
 	@Column(name="ORDER_ITEM_ID")
-	private Long id;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Item item;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ORDER_ID")
-	private Order order;
+	private Long itemId;
 
 	@Convert(converter = MoneyConverter.class)
-	private Money orderPrice;
+	@Column(name = "PRICE")
+	private Money price;
 
-	private int count;
+	@Column(name = "quantity")
+	private int quantity;
 
-	//Create Method//
-	public static OrderItem createOrderItem(Item item, int count){
-		OrderItem orderItem = new OrderItem();
-		orderItem.setItem(item);
-		orderItem.setCount(count);
+	@Convert(converter = MoneyConverter.class)
+	@Column(name = "AMOUNTS")
+	private Money amounts;
 
-		if(item.getQuantityState() == QuantityState.Limited){
-			item.removeStock(count);
-		}
-
-		orderItem.setOrderPrice(item.getPrice());
-
-		return orderItem;
-	}
-
-	//Business Logic//
-	public Money getTotalPrice() {
-		return orderPrice.multiply(count);
+	protected OrderItem() {
 
 	}
+
+	public OrderItem(Long itemId, Money price, int quantity){
+		this.itemId = itemId;
+		this.price = price;
+		this.quantity = quantity;
+		this.amounts = calculateAmounts();
+
+	}
+
+
+
+	private Money calculateAmounts() { return price.multiply(quantity);}
 
 }

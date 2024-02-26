@@ -15,8 +15,6 @@ public class MockCreateService {
     MemberService memberService;
     @Autowired
     ItemService itemService;
-    @Autowired
-    OrderService orderService;
 
     @PostConstruct
     public void initCreateMock() {

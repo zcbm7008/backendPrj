@@ -52,6 +52,10 @@ public class MemberService {
             return memberRepository.findOneByName(name).orElseThrow();
 		}
 
+		public Member findById(Long id){
+		return memberRepository.findById(id).orElseThrow();
+	}
+
 		public List<Member> findMembers() {
 			return memberRepository.findAll();
 	}
