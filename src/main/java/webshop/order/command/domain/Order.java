@@ -45,7 +45,11 @@ public class Order {
 		orderItems.add(orderItem);
 	}
 
-	public Order(Orderer orderer, List<OrderItem> orderItems, OrderState state){
+	protected Order() {
+
+	}
+	public Order(OrderNo number,Orderer orderer, List<OrderItem> orderItems, OrderState state){
+		setNumber(number);
 		setOrderer(orderer);
 		setOrderItems(orderItems);
 		this.state = state;

@@ -26,6 +26,7 @@ public class PlaceOrderService {
     public OrderNo placeOrder(OrderRequest orderRequest){
         List<ValidationError> errors = validateOrderRequest(orderRequest);
         if(!errors.isEmpty()) throw new ValidationErrorException(errors);
+        //validates orderRequest's orderMemberId, orderProducts
 
         List<OrderItem> orderItems = new ArrayList<>();
         for(OrderProduct oi : orderRequest.getOrderProducts()){
@@ -33,10 +34,11 @@ public class PlaceOrderService {
             Item item = itemOpt.orElseThrow(()->new NoOrderProductException(oi.getProductId()));
             orderItems.add(new OrderItem(item.getId(),item.getPrice(),item.getStockQuantity()));
         }
+
         OrderNo orderNo = orderRepository.nextOrderNo();
         Orderer orderer = ordererService.createOrderer(orderRequest.getOrdererMemberId());
 
-        Order order = new Order(orderer,orderItems, OrderState.PAYMENT_WAITING);
+        Order order = new Order(orderNo, orderer,orderItems, OrderState.PAYMENT_WAITING);
         orderRepository.save(order);
         return orderNo;
     }

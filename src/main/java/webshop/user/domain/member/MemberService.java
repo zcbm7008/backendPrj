@@ -53,7 +53,7 @@ public class MemberService {
 		}
 
 		public Member findById(Long id){
-		return memberRepository.findById(id).orElseThrow();
+			return memberRepository.findById(id).orElseThrow();
 	}
 
 		public List<Member> findMembers() {

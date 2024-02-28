@@ -20,7 +20,7 @@
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">아이디</label>
                     <div class="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" th:value="${orderReq.ordererMemberId.id}" value="email@example.com">
+                        <input type="text" readonly class="form-control-plaintext" th:value="${orderReq.ordererMemberId}" value="email@example.com">
                     </div>
                 </div>
             </div>
@@ -60,72 +60,6 @@
                     </tr>
                     </tfoot>
                 </table>
-            </div>
-        </div>
-
-        <div class="card mb-2">
-            <div class="card-body">
-                <h5 class="card-title">받는 사람</h5>
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label" for="shippingInfoReceiverName">이름</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control"
-                               th:field="*{shippingInfo.receiver.name}"
-                               id="shippingInfoReceiverName"
-                        />
-                        <div class="form-text" th:each="err : ${#fields.errors('shippingInfo.receiver.name')}" th:text="${err}">
-                            입력 오류 메시지
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label" for="shippingInfoReceiverPhone">연락처</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control"
-                               th:field="*{shippingInfo.receiver.phone}"
-                               id="shippingInfoReceiverPhone"
-                        />
-                        <div class="form-text" th:each="err : ${#fields.errors('shippingInfo.receiver.phone')}" th:text="${err}">
-                            입력 오류 메시지
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label" for="shippingInfoAddressZipCode">우편번호</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control"
-                               th:field="*{shippingInfo.address.zipCode}"
-                               id="shippingInfoAddressZipCode"
-                        />
-                        <div class="form-text" th:each="err : ${#fields.errors('shippingInfo.address.zipCode')}" th:text="${err}">
-                            입력 오류 메시지
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label" for="shippingInfoAddressAddress1">주소1</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control"
-                               th:field="*{shippingInfo.address.address1}"
-                               id="shippingInfoAddressAddress1"
-                        />
-                        <div class="form-text" th:each="err : ${#fields.errors('shippingInfo.address.address1')}" th:text="${err}">
-                            입력 오류 메시지
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label" for="shippingInfoAddressAddress2">주소2</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control"
-                               th:field="*{shippingInfo.address.address2}"
-                               id="shippingInfoAddressAddress2"
-                        />
-                        <div class="form-text" th:each="err : ${#fields.errors('shippingInfo.address.address2')}" th:text="${err}">
-                            입력 오류 메시지
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 

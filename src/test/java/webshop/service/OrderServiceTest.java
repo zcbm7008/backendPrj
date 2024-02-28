@@ -1,6 +1,7 @@
 package webshop.service;
 
 
+import com.google.cloud.storage.StorageException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -13,6 +14,9 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import webshop.order.command.application.NoOrderProductException;
+import webshop.order.command.application.OrderProduct;
+import webshop.order.command.application.OrderRequest;
+import webshop.order.command.application.PlaceOrderService;
 import webshop.order.command.domain.*;
 import webshop.order.query.application.OrderDetail;
 import webshop.order.query.application.OrderDetailService;
@@ -29,6 +33,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Assertions;
+import webshop.user.domain.member.MemberService;
 import webshop.util.MailService;
 
 import java.util.ArrayList;
@@ -46,8 +51,11 @@ public class OrderServiceTest {
     OrderDetailService orderDetailService;
     @Autowired
     OrderRepository orderRepository;
-    private MailService mailServiceMock;
+    @Autowired
+    PlaceOrderService placeOrderService;
     @Mock
+    MemberService memberService;
+    private MailService mailServiceMock;
     private Member member;
     private Order order;
     private Item item;
@@ -55,7 +63,8 @@ public class OrderServiceTest {
 
     @BeforeEach
     public void setup() {
-        mailServiceMock = mock(MailService.class);
+        member = createMember();
+
         item = createArtwork("art",new Money(35000),3);
 
         OrderItem orderItem = new OrderItem(item.getId(), item.getPrice(), 3);
@@ -64,10 +73,10 @@ public class OrderServiceTest {
         orderItems.add(orderItem);
 
         orderer = new Orderer(member.getId(), member.getName());
-        order = new Order(orderer,orderItems,OrderState.PAYMENT_WAITING);
-
         OrderNo orderNo = orderRepository.nextOrderNo();
-        order.setNumber(orderNo);
+        order = new Order(orderNo,orderer,orderItems,OrderState.PAYMENT_WAITING);
+
+
     }
 
 
@@ -78,6 +87,25 @@ public class OrderServiceTest {
         if(orderDetail.isPresent()){
             assertEquals(orderer.getMemberId(),orderDetail.get().getOrderer().getMemberId());
         }
+
+    }
+
+    @Test
+    public void placeOrderAndGetOrderDetailTest() throws Exception{
+        //Given
+        List <OrderProduct> orderProducts = new ArrayList<>();
+        OrderProduct orderProduct1 = new OrderProduct(item.getId(),1);
+        orderProducts.add(orderProduct1);
+        OrderRequest orderRequest = new OrderRequest(orderProducts,member.getId());
+
+        //When
+        OrderNo orderNo1 = placeOrderService.placeOrder(orderRequest);
+        Optional<OrderDetail> orderDetail = orderDetailService.getOrderDetail(orderNo1.getNumber());
+
+        //Then
+        orderDetail.ifPresent(detail -> assertEquals(orderer.getMemberId(), detail.getOrderer().getMemberId()));
+
+
 
     }
 

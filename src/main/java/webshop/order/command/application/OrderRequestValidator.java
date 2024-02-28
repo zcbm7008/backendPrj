@@ -13,13 +13,10 @@ public class OrderRequestValidator {
             errors.add(ValidationError.of("required"));
         } else{
             if(orderRequest.getOrdererMemberId() == null)
-                errors.add(ValidationError.of("orderMemberId","required"));
+                errors.add(ValidationError.of("ordererMemberId","required"));
             if(orderRequest.getOrderProducts() == null || orderRequest.getOrderProducts().isEmpty())
                 errors.add(ValidationError.of("orderProducts","required"));
-
-
         }
         return errors;
-
     }
 }

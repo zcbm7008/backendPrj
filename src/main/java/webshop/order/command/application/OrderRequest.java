@@ -1,5 +1,6 @@
 package webshop.order.command.application;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import webshop.order.command.domain.OrderItem;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Setter
 @Getter
+@AllArgsConstructor
 public class OrderRequest {
 
     private List<OrderProduct> orderProducts;

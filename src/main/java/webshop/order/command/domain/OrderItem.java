@@ -11,13 +11,9 @@ import webshop.common.jpa.MoneyConverter;
 import webshop.catalog.command.domain.product.QuantityState;
 
 @Getter
-@ToString
-@Entity
-@Table(name = "ORDER_ITEM")
+@Embeddable
 public class OrderItem {
-	
-	@Id @GeneratedValue
-	@Column(name="ORDER_ITEM_ID")
+
 	private Long itemId;
 
 	@Convert(converter = MoneyConverter.class)
