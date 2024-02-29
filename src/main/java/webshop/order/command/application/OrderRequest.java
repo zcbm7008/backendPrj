@@ -9,7 +9,6 @@ import java.util.List;
 
 @Setter
 @Getter
-@AllArgsConstructor
 public class OrderRequest {
 
     private List<OrderProduct> orderProducts;

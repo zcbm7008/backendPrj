@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import webshop.common.event.Events;
 import webshop.common.jpa.MoneyConverter;
 import webshop.util.MailService;
 import webshop.common.model.Money;
@@ -54,6 +55,7 @@ public class Order {
 		setOrderItems(orderItems);
 		this.state = state;
 		this.orderDate = LocalDateTime.now();
+		Events.raise(new OrderPlacedEvent(number.getNumber(),orderer,orderItems,orderDate));
 	}
 
 	private void setOrderItems(List<OrderItem> orderItems){

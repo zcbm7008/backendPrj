@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import webshop.catalog.query.product.ItemData;
 import webshop.common.ValidationErrorException;
@@ -57,9 +58,10 @@ public class OrderController {
         modelMap.addAttribute("totalAmounts", totalAmounts);
     }
 
-    private List< Item> getProducts(List<OrderProduct> orderProducts){
-        List<Item> results =new ArrayList<>();
+    private List<Item> getProducts(List<OrderProduct> orderProducts){
+        List<Item> results = new ArrayList<>();
         for(OrderProduct op : orderProducts){
+            System.out.println(op.getProductId() +" " + op.getQuantity());
             Optional<Item> productOpt = itemService.findOne(op.getProductId());
             Item item = productOpt.orElseThrow(() -> new NoOrderProductException(op.getProductId()));
             results.add(item);
@@ -89,6 +91,11 @@ public class OrderController {
             populateProductsAndTotalAmountsModel(orderRequest, modelMap);
             return "order/confirm";
         }
+    }
+
+    @InitBinder
+    public void init(WebDataBinder binder) {
+        binder.initDirectFieldAccess();
     }
 
 

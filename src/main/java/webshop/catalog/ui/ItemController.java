@@ -106,12 +106,6 @@ public class ItemController {
         return "redirect:/my/sellers/" + sellerId;
     }
 
-//    @RequestMapping(value = "items", method = RequestMethod.GET)
-//    public String items(ModelMap model){
-//        List<Item> items = itemRepository.findAll();
-//        model.addAttribute("items", items);
-//        return "item/itemList";
-//    }
 
     @RequestMapping("/items/{itemId}")
     public String detail(@PathVariable("itemId") Long itemId,
