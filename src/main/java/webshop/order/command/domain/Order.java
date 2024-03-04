@@ -33,9 +33,9 @@ public class Order {
 	private Money totalAmounts;
 
 	@ElementCollection(fetch = FetchType.LAZY)
-	@CollectionTable(name = "ORDER_ITEMS", joinColumns = @JoinColumn(name = "ORDER_NUMBER"))
+	@CollectionTable(name = "ORDER_ITEM", joinColumns = @JoinColumn(name = "ORDER_NUMBER"))
 	@OrderColumn(name = "line_idx")
-	private List<OrderItem> orderItems = new ArrayList<OrderItem>();
+	private List<OrderItem> orderItems;
 
 	private OrderState state;
 

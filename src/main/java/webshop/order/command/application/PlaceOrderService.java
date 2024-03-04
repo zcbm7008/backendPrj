@@ -32,7 +32,8 @@ public class PlaceOrderService {
         for(OrderProduct oi : orderRequest.getOrderProducts()){
             Optional<Item> itemOpt = itemRepository.findById(oi.getProductId());
             Item item = itemOpt.orElseThrow(()->new NoOrderProductException(oi.getProductId()));
-            orderItems.add(new OrderItem(item.getId(),item.getPrice(),item.getStockQuantity()));
+            orderItems.add(new OrderItem(item.getId(),item.getPrice(),oi.getQuantity()));
+            System.out.println(item.getStockQuantity());
         }
 
         OrderNo orderNo = orderRepository.nextOrderNo();

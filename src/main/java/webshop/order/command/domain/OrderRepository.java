@@ -1,11 +1,6 @@
 package webshop.order.command.domain;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.Repository;
-import webshop.order.command.domain.Order;
-import webshop.repository.custom.CustomOrderRepository;
-
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;

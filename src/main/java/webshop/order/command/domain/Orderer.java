@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Id;
 
 @AllArgsConstructor
@@ -13,6 +15,8 @@ import javax.persistence.Id;
 @EqualsAndHashCode
 @Embeddable
 public class Orderer {
+
+    @Column(name = "ORDERER_ID")
     @Id
     private Long memberId;
 

@@ -61,7 +61,6 @@ public class OrderController {
     private List<Item> getProducts(List<OrderProduct> orderProducts){
         List<Item> results = new ArrayList<>();
         for(OrderProduct op : orderProducts){
-            System.out.println(op.getProductId() +" " + op.getQuantity());
             Optional<Item> productOpt = itemService.findOne(op.getProductId());
             Item item = productOpt.orElseThrow(() -> new NoOrderProductException(op.getProductId()));
             results.add(item);
