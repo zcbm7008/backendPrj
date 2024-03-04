@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import webshop.order.query.application.OrderDetail;
 import webshop.order.query.application.OrderDetailService;
 import webshop.order.query.dao.OrderSummaryDao;
+import webshop.springconfig.security.UserDetailServiceImpl;
+import webshop.user.domain.member.CustomMemberDetails;
 import webshop.user.domain.member.Member;
 import webshop.user.domain.member.MemberService;
 
@@ -24,21 +26,20 @@ public class MyOrderController {
     @Autowired
     MemberService memberService;
 
-
     @RequestMapping("/my/orders")
     public String orders(ModelMap modelMap){
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Member member = memberService.findOneByName(userDetails.getUsername());
-        modelMap.addAttribute("orders", orderSummaryDao.findByOrdererId(member.getId()));
+        CustomMemberDetails memberDetails = (CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        modelMap.addAttribute("orders", orderSummaryDao.findByOrdererId(memberDetails.getId()));
         return "my/orders";
     }
 
     @RequestMapping("/my/orders/{orderNo}")
     public String orderDetail(@PathVariable("orderNo") String orderNo, ModelMap modelMap){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Member member = memberService.findOneByName(userDetails.getUsername());
         Optional<OrderDetail> orderDetail = orderDetailService.getOrderDetail(orderNo);
         if(orderDetail.isPresent()){
-            if(orderDetail.get().getOrderer().getMemberId().equals(userDetails.getUsername())){
+            if(orderDetail.get().getOrderer().getMemberId().equals(member.getId())){
                 modelMap.addAttribute("order", orderDetail.get());
                 return "my/orderDetail";
             } else{

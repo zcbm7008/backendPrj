@@ -13,7 +13,7 @@ import java.util.Collection;
 @Getter
 public class CustomMemberDetails implements UserDetails, Serializable {
 
-    private String id;
+    private Long id;
     private String loginId;
     private String name;
     private String password;

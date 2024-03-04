@@ -25,7 +25,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         CustomMemberDetails customMemberDetails = new CustomMemberDetails();
 
-        customMemberDetails.setId(String.valueOf(member.getId()));
+        customMemberDetails.setId(member.getId());
         customMemberDetails.setName(member.getName());
         customMemberDetails.setPassword(member.getPassword());
         customMemberDetails.setBlocked(member.isBlocked());
