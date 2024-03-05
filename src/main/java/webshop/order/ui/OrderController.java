@@ -17,6 +17,7 @@ import webshop.order.command.application.OrderRequest;
 import webshop.order.command.application.PlaceOrderService;
 import webshop.order.command.domain.*;
 import webshop.catalog.query.product.ItemService;
+import webshop.user.domain.member.CustomMemberDetails;
 import webshop.user.domain.member.MemberService;
 import webshop.user.domain.member.Member;
 import webshop.catalog.command.domain.product.Item;
@@ -37,9 +38,8 @@ public class OrderController {
 
     @PostMapping("/orders/orderConfirm")
     public String orderConfirm(@ModelAttribute("orderReq") OrderRequest orderRequest, ModelMap modelMap){
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Member member = memberService.findOneByName(userDetails.getUsername());
-        orderRequest.setOrdererMemberId(member.getId());
+        CustomMemberDetails memberDetails = (CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        orderRequest.setOrdererMemberId(memberDetails.getId());
         populateProductsAndTotalAmountsModel(orderRequest,modelMap);
 
         return"order/confirm";
@@ -70,10 +70,9 @@ public class OrderController {
 
     @PostMapping("/orders/order")
     public String order(@ModelAttribute("orderReq") OrderRequest orderRequest, BindingResult bindingResult, ModelMap modelMap){
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Member member = memberService.findOneByName(userDetails.getUsername());
+        CustomMemberDetails memberDetails = (CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        orderRequest.setOrdererMemberId(member.getId());
+        orderRequest.setOrdererMemberId(memberDetails.getId());
 
         try{
             OrderNo orderNo = placeOrderService.placeOrder(orderRequest);

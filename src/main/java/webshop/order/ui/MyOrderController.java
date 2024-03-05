@@ -35,11 +35,10 @@ public class MyOrderController {
 
     @RequestMapping("/my/orders/{orderNo}")
     public String orderDetail(@PathVariable("orderNo") String orderNo, ModelMap modelMap){
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Member member = memberService.findOneByName(userDetails.getUsername());
+        CustomMemberDetails memberDetails = (CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<OrderDetail> orderDetail = orderDetailService.getOrderDetail(orderNo);
         if(orderDetail.isPresent()){
-            if(orderDetail.get().getOrderer().getMemberId().equals(member.getId())){
+            if(orderDetail.get().getOrderer().getMemberId().equals(memberDetails.getId())){
                 modelMap.addAttribute("order", orderDetail.get());
                 return "my/orderDetail";
             } else{

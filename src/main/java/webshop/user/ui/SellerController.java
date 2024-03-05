@@ -9,6 +9,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import webshop.common.model.Image;
+import webshop.user.domain.member.CustomMemberDetails;
 import webshop.user.domain.member.MemberService;
 import webshop.user.domain.seller.SellerService;
 import webshop.storage.StorageService;
@@ -40,8 +41,8 @@ public class SellerController {
     @RequestMapping(value = "my/sellers/new", method = RequestMethod.POST)
     public String create(@RequestParam(value = "FileImage") MultipartFile fileImage, Seller seller) throws IOException {
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Member member = memberService.findOneByName(userDetails.getUsername());
+        CustomMemberDetails memberDetails = (CustomMemberDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Member member = memberService.findById(memberDetails.getId());
 
         seller.setMember(member);
 
