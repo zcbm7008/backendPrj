@@ -40,7 +40,7 @@ public class WebSecurityConfig {
         http.securityContext(securityContext -> securityContext.securityContextRepository(new CookieSecurityContextRepository(userDetailService)))
             .headers(AbstractHttpConfigurer::disable)
             .authorizeRequests()
-            .requestMatchers("/", "/home", "/categories/**", "/products/**","/h2-console/**","/members/new").permitAll()
+            .requestMatchers("/", "/home", "/categories/**", "/items/**","/h2-console/**","/members/new").permitAll()
             .requestMatchers("/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated()
             .and()
