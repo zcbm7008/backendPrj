@@ -1,18 +1,10 @@
-create database jpashop character set utf8mb4 collate utf8mb4_general_ci;
+--use jpashop;
 
-CREATE USER 'shopuser'@'localhost' IDENTIFIED BY 'shoppass';
-CREATE USER 'shopuser'@'%' IDENTIFIED BY 'shoppass';
-
-GRANT ALL PRIVILEGES ON shop.* TO 'shopuser'@'localhost';
-GRANT ALL PRIVILEGES ON shop.* TO 'shopuser'@'%';
-
-use jpashop;
-
-INSERT INTO CATEGORY (ID,NAME) VALUES (0,'Music');
-INSERT INTO CATEGORY (ID,NAME) VALUES (1,'Artwork');
-INSERT INTO CATEGORY (ID,NAME) VALUES (2,'Movie');
-INSERT INTO CATEGORY (ID,NAME) VALUES (3,'Ebook');
-INSERT INTO CATEGORY (ID,NAME) VALUES (4,'Course');
+--INSERT INTO CATEGORY (ID,NAME) VALUES (0,'Music');
+--INSERT INTO CATEGORY (ID,NAME) VALUES (1,'Artwork');
+--INSERT INTO CATEGORY (ID,NAME) VALUES (2,'Movie');
+--INSERT INTO CATEGORY (ID,NAME) VALUES (3,'Ebook');
+--INSERT INTO CATEGORY (ID,NAME) VALUES (4,'Course');
 --
 --INSERT INTO MEMBER (BLOCKED,MEMBER_ID,EMAIL,NAME,PASSWORD) VALUES (0,1,'1@1','a1','$2a$10$WR5UE50cjF03s8gsctsiWODrfwdWx5c31lX0/Qavll7ZFwXRikin6');
 --INSERT INTO MEMBER (BLOCKED,MEMBER_ID,EMAIL,NAME,PASSWORD) VALUES (0,2,'1@1','a2','$2a$10$WR5UE50cjF03s8gsctsiWODrfwdWx5c31lX0/Qavll7ZFwXRikin6');

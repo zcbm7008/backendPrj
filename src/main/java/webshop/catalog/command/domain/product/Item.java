@@ -39,6 +39,7 @@ public abstract class Item {
 	private Money price;
 
 	private QuantityState quantityState = QuantityState.Unlimited;
+
 	private int stockQuantity;
 
 	@ElementCollection(fetch = FetchType.LAZY)

@@ -9,11 +9,12 @@ import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.transaction.TestTransaction;
+import webshop.catalog.query.product.CategoryItem;
 import webshop.user.domain.seller.Seller;
 import webshop.common.model.Image;
 import webshop.catalog.query.product.ItemService;
@@ -29,6 +30,7 @@ import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("/appConfig.xml")
+@Profile("test")
 @Transactional
 public class ItemServiceTest {
 
@@ -173,6 +175,8 @@ public class ItemServiceTest {
 
         assertEquals(0,member1.getBalance().getValue());
     }
+
+
 
     private Artwork createArtwork(String name, Money price, int stockQuantity){
 

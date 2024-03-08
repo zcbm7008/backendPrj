@@ -16,7 +16,6 @@ import webshop.catalog.query.product.CategoryItem;
 import webshop.catalog.query.product.ItemService;
 import webshop.common.model.Image;
 import webshop.common.model.Money;
-import webshop.storage.GoogleCloudStorage;
 import webshop.storage.StorageService;
 import webshop.user.domain.seller.Seller;
 import webshop.user.domain.seller.SellerService;
@@ -57,13 +56,25 @@ public class ItemController {
     @RequestMapping("/categories/{categoryId}")
     public String list(@PathVariable("categoryId") Long categoryId,
                        @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                       @RequestParam(name = "search", required = false) String searchQuery,
                        ModelMap model) {
 
-        CategoryItem itemInCategory = itemService.getItemInCategory(categoryId, page, 10);
+        CategoryItem itemInCategory;
+
+        if(searchQuery != null && searchQuery.isEmpty()){
+            itemInCategory = itemService.getItemInName(searchQuery,page,10);
+        } else{
+            itemInCategory = itemService.getItemInCategory(categoryId, page, 10);
+        }
+
+        int startPage = (itemInCategory.getPage() / 10) * 10 +1;
+        int endPage = Math.min((itemInCategory.getPage() / 10) * 10 + 9, itemInCategory.getTotalPages());
+
         model.addAttribute("itemInCategory",itemInCategory);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+        model.addAttribute("searchQuery",searchQuery);
         return "category/itemList";
-
-
     }
 
     @RequestMapping(value = "/my/sellers/{sellerId}/items/new", method = RequestMethod.GET)
