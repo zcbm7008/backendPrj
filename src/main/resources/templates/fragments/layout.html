@@ -38,6 +38,31 @@
     </div>
 </nav>
 
+<div class="search-container" style="margin-bottom: 20px;" th:fragment="search">
+    <form action="#" th:action = "@{/categories/search}" method="get">
+        <input type="hidden" name="page" value="1" /> <!-- 검색 시 항상 첫 페이지로 리셋 -->
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="검색어 입력" name="query" aria-label="검색어">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button>
+        </div>
+    </form>
+</div>
+
+<div class="pagination" th:fragment="pagination">
+    <a th:href="@{${currentUrl}(page=${itemInCategory.page - 1}, query=${query})}"
+       th:if="${itemInCategory.page > 1}"  class="btn btn-primary">이전</a>
+
+    <th:block th:each="pageNum: ${#numbers.sequence(startPage,endPage)}">
+        <a th:href="@{${currentUrl}(page=${pageNum}, query=${query})}"
+           th:class="${pageNum} == ${itemInCategory.page} ? 'btn btn-primary' : 'btn btn-default'"
+           th:text="${pageNum}">1</a>
+    </th:block>
+
+    <a th:href="@{${currentUrl}(page=${itemInCategory.page + 1}, query=${query})}"
+       th:if="${itemInCategory.page < itemInCategory.totalPages}" class="btn btn-primary">다음</a>
+</div>
+
+
 <footer class="border-top mt-2" th:fragment="footer">
     <p class="text-center">도메인 구현 시작하기, 문의: madvirus@madvirus.net</p>
 </footer>

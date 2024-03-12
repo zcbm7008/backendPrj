@@ -1,5 +1,6 @@
 package webshop.catalog.ui;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,27 +54,41 @@ public class ItemController {
         return "category/categoryList";
     }
 
+    @RequestMapping("/categories/search")
+    public String categories(ModelMap model, HttpServletRequest request,
+                             @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                             @RequestParam(name = "query", required = false) String query){
+
+        CategoryItem searchItems;
+        String currentUrl = request.getRequestURI();
+
+        if(query != null && !query.isEmpty()){
+            searchItems = itemService.getItemInName(query,page,10);
+            model.addAttribute("query",query);
+        } else{
+            return "/category/categoryList";
+        }
+
+        model.addAttribute("currentUrl", currentUrl);
+        model.addAttribute("itemInCategory", searchItems);
+
+        return "category/itemList";
+    }
+
     @RequestMapping("/categories/{categoryId}")
     public String list(@PathVariable("categoryId") Long categoryId,
                        @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                       @RequestParam(name = "search", required = false) String searchQuery,
                        ModelMap model) {
 
-        CategoryItem itemInCategory;
+        CategoryItem itemInCategory = itemService.getItemInCategory(categoryId, page, 10);
 
-        if(searchQuery != null && searchQuery.isEmpty()){
-            itemInCategory = itemService.getItemInName(searchQuery,page,10);
-        } else{
-            itemInCategory = itemService.getItemInCategory(categoryId, page, 10);
-        }
-
-        int startPage = (itemInCategory.getPage() / 10) * 10 +1;
-        int endPage = Math.min((itemInCategory.getPage() / 10) * 10 + 9, itemInCategory.getTotalPages());
+        int startPage = ((itemInCategory.getPage() -1) / 10) * 10 + 1;
+        int endPage = Math.min(startPage+9, itemInCategory.getTotalPages());
 
         model.addAttribute("itemInCategory",itemInCategory);
         model.addAttribute("startPage",startPage);
         model.addAttribute("endPage",endPage);
-        model.addAttribute("searchQuery",searchQuery);
+
         return "category/itemList";
     }
 

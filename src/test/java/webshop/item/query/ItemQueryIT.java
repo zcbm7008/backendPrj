@@ -14,6 +14,7 @@ import webshop.catalog.query.product.ItemService;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration("/appConfig.xml")
@@ -36,6 +37,8 @@ public class ItemQueryIT {
         CategoryItem items = itemService.getItemInName(searchQuery,page,size);
 
         assertEquals(2,items.getTotalCount());
+        assertTrue(items.getItems().stream()
+                .allMatch(item -> item.getName().contains(searchQuery)));
 
     }
 }

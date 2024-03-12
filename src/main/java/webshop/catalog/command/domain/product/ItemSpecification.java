@@ -12,4 +12,10 @@ public class ItemSpecification {
             return criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%");
         };
     }
+
+    public static Specification<Item> sellerId(Long sellerId){
+        return (root, query, criteriaBuilder) -> {
+            return criteriaBuilder.equal(criteriaBuilder.lower(root.get("sellerId")), sellerId);
+        };
+    }
 }
