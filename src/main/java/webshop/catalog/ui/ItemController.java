@@ -3,6 +3,7 @@ package webshop.catalog.ui;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -13,6 +14,7 @@ import webshop.catalog.command.domain.category.Category;
 import webshop.catalog.command.domain.category.CategoryRepository;
 import webshop.catalog.command.domain.product.Artwork;
 import webshop.catalog.command.domain.product.Item;
+import webshop.catalog.command.domain.product.ItemSpecification;
 import webshop.catalog.query.product.CategoryItem;
 import webshop.catalog.query.product.ItemService;
 import webshop.common.model.Image;
@@ -22,9 +24,7 @@ import webshop.user.domain.seller.Seller;
 import webshop.user.domain.seller.SellerService;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @SessionAttributes("item")
@@ -55,19 +55,35 @@ public class ItemController {
     }
 
     @RequestMapping("/categories/search")
-    public String categories(ModelMap model, HttpServletRequest request,
+    public String searchItems(ModelMap model, HttpServletRequest request,
                              @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                             @RequestParam(name = "query", required = false) String query){
+                             @RequestParam(name = "query", required = false) String query,
+                              @RequestParam(name ="categoryId", required = false) Long categoryId
+                              ){
 
         CategoryItem searchItems;
         String currentUrl = request.getRequestURI();
+        Specification<Item> specs = Specification.where(null);
 
         if(query != null && !query.isEmpty()){
-            searchItems = itemService.getItemInName(query,page,10);
+            specs = specs.and(ItemSpecification.nameContains(query));
             model.addAttribute("query",query);
         } else{
             return "/category/categoryList";
         }
+
+        if(categoryId != null){
+            specs = specs.and(ItemSpecification.hasCategory(categoryId));
+            model.addAttribute("categoryId",categoryId);
+        }
+
+        searchItems = itemService.findItems(page,10,specs);
+
+        int startPage = ((searchItems.getPage() -1) / 10) * 10 + 1;
+        int endPage = Math.min(startPage+9, searchItems.getTotalPages());
+
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
 
         model.addAttribute("currentUrl", currentUrl);
         model.addAttribute("itemInCategory", searchItems);
@@ -85,9 +101,11 @@ public class ItemController {
         int startPage = ((itemInCategory.getPage() -1) / 10) * 10 + 1;
         int endPage = Math.min(startPage+9, itemInCategory.getTotalPages());
 
-        model.addAttribute("itemInCategory",itemInCategory);
         model.addAttribute("startPage",startPage);
         model.addAttribute("endPage",endPage);
+
+        model.addAttribute("itemInCategory",itemInCategory);
+
 
         return "category/itemList";
     }

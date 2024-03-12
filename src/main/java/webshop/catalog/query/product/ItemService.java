@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import webshop.catalog.NoCategoryException;
 import webshop.catalog.command.domain.category.Category;
@@ -12,6 +13,7 @@ import webshop.catalog.command.domain.product.Item;
 import webshop.catalog.command.domain.product.ItemRepository;
 import webshop.catalog.command.domain.product.ItemSpecification;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,10 +50,29 @@ public class ItemService {
 
     }
 
+    public CategoryItem getItemInCategory(Long categoryId, int page, int size, Specification<Item> specs){
+
+        Category category = categoryRepository.findById(categoryId).orElseThrow(NoCategoryException::new);
+
+        Page<Item> itemPage = itemRepository.findByCategoryIdsContains(specs,category.getId(), Pageable.ofSize(size).withPage(page-1));
+
+        return new CategoryItem(category,toSummary(itemPage.getContent()),page,itemPage.getSize(),itemPage.getTotalElements(),itemPage.getTotalPages());
+
+    }
+
     public CategoryItem getItemInName(String name, int page, int size){
         Category category = new Category(10L,"Any");
         Page<Item> itemPage = itemRepository.findAll(ItemSpecification.nameContains(name),Pageable.ofSize(size).withPage(page-1));
         return new CategoryItem(category,toSummary(itemPage.getContent()),page,itemPage.getSize(),itemPage.getTotalElements(),itemPage.getTotalPages());
+    }
+
+    public CategoryItem findItems(int page, int size,Specification<Item> specs){
+        Category category = new Category(10L,"Any");
+
+        Page<Item> itemPage = itemRepository.findAll(specs,Pageable.ofSize(size).withPage(page-1));
+
+        return new CategoryItem(category,toSummary(itemPage.getContent()),page,itemPage.getSize(),itemPage.getTotalElements(),itemPage.getTotalPages());
+
     }
 
     private List<ItemSummary> toSummary(List<Item> items){

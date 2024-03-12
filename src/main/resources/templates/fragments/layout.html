@@ -40,6 +40,7 @@
 
 <div class="search-container" style="margin-bottom: 20px;" th:fragment="search">
     <form action="#" th:action = "@{/categories/search}" method="get">
+        <input type="hidden" name="categoryId" th:value="${categoryId}" th:if="${categoryId != null}" />
         <input type="hidden" name="page" value="1" /> <!-- 검색 시 항상 첫 페이지로 리셋 -->
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="검색어 입력" name="query" aria-label="검색어">
@@ -51,6 +52,9 @@
 <div class="pagination" th:fragment="pagination">
     <a th:href="@{${currentUrl}(page=${itemInCategory.page - 1}, query=${query})}"
        th:if="${itemInCategory.page > 1}"  class="btn btn-primary">이전</a>
+
+    <input type="hidden" name="categoryId" value="${categoryId}"
+           th:if="${categoryId != null}">
 
     <th:block th:each="pageNum: ${#numbers.sequence(startPage,endPage)}">
         <a th:href="@{${currentUrl}(page=${pageNum}, query=${query})}"

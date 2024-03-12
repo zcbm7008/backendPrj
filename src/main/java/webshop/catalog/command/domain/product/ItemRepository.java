@@ -14,5 +14,9 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Item,Long>, JpaSpecificationExecutor<Item> {
     Page<Item> findByCategoryIdsContains(Long id, Pageable pageable);
 
+    Page<Item> findByCategoryIdsContains(Specification<Item> Specs,Long id, Pageable pageable);
+
+
+    Page<Item> findAll(Pageable pageable);
     Page<Item> findAll(Specification<Item> spec,Pageable pageable);
 }

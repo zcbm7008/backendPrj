@@ -1,5 +1,6 @@
 package webshop.catalog.command.domain.product;
 
+import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ItemSpecification {
@@ -10,6 +11,14 @@ public class ItemSpecification {
                 return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
             }
             return criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%");
+        };
+    }
+
+    public static Specification<Item> hasCategory(Long categoryId){
+        return (root, query, criteriaBuilder) -> {
+            Join<Item, Long> categoryIdsJoin = root.join("categoryIds");
+
+            return criteriaBuilder.equal(categoryIdsJoin, categoryId);
         };
     }
 

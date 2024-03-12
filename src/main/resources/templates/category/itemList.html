@@ -9,6 +9,8 @@
 
 <div th:replace="fragments/layout :: header"></div>
 
+<div th:replace="fragments/layout :: search"></div>
+
 
 
 <div class="container">
@@ -34,8 +36,9 @@
         </div>
     </div>
 </div>
-
-<div th:replace="fragments/layout :: pagination"></div>
+<div th:if="${itemInCategory.getTotalCount > 0}">
+    <div th:replace="fragments/layout :: pagination"></div>
+</div>
 
 <div th:replace="fragments/layout :: footer"></div>
 
